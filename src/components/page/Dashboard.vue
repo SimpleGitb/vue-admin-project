@@ -328,6 +328,8 @@
                 names2:[],
                 names3:[],
                 names4:[],
+                names5:[],
+                confirm:[]
                 // name: localStorage.getItem('ms_username'),
             }
         },
@@ -379,6 +381,7 @@
                 this.names1 = [];
                 var Accounted = echarts.init(document.getElementById('Accounted1'));
                 if(!Accounted)return;
+                Accounted.showLoading();
                 this.$axios.get('api/count/pieChart?type=os').then((res) => {
                     let data = res.data.data;
                     for (var key in data) {
@@ -429,6 +432,7 @@
                 this.names2 = [];
                 var Accounted = echarts.init(document.getElementById('Accounted2'));
                 if(!Accounted)return;
+                Accounted.showLoading();
                 this.$axios.get('api/count/pieChart?type=language').then((res) => {
                     let data = res.data.data;
 
@@ -480,6 +484,7 @@
                 this.names3 = [];
                 var Accounted = echarts.init(document.getElementById('Accounted3'));
                 if(!Accounted)return;
+                Accounted.showLoading();
                 this.$axios.get('api/count/pieChart?type=cdn').then((res) => {
                     let data = res.data.data;
                     for (var key in data) {
@@ -529,6 +534,7 @@
                 this.names4 = [];
                 var Accounted = echarts.init(document.getElementById('Accounted4'));
                 if(!Accounted)return;
+                Accounted.showLoading();
                 this.$axios.get('api/count/pieChart?type=waf').then((res) => {
                     let data = res.data.data;
                     for (var key in data) {
@@ -671,8 +677,8 @@
                     });
             },
             drawBar1() {
-                var name = [],
-                    abnormal = [],
+                this.names5 = [];
+                    var abnormal = [],
                     normal = [];
                     var webSiteCms = echarts.init(document.getElementById('webSiteCms'));
                     if(!webSiteCms)return;
@@ -682,7 +688,7 @@
                     for(var key in data){
                         normal.push(data[key].normal);
                         abnormal.push(data[key].abnormal);
-                        name.push(key);
+                        this.names5.push(key);
                     }
                     webSiteCms.setOption({
                         dataZoom: [{
@@ -721,7 +727,7 @@
                         },
                         yAxis: {
                             type: 'category',
-                            data: name.reverse()
+                            data: this.names5.reverse()
                         },
                         series: [{
                                 name: '正常站点',
@@ -781,9 +787,23 @@
                             }
                             break;
                     }
-                }else if (num == 3) {
+                }else if(num == 2){
+                    if(n == 1){
+                            if(!this.names5.length){
+                                this.drawBar1();
+                            };
+                    }
+                    aBtn[n].className = 'list-item active';
+                    toauditBox.style.left = -(n) * 100 + '%';
+                }
+                else if (num == 3) {
                     aBtn[n].className = 'list-item active';
                     toauditBox.style.left = -(n) * 105 + '%';
+                    if(n == 1){
+                        if(!this.confirm.length){
+                            this.siteMap();
+                        }
+                    }
                 } else {
                     aBtn[n].className = 'list-item active';
                     toauditBox.style.left = -(n) * 100 + '%';
@@ -849,18 +869,19 @@
                 
             },
             siteMap(){
-                var confirm = [],deal = [],time = [];
+                this.confirm = [];
+                var deal = [],time = [];
                 this.$axios.get('api/count/lineChart').then((res)=>{
                     let data = res.data.data;
                     for(var key in data.confirm){
-                        confirm.push(data.confirm[key]);
+                        this.confirm.push(data.confirm[key]);
                         time.push(key);
                     };
                     for(var key in data.deal){
                         deal.push(data.deal[key]);
                     };
-                    for(var i=0;i<confirm.length;i++){
-                        this.chartData.rows.push({'时间':time[i],'确认':confirm[i],'处置':deal[i]});
+                    for(var i=0;i<this.confirm.length;i++){
+                        this.chartData.rows.push({'时间':time[i],'确认':this.confirm[i],'处置':deal[i]});
                         this.loading = false;
                     }
                 }).catch(v => {
@@ -931,7 +952,7 @@
         }
     };
 
-    window.onresize = function(){
+        window.onresize = function(){
             if(document.getElementById('Accounted')){
                 var Accounted = echarts.init(document.getElementById('Accounted'));
                 Accounted.resize();
