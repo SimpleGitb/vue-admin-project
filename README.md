@@ -17,16 +17,13 @@
 - [x] Element UI
 - [x] 登录/注销
 - [x] Dashboard
-- [x] 表格
-- [x] Tab选项卡
-- [x] 表单
-- [x] 图表 :bar_chart:
-- [x] 富文本编辑器
-- [x] markdown编辑器
-- [x] 图片拖拽/裁剪上传
-- [x] 支持切换主题色 :sparkles:
-- [x] 列表拖拽排序
-- [x] 权限测试
+- [x] 应用资产
+- [x] 服务器资产
+- [x] 单位管理
+- [x] 用户管理
+- [x] 威胁详情
+- [x] 推送设置
+- [x] 策略管理
 - [x] 404 / 403
 
 
@@ -45,16 +42,22 @@
 	|       |-- page                   	 // 主要路由页面
 	|           |-- 403.vue
 	|           |-- 404.vue
-	|           |-- BaseCharts.vue       // 基础图表
-	|           |-- BaseForm.vue         // 基础表单
-	|           |-- BaseTable.vue        // 基础表格
-	|           |-- DashBoard.vue        // 系统首页
-	|           |-- DragList.vue         // 拖拽列表组件
+	|           |-- applicationAssets.vue       // 应用资产
+	|           |-- assetsRecord.vue         // 资产梳理弹窗
+	|           |-- assetResult.vue        // 资产梳理结果
+	|           |-- BaselineObserver.vue        // 基线监测
+	|           |-- Dashboard.vue         // 首页
 	|           |-- Login.vue          	 // 登录
-	|           |-- Markdown.vue         // markdown组件
-	|           |-- Premission.vue       // 权限测试组件
-	|           |-- Upload.vue           // 图片上传
-	|           |-- VueEditor.vue        // 富文本编辑器
+	|           |-- ModifyData.vue         // 修改资料
+	|           |-- monitorDetails.vue       // 监测详情
+	|           |-- monitorResult.vue           // 图片上传
+	|           |-- NormalObserver.vue        // 正常监测
+	|           |-- PushSetting.vue        // 推送设置
+	|           |-- ServerAssets.vue        // 服务器资产
+	|           |-- Tabs.vue        // 消息通知列表
+	|           |-- Threatview.vue        // 威胁详情
+	|           |-- UnitList.vue        // 单位列表
+	|           |-- User.vue        // 用户列表
 	|   |-- App.vue                      // 页面入口文件
 	|   |-- main.js                      // 程序入口文件，加载各种公共组件
 	|-- .babelrc                         // ES6语法编译配置
