@@ -84,9 +84,13 @@
 														<li class="title" v-if="basedata.event[index].status ==0"><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;">{{basedata.event[index].port}} 端口关闭</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
 														<li class="title" v-else-if="basedata.event[index].status ==1"><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;">{{basedata.event[index].port}} 端口开启</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
 														<li class="title" v-else><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;">{{basedata.event[index].port}} 端口服务由 {{basedata.event[index].server}} 变为 {{basedata.event[index].version}}</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
-														<li style="border-left: 1px solid rgb(248, 151, 130);height: 20px;"></li>
-														<li style="border-left: 1px solid rgb(248, 151, 130);height: 20px;"></li>
-														<li style="border-left: 1px solid rgb(248, 151, 130);height: 20px;"></li>
+														<li class="overauto" style="border-left: 1px solid rgb(248, 151, 130);width: 187px;height: 80px;overflow: hidden;">
+															<div style="width: 204px;overflow-x: hidden;overflow-y: scroll;height: 80px;">
+																<ul>
+																	<li v-for="(port,key) in basedata.event[index].history.port">{{key}}：{{port.server}} | {{port.version}}</li>
+																</ul>
+															</div>
+														</li>
 														<li class="line-last line-point" style="background-position: 0px 0px;"></li>
 													</ul>
 												</div>
@@ -94,9 +98,13 @@
 											<li v-if="index<basedata.event.length-1" class="item bottom" style="width: 170px;" :key="index">
 												<div class="content">
 													<ul>
-														<li style="border-left: 1px solid rgb(26, 132, 206);height: 20px;"></li>
-														<li style="border-left: 1px solid rgb(26, 132, 206);height: 20px;"></li>
-														<li style="border-left: 1px solid rgb(26, 132, 206);height: 20px;"></li>
+														<li class="overauto" style="border-left: 1px solid rgb(26, 132, 206);width: 187px;height: 80px;overflow: hidden;">
+															<div style="width: 204px;overflow-x: hidden;overflow-y: scroll;height: 80px;">
+																<ul>
+																	<li v-for="(port,key) in basedata.event[index].history.port">{{key}}：{{port.server}} | {{port.version}}</li>
+																</ul>
+															</div>
+														</li>
 														<li class="title" v-if="basedata.event[index+1].status == 0"><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;">{{basedata.event[index+1].port}} 端口关闭</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
 														<li class="title" v-else-if="basedata.event[index+1].status == 1"><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;">{{basedata.event[index+1].port}} 端口开启</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
 														<li class="title" v-else><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;">{{basedata.event[index+1].port}} 端口服务由 {{basedata.event[index+1].server}} 变为 {{basedata.event[index+1].version}}</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
@@ -231,6 +239,9 @@
 ul,li{
     list-style:none;
 }
+.overauto li {
+		padding-left: 0 !important;
+	}
 .container{
     margin-bottom:15px;
 }
