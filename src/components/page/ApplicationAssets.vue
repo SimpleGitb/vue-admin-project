@@ -846,11 +846,12 @@
                                         <el-radio-button label="average"><span @click="average">平均</span></el-radio-button>
                                         <el-radio-button :label="index"  v-for="(value,key,index) in nodeData" :key="index"><span @click="changedelay(key)">{{value}}</span></el-radio-button>
                                     </el-radio-group>
+                                        <el-button type="primary" @click="usblityVisble = true">导出报表</el-button>
                                 </div>
                                 <div class="clear"></div> 
                                 <div class="leftContent">
-                                    <div id="siteDelay" style="width:100%;height:500px;position:absolute;top:60px"></div>
-                                    <div id="delayTime" style="width:100%;height:500px;margin-top:50px;position:absolute;top:600px"></div>
+                                    <div id="siteDelay" style="width:1258px;height:500px;position:absolute;top:60px"></div>
+                                    <div id="delayTime" style="width:1258px;height:500px;margin-top:50px;position:absolute;top:600px"></div>
                                 </div>
                             </div>
                             </div>
@@ -1433,14 +1434,32 @@
                             value-format="yyyy-MM-dd">
                         </el-date-picker>
                     </el-form-item>
-
                 </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="exportVisble = false">取消</el-button>
                     <a class="exportBtn" :href="'/api/site/threat/export?start='+theReport.startTime[0]
                         +'&end='+theReport.startTime[1] +'&id=['+selecedId+']'">导出报表</a>
             </div>
-        </el-dialog>       
+        </el-dialog>  
+             <el-dialog title="导出可用性报表" :visible.sync="usblityVisble" width="30%" class="exportPort">
+                <div class="tip-header">
+                    <img src="../../../static/img/assets/qat.png">
+                    <p class="tip-msg">点击下方导出按钮后即可导出可用性报表</p>
+                </div>
+                   <el-form>
+                    <el-form-item label="时间筛选">
+                        <el-date-picker v-model="usblityReport.startTime" type="daterange" range-separator="至" start-placeholder="开始日期"
+                        end-placeholder="结束日期"  format="yyyy 年 MM 月 dd 日" @change="test"
+                            value-format="yyyy-MM-dd">
+                        </el-date-picker>
+                    </el-form-item>
+                </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="usblityVisble = false">取消</el-button>
+                    <a class="exportBtn" :href="'/api/site/'+rowId+'/usability/export?start='+usblityReport.startTime[0]
+                        +'&end='+usblityReport.startTime[1]">导出报表</a>
+            </div>
+        </el-dialog>      
     </div>
 </template>
 <script>
@@ -1454,6 +1473,7 @@
                 labelPosition: 'center',
                 batchchoice: '',
                 usabval:'',
+                usblityVisble:false,
                 tabPosition:'day',
                 tabPosition1:'average',
                 exportVisble:false,
@@ -1499,14 +1519,15 @@
                 tipsMsg: '',
                 valueSelect4: '',
                 tipschage: false,
-                dynamicTags: ['标签一', '标签二', '标签三'],
-                dynamicTags2: ['标签一', '标签二', '标签三'],
                 inputVisible: false,
                 inputVisible2: false,
                 inputValue: '',
                 inputValue2: '',
                 theReport:{
-                    startTime:[new Date(),new Date()],
+                    startTime: [new Date().toLocaleDateString(),new Date(2018, 11, 30).toLocaleDateString()]
+                },
+                usblityReport:{
+                    startTime: [new Date().toLocaleDateString(),new Date(2018, 11, 30).toLocaleDateString()]
                 },
                 batchAdd: {
                     strategy: '',
@@ -1720,6 +1741,8 @@
             }
         },
         methods: {
+            test(){
+            },
             handleSizeChange(val){
                 this.loading2 = true;
                 this.vals = val;
@@ -3554,7 +3577,6 @@
             },
             assetsDetails(data) {
                     var server_delay = [],site_delay = [],created_at=[];
-                    
                     for(var i=0;i<data.usability.length;i++){
                         site_delay.push(data.usability[i].site_delay);
                         server_delay.push(data.usability[i].server_delay);
@@ -3604,7 +3626,7 @@
                                     data: server_delay
                                 }
                             ]
-                        })
+                        });
             },
             delayTime(data) {
                 var time = [],count = [],delay = [],elapse = [],status_code = [];
@@ -3750,12 +3772,7 @@
         delayTime.resize();
     };
     window.onload = function(){
-        if(!document.getElementById('siteDelay')) return;
-        let siteDelay = echarts.init(document.getElementById('siteDelay'));
-        siteDelay.resize();
-        if(!document.getElementById('delayTime')) return;
-        let delayTime = echarts.init(document.getElementById('delayTime'));
-        delayTime.resize();
+       this.onresize();
     }
 
 </script>
@@ -4373,8 +4390,8 @@
 
     .application .availability .left_btn{
         float: left;
-        margin-top: 10px;
         margin-left:20px;
+        margin-right:20px;
     }
     .application .availability .left_btn .el-radio-button__inner{
         height: 32px;
@@ -4394,9 +4411,12 @@
         margin-left:6px;
     }
     .application .availability .right_btn{
-        float:right;
         margin-right:50px;
         margin-top: 10px;
+    }
+    .application .availability .right_btn .el-button--primary{
+        margin-left:15px;
+        float: right;
     }
 
     .application .availability .el-input__inner{

@@ -885,7 +885,7 @@
                         this.loading = false;
                     }
                 }).catch(v => {
-                    console.log(v)
+                    console.log(v);
                 });
             },
             switchTab(k, ev) {
@@ -902,9 +902,7 @@
         mounted() {
             this.drawLine();
             this.drawBar();
-            var webSiteCms = echarts.init(document.getElementById('webSiteCms'));
             var broken = echarts.init(document.getElementById('broken'));
-            webSiteCms.showLoading();
             broken.showLoading();
         },
         created() {
