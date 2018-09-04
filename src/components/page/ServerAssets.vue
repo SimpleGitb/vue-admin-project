@@ -74,7 +74,6 @@
         </div>
 
         <el-dialog title="修改" class="edit" :visible.sync="editVisible1" width="30%">
-
                    <el-form :model="dynamicValidateForm" ref="dynamicValidateForm" class="demo-dynamic">
                     <el-form-item label="所属单位">
                         <el-autocomplete style="width:80%;" popper-class="my-autocomplete" v-model="dynamicValidateForm.owner" @focus="querySearch" :fetch-suggestions="querySearch"
@@ -178,8 +177,13 @@
                             </div>
                         </div>
                     </el-form-item>
+                    <el-form-item class="tipsbox">
+                            <i class="el-icon-question"></i>
+                            <span>以上为基线监测信息,若信息有误,请手动纠正</span>
+                    </el-form-item>
                     </div>
             </el-form>
+            
             <div slot="footer" class="dialog-footer">
                 <el-button @click="editVisible1 = false">取消</el-button>
                 <el-button type="primary" @click="saveEdit('dynamicValidateForm')">确定</el-button>
@@ -1177,13 +1181,11 @@
         background: #f8f8f8;
         border-bottom: 1px solid #e2e2e2;
     }
-    .serveTab .el-icon-remove{
+    .serveTab .el-icon-remove, .serveTab .el-form .el-form-item .add{
         font-size: 18px;
         color: #adadad;
     }
-    .serveTab .ipserver .el-icon-circle-plus{
-        font-size: 18px;
-    }
+
     .serveTab .item-value{
         width: 250px;
         height: 28px;
@@ -1201,9 +1203,17 @@
     .serveTab .el-form .el-form-item .delete,.serveTab .el-form .el-form-item .add{
         float: right
     }
+
     .serveTab .el-form .ipserver .box{
         display: flex;
     }
+    .serveTab .el-form .ipserver .tipsbox {
+        margin-left:77px;
+    }
+    .serveTab .el-form .ipserver .tipsbox span{
+        margin-left:10px;
+    }
+
     .serveTab .ipserver .iconfont{
         margin-left: 15px;
     }

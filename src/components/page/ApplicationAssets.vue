@@ -3703,6 +3703,10 @@
             getsite() {
                 this.loading2 = true;
                 this.$axios.get("api/site?limit="+this.vals+"&page=1").then((res) => {
+                    if(res.data.status == 403){
+                        window.location.href = '/login';
+                        return;
+                    };
                     this.totalpage = Math.ceil(res.data.data.count);
                     let data = res.data.data.data;
                     this.tableData3 = data;
@@ -3728,10 +3732,6 @@
             this.createTime();
             this.loadAll();
             this.$axios.get("api/siteConfigure/select/all").then((res) => {
-                if(res.data.status == 403){
-                    window.location.href = '/login';
-                    return;
-                };
                 let data = res.data;
                 this.strategydata = data.data;
             }).catch(v => {
