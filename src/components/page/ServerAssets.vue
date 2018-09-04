@@ -72,14 +72,95 @@
                 </el-pagination>
             </div>
         </div>
-        <!-- 编辑弹出框 -->
-        <el-dialog title="修改" class="edit" :visible.sync="editVisible" width="23%">
+
+        <el-dialog title="修改" class="edit" :visible.sync="editVisible1" width="30%">
                 <div class="tip-header">
                     <img src="../../../static/img/assets/qat.png">
                     <p class="tip-msg">以下为基线监测信息，若信息有误，请手动纠正</p>
                 </div>
-                   <el-form :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="50px" class="demo-dynamic">
-                    <el-form-item v-for="(keys,value) in this.dynamicValidateForm.init"
+                   <el-form :model="dynamicValidateForm" ref="dynamicValidateForm" class="demo-dynamic">
+                    <el-form-item label="所属单位">
+                        <el-autocomplete style="width:80%;" popper-class="my-autocomplete" v-model="dynamicValidateForm.owner" @focus="querySearch" :fetch-suggestions="querySearch"
+                            placeholder="请选择该网站直属单位，鼠标点击后支持搜索" @select="selectunit">
+                            <i class="el-icon-edit el-input__icon" slot="suffix">
+                            </i>
+                            <template slot-scope="{ item }">
+                                <div class="name">{{ item.owner }}</div>
+                                <!-- <span class="addr">{{ item.address }}</span> -->
+                            </template>
+                        </el-autocomplete>
+                    </el-form-item>
+                    <el-form-item label="选择策略">
+                        <el-autocomplete popper-class="my-autocomplete" v-model="dynamicValidateForm.strategy" @focus="querySearch1" :fetch-suggestions="querySearch1"
+                            placeholder="请选择策略" @select="selectStrategy">
+                            <i class="el-icon-edit el-input__icon" slot="suffix">
+                            </i>
+                            <template slot-scope="{ item }">
+                                <div class="name">{{ item.name }}</div>
+                                <!-- <span class="addr">{{ item.address }}</span> -->
+                            </template>
+                        </el-autocomplete>
+                    </el-form-item>
+                    <div class="hidebox" v-show="dynamicValidateForm.strategy">
+                    <el-form-item label="监控时间段">
+                            <el-date-picker
+                            v-model="dynamicValidateForm.startTime"
+                            type="daterange"
+                            range-separator="至"
+                            format="yyyy 年 MM 月 dd 日"
+                            value-format="yyyy-MM-dd"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+                    </el-date-picker> 
+                    </el-form-item>
+                    <el-form-item label="每天时间段">
+                            <el-select v-model="dynamicValidateForm.startdaily" class="item-time">
+                                    <el-option v-for="item in dayTime" :key="item" :lable="item" :value="item"></el-option>
+                                </el-select>
+                                    -
+                                <el-select v-model="dynamicValidateForm.enddaily" class="item-time">
+                                    <el-option v-for="item in dayTime" :key="item" :lable="item" :value="item"></el-option>
+                                </el-select> 
+                    </el-form-item> 
+                    <el-form-item label="可用性监测">
+                         <div class="icon">
+                            <i class="el-icon-question"></i>
+                                <div class="tips">
+                                    <div class="border"></div>
+                                    监测服务器连通状态
+                                </div>
+                        </div>
+                                <el-slider
+                                    v-model="dynamicValidateForm.usability"
+                                    :format-tooltip="usabilitychange2"
+                                    :step="16.5"
+                                    @change="usabilitychange"
+                                    >
+                                </el-slider>
+                    </el-form-item>
+                    <el-form-item label="端口变动">
+                          <div class="icon">
+                            <i class="el-icon-question"></i>
+                                <div class="tips">
+                                    <div class="border"></div>
+                                    监测服务器端口开启、关闭与服务变化
+                                </div>
+                        </div>
+                                 <el-slider
+                                    v-model="dynamicValidateForm.port"
+                                    :format-tooltip="changestep4"
+                                    :step="16.5"
+                                    @change="portchange"
+                                    >
+                                    </el-slider>
+                    </el-form-item>
+                    <el-form-item label="备注">
+                         <el-input type="textarea" placeholder="请输入自定义内容" resize="none" v-model="dynamicValidateForm.remark">
+                        </el-input>
+                    </el-form-item>
+                    </div>
+                    <div class="ipserver">
+                    <el-form-item v-for="(keys,value) in dynamicValidateForm.init"
                         :key="value">
                             <el-input  v-model="keys.port" ></el-input>
                             <el-input v-model="keys.version"></el-input>
@@ -99,9 +180,10 @@
                             <i class="el-icon-circle-plus" @click="addDomain()"></i>
                         </div>
                     </el-form-item>
+                    </div>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="editVisible = false">取消</el-button>
+                <el-button @click="editVisible1 = false">取消</el-button>
                 <el-button type="primary" @click="saveEdit('dynamicValidateForm')">确定</el-button>
             </div>
         </el-dialog>
@@ -211,6 +293,7 @@
                 labelPosition: 'center',
                 activeName2: 'first',
                 fullscreenLoading:false,
+                editVisible1:false,
                 loading:true,
                 isManage:true,
                 batchAddAssets:false,
@@ -244,7 +327,10 @@
                    
                 ],
                 editPort:[],
-                dynamicValidateForm: { 
+                dynamicValidateForm: {
+                    owner:'',
+                    strategy:'',
+                    name:'',
                     domains: [
                         {
                             port:'',
@@ -290,6 +376,77 @@
         methods: {
             batchAddAsset(){
                 this.batchAddAssets = true;
+            },
+            selectunit(obj) {
+                this.dynamicValidateForm.owner = obj.owner;
+                this.dynamicValidateForm.ownerId = obj.id;
+            },
+            selectStrategy(obj){
+
+                this.dynamicValidateForm.strategy = obj.name;
+                this.dynamicValidateForm.strategyId = obj.id;
+                this.$axios.get('api/ipConfigure/'+obj.id+'').then((res)=>{
+                    let data = res.data.data;
+                    this.dynamicValidateForm.name = data.name;
+                    this.dynamicValidateForm.startTime = [new Date(data.start),new Date(data.end)];
+                    this.dynamicValidateForm.startdaily = data.daily_start;
+                    this.dynamicValidateForm.enddaily = data.daily_end;
+                    this.dynamicValidateForm.usability1 = data.usability;
+                    this.dynamicValidateForm.port1 = data.port;
+                    this.dynamicValidateForm.remark = data.remark;
+                    switch (this.dynamicValidateForm.usability1) {
+                            case 0:
+                            this.dynamicValidateForm.usability = 0;
+                                break;
+                            case 1:
+                            this.dynamicValidateForm.usability = 99;
+                                break;
+                            case 5:
+                            this.dynamicValidateForm.usability = 82.5;
+                                break;
+                            case 15:
+                            this.dynamicValidateForm.usability = 66;
+                                break;                                                                    
+                            case 30:
+                            this.dynamicValidateForm.usability = 49.5;
+                                break;
+                            case 60:
+                            this.dynamicValidateForm.usability = 33;
+                                break;                         
+                            case 360:
+                            this.dynamicValidateForm.usability = 16.5;
+                                break; 
+                            default:
+                            this.dynamicValidateForm.usability = 0;
+                                break;
+                    };
+                    switch (this.dynamicValidateForm.port1) {
+                                case 0:
+                                this.dynamicValidateForm.port = 0;
+                                    break;
+                                case 5:
+                                this.dynamicValidateForm.port = 99;
+                                    break;
+                                case 15:
+                                this.dynamicValidateForm.port = 82.5;
+                                    break;
+                                case 30:
+                                this.dynamicValidateForm.port = 66;
+                                    break;                                                                    
+                                case 60:
+                                this.dynamicValidateForm.port = 49.5;
+                                    break;
+                                case 360:
+                                this.dynamicValidateForm.port = 33;
+                                    break;                         
+                                case 1440:
+                                this.dynamicValidateForm.port = 16.5;
+                                    break; 
+                                default:
+                                this.dynamicValidateForm.port = 0;
+                                    break;
+                    };
+                })
             },
             saveAddServer(){
                 if(!this.batchAdd.ownerId){
@@ -459,7 +616,6 @@
             getconfigure(){
                 this.$axios.get('api/ipConfigure/select/all').then((res)=>{
                     this.configure = res.data.data;
-                    this.configure.push({id:0,name:'自定义策略'});
                 });
             },
             selectOwnerdata(data){
@@ -516,7 +672,19 @@
                 }).catch(v => {
                     console.log(v);
                 });
-            },            
+            },
+            querySearch(queryString, cb) {
+                var restaurants = this.optionssite;
+                var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+                this.timeout = setTimeout(() => {
+                    cb && cb(results);
+                }, 1000 * Math.random());
+            },
+            createFilter(queryString) {
+                return (restaurant) => {
+                    return (restaurant.owner.indexOf(queryString) === 0);
+                };
+            },
             selectstrategydata(val) {
                 this.batchAdd.strategy = val.name;
                 this.batchAdd.strategyId = val.id;
@@ -649,12 +817,12 @@
             },
             edit(row){
                 this.id = row.id;
-                if(row.type == 1){ // 基线
-                    this.editVisible = true;
-                    }else{
-                    this.$message.error('只有基线监测时用户才可以进行端口修改');
-                    return;
-                };
+                // if(row.type == 1){ // 基线
+                    this.editVisible1 = true;
+                //     }else{
+                //     this.$message.error('只有基线监测时用户才可以进行端口修改');
+                //     return;
+                // };
                 for(var i=0;i<this.tableData3.length;i++){
                     if(this.tableData3[i].id == row.id){
                         if(this.tableData3[i].port.length == 0){
@@ -920,6 +1088,9 @@
     .serveTab .el-dialog .hidebox .usblity .tips .border{
         left:43%;
     }
+    .serveTab .el-dialog .hidebox .el-form-item__content{
+        display: flex;
+    }
     .popper__arrow{
         display: none!important;
     }
@@ -942,6 +1113,9 @@
         padding-right:10px;
         display: none;
         font-size:12px;
+    }
+    .serveTab  .el-slider{
+        width: 100%
     }
     .serveTab  .el-slider__runway{
         margin-left:20px;
@@ -1026,14 +1200,12 @@
     .serveTab .el-form .el-form-item .delete,.serveTab .el-form .el-form-item .add{
         float: right
     }
-    .serveTab .edit .el-form .el-form-item .el-input{
+    .serveTab .edit .ipserver .el-form-item .el-input{
         width: 20%;
         display: inline-block;
     }
 
-    .serveTab .edit .el-form-item .el-form-item__content{
-        margin-left: 0px!important;
-    }
+
 
     .serveTab .el-table td:first-child .cell, .serveTab .el-table th:first-child .cell{
         padding-left: 15px;

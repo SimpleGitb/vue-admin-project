@@ -319,6 +319,17 @@
                     },
                 ],
                 listItem: true,
+                isData1:false,
+                isData2:false,
+                isData3:false,
+                isData4:false,
+                names:[],
+                names1:[],
+                names2:[],
+                names3:[],
+                names4:[],
+                names5:[],
+                confirm:[]
                 // name: localStorage.getItem('ms_username'),
             }
         },
@@ -329,25 +340,15 @@
         },
         methods: {
             loadData(index){
-                if(index == 1){
-                    this.drawLine1();
-                }else if(index == 2){
-                    this.drawLine2();
-                }else if(index == 3){
-                    this.drawLine3();
-                }else if(index == 4){
-                    this.drawLine4();
-                }
             },
             drawLine() {
-                var names = [];
                 var Accounted = echarts.init(document.getElementById('Accounted'));
                 if(!Accounted)return;
                 Accounted.showLoading();
                 this.$axios.get('api/count/pieChart?type=server').then((res) => {
                     let data = res.data.data;
                     for (var key in data) {
-                        names.push({
+                        this.names.push({
                             name: key,
                             value: data[key]
                         })
@@ -368,7 +369,7 @@
                             type: 'pie',
                             radius: '55%',
                             center: ['55%', '62%'],
-                            data: names,
+                            data: this.names,
                         }]
                     });
                 Accounted.hideLoading();
@@ -377,14 +378,14 @@
                 });
             },
             drawLine1() {
-                var names = [];
+                this.names1 = [];
                 var Accounted = echarts.init(document.getElementById('Accounted1'));
                 if(!Accounted)return;
                 Accounted.showLoading();
                 this.$axios.get('api/count/pieChart?type=os').then((res) => {
                     let data = res.data.data;
                     for (var key in data) {
-                        names.push({
+                        this.names1.push({
                             name: key,
                             value: data[key]
                         })
@@ -407,7 +408,7 @@
                             type: 'pie',
                             radius: '55%',
                             center: ['55%', '50%'],
-                            data: names,
+                            data: this.names1,
                             grid: {
                                 left: '3%',
                                 right: '4%',
@@ -428,7 +429,7 @@
                 });
             },
             drawLine2() {
-                var names = [];
+                this.names2 = [];
                 var Accounted = echarts.init(document.getElementById('Accounted2'));
                 if(!Accounted)return;
                 Accounted.showLoading();
@@ -436,7 +437,7 @@
                     let data = res.data.data;
 
                     for (var key in data) {
-                        names.push({
+                        this.names2.push({
                             name: key,
                             value: data[key]
                         })
@@ -459,7 +460,7 @@
                             type: 'pie',
                             radius: '55%',
                             center: ['55%', '43%'],
-                            data: names,
+                            data: this.names2,
                             grid: {
                                 left: '3%',
                                 right: '4%',
@@ -480,14 +481,14 @@
                 });
             },
             drawLine3() {
-                var names = [];
+                this.names3 = [];
                 var Accounted = echarts.init(document.getElementById('Accounted3'));
                 if(!Accounted)return;
                 Accounted.showLoading();
                 this.$axios.get('api/count/pieChart?type=cdn').then((res) => {
                     let data = res.data.data;
                     for (var key in data) {
-                        names.push({
+                        this.names3.push({
                             name: key,
                             value: data[key]
                         })
@@ -509,7 +510,7 @@
                             type: 'pie',
                             radius: '55%',
                             center: ['55%', '40%'],
-                            data: names,
+                            data: this.names3,
                             grid: {
                                 left: '3%',
                                 right: '4%',
@@ -530,14 +531,14 @@
                 });
             },
             drawLine4() {
-                var names = [];
+                this.names4 = [];
                 var Accounted = echarts.init(document.getElementById('Accounted4'));
                 if(!Accounted)return;
                 Accounted.showLoading();
                 this.$axios.get('api/count/pieChart?type=waf').then((res) => {
                     let data = res.data.data;
                     for (var key in data) {
-                        names.push({
+                        this.names4.push({
                             name: key,
                             value: data[key]
                         })
@@ -557,7 +558,7 @@
                             type: 'pie',
                             radius: '55%',
                             center: ['50%', '51%'],
-                            data: names,
+                            data: this.names4,
                             grid: {
                                 left: '3%',
                                 right: '4%',
@@ -676,8 +677,8 @@
                     });
             },
             drawBar1() {
-                var name = [],
-                    abnormal = [],
+                this.names5 = [];
+                    var abnormal = [],
                     normal = [];
                     var webSiteCms = echarts.init(document.getElementById('webSiteCms'));
                     if(!webSiteCms)return;
@@ -687,7 +688,7 @@
                     for(var key in data){
                         normal.push(data[key].normal);
                         abnormal.push(data[key].abnormal);
-                        name.push(key);
+                        this.names5.push(key);
                     }
                     webSiteCms.setOption({
                         dataZoom: [{
@@ -726,7 +727,7 @@
                         },
                         yAxis: {
                             type: 'category',
-                            data: name.reverse()
+                            data: this.names5.reverse()
                         },
                         series: [{
                                 name: '正常站点',
@@ -761,9 +762,48 @@
                 if (num == 0) {
                     aBtn[n - 1].className = 'list-item active';
                     toauditBox.style.left = -(n - 1) * 110 + '%';
-                } else if (num == 3) {
+                }else if (num == 1) {
+                    aBtn[n].className = 'list-item active';
+                    toauditBox.style.left = -(n) * 100 + '%';
+                    switch (n) {
+                        case 1:
+                            if(!this.names1.length){
+                                this.drawLine1();
+                            }
+                            break;
+                        case 2:
+                            if(!this.names2.length){
+                                this.drawLine2();
+                            }
+                            break;
+                        case 3:
+                            if(!this.names3.length){
+                                this.drawLine3();
+                            }
+                            break;
+                        case 4:
+                            if(!this.names4.length){
+                                this.drawLine4();
+                            }
+                            break;
+                    }
+                }else if(num == 2){
+                    if(n == 1){
+                            if(!this.names5.length){
+                                this.drawBar1();
+                            };
+                    }
+                    aBtn[n].className = 'list-item active';
+                    toauditBox.style.left = -(n) * 100 + '%';
+                }
+                else if (num == 3) {
                     aBtn[n].className = 'list-item active';
                     toauditBox.style.left = -(n) * 105 + '%';
+                    if(n == 1){
+                        if(!this.confirm.length){
+                            this.siteMap();
+                        }
+                    }
                 } else {
                     aBtn[n].className = 'list-item active';
                     toauditBox.style.left = -(n) * 100 + '%';
@@ -829,22 +869,24 @@
                 
             },
             siteMap(){
-                var confirm = [],deal = [],time = [];
+                this.confirm = [];
+                var deal = [],time = [];
                 this.$axios.get('api/count/lineChart').then((res)=>{
                     let data = res.data.data;
                     for(var key in data.confirm){
-                        confirm.push(data.confirm[key]);
+                        this.confirm.push(data.confirm[key]);
                         time.push(key);
                     };
                     for(var key in data.deal){
                         deal.push(data.deal[key]);
                     };
-                    for(var i=0;i<confirm.length;i++){
-                        this.chartData.rows.push({'时间':time[i],'确认':confirm[i],'处置':deal[i]});
+                    this.chartData.rows = [];
+                    for(var i=0;i<this.confirm.length;i++){
+                        this.chartData.rows.push({'时间':time[i],'确认':this.confirm[i],'处置':deal[i]});
                         this.loading = false;
                     }
                 }).catch(v => {
-                    console.log(v)
+                    console.log(v);
                 });
             },
             switchTab(k, ev) {
@@ -861,9 +903,7 @@
         mounted() {
             this.drawLine();
             this.drawBar();
-            var webSiteCms = echarts.init(document.getElementById('webSiteCms'));
             var broken = echarts.init(document.getElementById('broken'));
-            webSiteCms.showLoading();
             broken.showLoading();
         },
         created() {
@@ -911,29 +951,25 @@
         }
     };
 
-    window.onresize = function(){
+        window.onresize = function(){
             if(document.getElementById('Accounted')){
                 var Accounted = echarts.init(document.getElementById('Accounted'));
                 Accounted.resize();
             }
              if(document.getElementById('Accounted1')){
                  var Accounted1 = echarts.init(document.getElementById('Accounted1'));
-                 Accounted1.showLoading();
                  Accounted1.resize();
             } 
             if(document.getElementById('Accounted2')){
                 var Accounted2 = echarts.init(document.getElementById('Accounted2'));
-                Accounted2.showLoading();
                 Accounted2.resize();
             } 
             if(document.getElementById('Accounted3')){
                 var Accounted3 = echarts.init(document.getElementById('Accounted3'));
-                Accounted3.showLoading();
                 Accounted3.resize();
             } 
             if(document.getElementById('Accounted4')){
                 var Accounted4 = echarts.init(document.getElementById('Accounted4'));
-                Accounted4.showLoading();
                 Accounted4.resize();
             }
             if(document.getElementById('webSite-statistical')){
