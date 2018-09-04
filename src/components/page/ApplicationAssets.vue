@@ -849,9 +849,9 @@
                                         <el-button type="primary" @click="usblityVisble = true">导出报表</el-button>
                                 </div>
                                 <div class="clear"></div> 
-                                <div class="leftContent">
-                                    <div id="siteDelay" style="width:1258px;height:500px;position:absolute;top:60px"></div>
-                                    <div id="delayTime" style="width:1258px;height:500px;margin-top:50px;position:absolute;top:600px"></div>
+                                <div class="leftContent" style="widht:100%;position:relative">
+                                    <div class="siteDelay" id="siteDelay" style="width:100%;height:500px;position:absolute;top:60px"></div>
+                                    <div class="dalayTime" id="delayTime" style="width:100%;height:500px;margin-top:50px;position:absolute;top:600px"></div>
                                 </div>
                             </div>
                             </div>
@@ -3627,6 +3627,8 @@
                                 }
                             ]
                         });
+                        document.getElementById('siteDelay').style.width = "100%";
+                        siteDelay.resize();
             },
             delayTime(data) {
                 var time = [],count = [],delay = [],elapse = [],status_code = [];
@@ -3695,7 +3697,9 @@
                             data: status_code,
                         }
                     ]
-                })
+                });
+                document.getElementById('delayTime').style.width = "100%";
+                delayTime.resize();
             },
             getsite() {
                 this.loading2 = true;
@@ -3754,7 +3758,6 @@
             }
         },
         mounted() {
-            this.delayTime();
             var text = document.getElementsByClassName('el-table__empty-text');
             for (var i = 0; i < text.length; i++) {
                 text[i].innerHTML =
@@ -4447,6 +4450,19 @@
         font-size: 14px;
         color: #5a5e66;
     }
+
+    .application  .delayTime{
+            margin-bottom: 20px;
+        }
+    .application .delayTime div{
+            width:100%!important;
+            position:absolute!important;
+    }
+
+    .application .siteDelay div{
+            position:absolute!important;
+    }
+            
 
 </style>
 <style lang="scss" scoped>
@@ -5292,7 +5308,7 @@ ul,
             width: 100%;
             overflow: auto;
             margin-top: 20px;
-            #delayTime {
+            .delayTime {
                 margin-bottom: 20px;
             }
         }
