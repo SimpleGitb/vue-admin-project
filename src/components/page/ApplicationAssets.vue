@@ -55,14 +55,14 @@
                 </el-table-column>
                 <el-table-column label="威胁事件" >
                     <template slot-scope="scope">
-                        <div class="threatEvent"  @click="threatEvent($event,scope.row.threat_new_count)" :style="{color:red}" v-if="scope.row.threat_new_count ==  0 ? red='#333' : red='red'">
+                        <div class="threatEvent"  @click="threatEvent($event,scope,scope.row.threat_new_count)" :style="{color:red}" v-if="scope.row.threat_new_count ==  0 ? red='#333' : red='red'">
                             <span>{{ scope.row.threat_count }}</span>
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="资产事件">
                     <template slot-scope="scope">
-                        <div class="assetEvent" @click="hrefAssetEvent($event)" :style="{color:red}" v-if="scope.row.event_color ==  0 ? red='#333' : red='red'">
+                        <div class="assetEvent" @click="hrefAssetEvent(scope,$event)" :style="{color:red}" v-if="scope.row.event_color ==  0 ? red='#333' : red='red'">
                             <span>{{ scope.row.event_count }}</span>
                         </div>
                     </template>
@@ -1847,10 +1847,7 @@
                   // 已误报
                     this.getCheck(this.rowId);
                 }else if(tab.name == 'fourth'){
-                    this.$axios.get('api/site/'+this.rowId+'/history').then((res)=>{
-                        this.threat = res.data.data.threat;
-                        this.threatLoading = false;
-                    })
+                    this.getHistory(this.rowId)
                 }
             },
             custom(){
@@ -1997,22 +1994,23 @@
                      });
                 }
             }, /* 是否存在新的威胁事件，存在跳转到最新威胁 不存在跳转到历史威胁 */
-            threatEvent(ev,num){
+            threatEvent(ev,scope,num){
                 if(num !== 0){
                     this.activeName3 = 'first';
                     this.activeName2 = 'first';
                 }else{
                     this.activeName3 = 'fourth';
                     this.activeName2 = 'first';
-                }
+                    this.getHistory(scope.row.id);
+                };
                 // ev.stopPropagation();
             },
-            hrefAssetEvent(ev){
+            hrefAssetEvent(scope,ev){
                 this.activeName2 = 'assetEvent';
                 this.activeName = 'first';
                 this.eventLoading = true;
                 this.assetEventTime = [];
-                this.$axios.get('api/site/' + this.rowId + '/eventDetail?page=1&limit=10').then((res) => {
+                this.$axios.get('api/site/' + (scope.row.id ? scope.row.id : this.rowId) + '/eventDetail?page=1&limit=10').then((res) => {
                     if(res.data.data.events){
                         for(var key in res.data.data.events){
                             this.assetEventTime.push(res.data.data.events[key]);
@@ -3717,6 +3715,12 @@
                 for (var i = 0; i < 25; i++) {
                     this.dayTime.push(i);
                 };
+            },
+            getHistory(id){
+                this.$axios.get('api/site/'+id+'/history').then((res)=>{
+                        this.threat = res.data.data.threat;
+                        this.threatLoading = false;
+                    })
             }
         },
         created() {
@@ -3746,18 +3750,17 @@
                      this.average(this.$route.params);
                 }else if(this.$route.params.name == 'assets'){
                     this.activeName = 'first';
-                    this.$axios.get('api/site/'+this.$route.params.id+'/history').then((res)=>{
-                        this.threat = res.data.data.threat;
-                        this.threatLoading = false;
-                    })
-                   
+                    this.getHistory(this.$route.params.id);
                 }
                 this.handleMovelayer(this.$route.params);
             }else if(this.$route.params.unItId){
+                this.loading2 = true;
                 this.owner_id = this.$route.params.unItId;
                 this.$axios.get('api/site?page=1&limit=10&owner_id='+this.$route.params.unItId+'').then((res)=>{
                         let data = res.data;
                         this.tableData3 = data.data.data;
+                        this.totalpage = Math.ceil(data.data.count);
+                        this.loading2 = false;
                 });
             }
             else {
