@@ -39,7 +39,11 @@
                     </template>
             </el-table-column>
             <el-table-column label="异常站点数">
-                <template slot-scope="scope">{{ scope.row.threat }}</template>
+                <template slot-scope="scope">
+                    <span class="cursor" @click="hrefAsset(scope,'threat')">
+                        {{ scope.row.threat }}
+                    </span>
+                    </template>
             </el-table-column>
             <el-table-column label="所属销售">
               <template slot-scope="scope">{{ scope.row.salesman }}</template>
@@ -260,8 +264,12 @@
                 this.selectedAlertAdress=value;
                 this.sendSearch();
             },
-            hrefAsset(scope){
-                this.$router.push({  name:'assets',params:{'unItId':scope.row.id}});
+            hrefAsset(scope,type){
+                if(type == 'threat'){
+                    this.$router.push({  name:'assets',params:{'threat':scope.row.id}});
+                }else{
+                    this.$router.push({  name:'assets',params:{'unItId':scope.row.id}});
+                }
             },
             selectEmergency(row){
                     var id = '';

@@ -3762,6 +3762,15 @@
                         this.totalpage = Math.ceil(data.data.count);
                         this.loading2 = false;
                 });
+            }else if(this.$route.params.threat){
+                this.loading2 = true;
+                this.owner_id = this.$route.params.threat;
+                this.$axios.get('api/site?page=1&limit=10&owner_id='+this.$route.params.threat+'&abnormal=1').then((res)=>{
+                        let data = res.data;
+                        this.tableData3 = data.data.data;
+                        this.totalpage = Math.ceil(data.data.count);
+                        this.loading2 = false;
+                });
             }
             else {
                 this.activeName = 'first';
