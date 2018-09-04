@@ -202,7 +202,7 @@
 									</li>-->
 									<template v-for="(item,index) in fetchdata.event">
 										<template v-if="index<fetchdata.event.length&&index%2==0">
-									      <li class="item top" style="width: 170px;" :key="index">
+									      <li class="item top" style="width: 170px;" :key="'a'+index">
 												<div class="content">
 													<ul>
 														<li class="line-first" style="background-position-y: 9px;" v-text="fetchdata.event[index].created_at"></li>

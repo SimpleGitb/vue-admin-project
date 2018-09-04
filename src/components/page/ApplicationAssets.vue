@@ -1523,6 +1523,7 @@
                 inputVisible2: false,
                 inputValue: '',
                 inputValue2: '',
+                owner_id:'',
                 theReport:{
                     startTime: [new Date().toLocaleDateString(),new Date(2018, 11, 30).toLocaleDateString()]
                 },
@@ -2384,7 +2385,7 @@
             changepage(t) {
                 this.loading2 = true;
                 this.pages = t;
-                this.$axios.get("api/site?page=" + t + "&limit="+this.vals+"&search=" + this.select_word).then(
+                this.$axios.get("api/site?page=" + t + "&limit="+this.vals+"&search=" + this.select_word+'&owner_id='+this.owner_id).then(
                     (res) => {
                         let data = res.data;
                         this.tableData3 = data.data.data;
@@ -3752,7 +3753,13 @@
                    
                 }
                 this.handleMovelayer(this.$route.params);
-            } 
+            }else if(this.$route.params.unItId){
+                this.owner_id = this.$route.params.unItId;
+                this.$axios.get('api/site?page=1&limit=10&owner_id='+this.$route.params.unItId+'').then((res)=>{
+                        let data = res.data;
+                        this.tableData3 = data.data.data;
+                });
+            }
             else {
                 this.activeName = 'first';
             }

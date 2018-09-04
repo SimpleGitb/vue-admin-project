@@ -25,7 +25,7 @@
 			      </template>
 			    </el-table-column>
 			    <el-table-column
-			      label="监测应用"
+			      label="检测应用"
 			      >
 			      <template slot-scope="scope">
 							<a :href="'api/asset/'+scope.row.id+'/export'">
@@ -67,7 +67,7 @@
 			      >
 			      <template slot-scope="scope">
 			      	<el-button type="text" @click="assetsResult(scope.row.id)" class="seekbtn">查看</el-button>
-			      	<el-button type="text" @click="assetsResult(scope.row.id)" class="seekbtn">导出</el-button>
+			      	<el-button type="text" @click="assetsResult(scope.row.id)" class="seekbtn orange">导出</el-button>
 			      </template>
 			    </el-table-column>
 			  </el-table>
@@ -251,7 +251,9 @@
 	height: 20px;
 	line-height: 0;
 }
-
+.record .seekbtn.orange{
+	background:#ff9933
+}
 .record .el-tabs__nav{
 		width: 100%;
 }

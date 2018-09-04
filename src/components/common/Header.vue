@@ -144,7 +144,7 @@
                 <el-input class="sitecontent" :rows="7" type="textarea" placeholder="http://www.jxzyy.com.cn">
                 </el-input>
 			  <span slot="footer" class="dialog-footer">
-			    <el-button type="primary" @click="assetscombSubm()">开始检测</el-button>
+			    <el-button type="primary" @click="monitor()">开始检测</el-button>
 			  </span>
 			</el-dialog>
     </div>
@@ -211,10 +211,16 @@
 		      },
 		      handleClick(tab, event) {
 //		        console.log(tab);
-		      },
-		      assetscombSubm(){
+              },
+              monitor(){
                   this.$router.push({
                       name:'monitorResult'
+                  });
+                  this.dialogVisible1 = false;
+              },
+		      assetscombSubm(){
+                  this.$router.push({
+                      name:'assetsRecord'
                   })
 			/*  	this.$axios.post("api/asset/get", {
 						asset_ip: this.asset_ip,
@@ -515,7 +521,7 @@
         position: absolute;
         z-index: 11;
         background: #fff;
-        color:#a0a2a3;
+        color:#191c1d;
         width: 100%;
         left: -1px;
         text-align: center;

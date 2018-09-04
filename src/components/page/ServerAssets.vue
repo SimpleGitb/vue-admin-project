@@ -74,10 +74,7 @@
         </div>
 
         <el-dialog title="修改" class="edit" :visible.sync="editVisible1" width="30%">
-                <div class="tip-header">
-                    <img src="../../../static/img/assets/qat.png">
-                    <p class="tip-msg">以下为基线监测信息，若信息有误，请手动纠正</p>
-                </div>
+
                    <el-form :model="dynamicValidateForm" ref="dynamicValidateForm" class="demo-dynamic">
                     <el-form-item label="所属单位">
                         <el-autocomplete style="width:80%;" popper-class="my-autocomplete" v-model="dynamicValidateForm.owner" @focus="querySearch" :fetch-suggestions="querySearch"
@@ -160,7 +157,8 @@
                     </el-form-item>
                     </div>
                     <div class="ipserver">
-                    <el-form-item v-for="(keys,value) in dynamicValidateForm.init"
+                    <el-form-item label="基线修改">
+                        <div class="box" v-for="(keys,value) in dynamicValidateForm.init"
                         :key="value">
                             <el-input  v-model="keys.port" ></el-input>
                             <el-input v-model="keys.version"></el-input>
@@ -168,16 +166,16 @@
                             <div class="delete">
                                     <i class="el-icon-remove"  @click="removeDomain(value)"></i>
                             </div>
-                    </el-form-item>
-                     <el-form-item
-                        v-for="(domain, index) in dynamicValidateForm.domains"
+                        </div>
+                        <div class="box"  style="margin-left:68px;margin-top:5px;margin-bottom:5px;"  v-for="(domain, index) in dynamicValidateForm.domains"
                         :key="domain.key"
                         :prop="'domains.' + index + '.value'">
-                        <el-input v-model="domain.port"></el-input>
-                        <el-input v-model="domain.server"></el-input>
-                        <el-input class="item-ftpd"  v-model="domain.version"></el-input>  
-                        <div class="add">
-                            <i class="el-icon-circle-plus" @click="addDomain()"></i>
+                            <el-input v-model="domain.port"></el-input>
+                            <el-input v-model="domain.server"></el-input>
+                            <el-input class="item-ftpd"  v-model="domain.version"></el-input>  
+                            <div class="add">
+                                <i class="el-icon-circle-plus" @click="addDomain()"></i>
+                            </div>
                         </div>
                     </el-form-item>
                     </div>
@@ -778,7 +776,7 @@
                this.$axios.get("api/ip?page="+t+"&limit=10").then((res)=>{
                     let data = res.data;
                     this.totalpage = Math.ceil(res.data.data.count);
-                    this.tableData3 = data.data;
+                    this.tableData3 = data.data.data;
                }).catch(v=>{
                     console.log(v)
                });
@@ -1183,6 +1181,9 @@
         font-size: 18px;
         color: #adadad;
     }
+    .serveTab .ipserver .el-icon-circle-plus{
+        font-size: 18px;
+    }
     .serveTab .item-value{
         width: 250px;
         height: 28px;
@@ -1200,12 +1201,17 @@
     .serveTab .el-form .el-form-item .delete,.serveTab .el-form .el-form-item .add{
         float: right
     }
+    .serveTab .el-form .ipserver .box{
+        display: flex;
+    }
+    .serveTab .ipserver .iconfont{
+        margin-left: 15px;
+    }
     .serveTab .edit .ipserver .el-form-item .el-input{
         width: 20%;
         display: inline-block;
+        margin-right: 10px;
     }
-
-
 
     .serveTab .el-table td:first-child .cell, .serveTab .el-table th:first-child .cell{
         padding-left: 15px;

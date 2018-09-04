@@ -52,7 +52,7 @@
 			      label="快照"
 			      >
                     <template slot-scope="scope">
-                        <i class="iconfont icon-kuaizhao"></i>
+                        <a href="javascript:;"><i class="iconfont icon-kuaizhao"></i></a>
                     </template>
 			    </el-table-column>
 			  </el-table>
@@ -216,10 +216,11 @@
 }
 </style>
 <style type="text/css">
-
-	.record .cell .a{
-		color: #409eff;
+	.record .cell .iconfont{
+		font-size: 20px;
+		color: #5a5e66;
 	}
+
 .record .el-table thead>tr{
 	background-color: RGB(242,242,242);
 }
