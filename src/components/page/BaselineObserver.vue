@@ -13,9 +13,8 @@
                     <div class="right_line"></div>
                 </div>
                 <ul class="main" style="color: #606266;">
-                    <li v-for="(port,key,index) in baseport.port" :key="index">
+                    <li v-for="(port,key,index) in baseport.port" :key="index+1">
                         <div class="left_text" v-text="key"></div>
-                        <div class="line"></div>
                         <div class="right">
                             <p class="top" v-text="port.server"></p>  
                             <p class="bottom" v-text="port.version"></p>
@@ -38,7 +37,7 @@
                 <div class="dash_line">
                     <div style="overflow:hidden; position:relative; height: 60px;">
                     	<ul class="processCorn" id="yearList" style="width: 100%; position: relative;margin-left: 45%;overflow: hidden;">
-	                        <li v-for="(time,value,index) in historytime" :key="index"><i class="iconfont icon-danxuan"></i> <span v-text="time"></span></li>
+	                        <li v-for="(time,value,index) in historytime" :key="index+2"><i class="iconfont icon-danxuan"></i> <span v-text="time"></span></li>
 	                    </ul>
                     </div>
                 </div>
@@ -46,10 +45,10 @@
                     <img @click="btnPrev()" class="left_arrow" src="/static/img/left.png" alt="">
                     <div class="middle" style="width: 530px;position: relative; overflow: hidden;margin-top: 50px;">
                         <ul class="middle_content" id="cUl">
-                            <li v-for="(history,val,index) in basehistory" :key="index">
+                            <li v-for="(history,val,index) in basehistory" :key="index+3">
                             	<div style="width: 530px;">
                             		<ul>
-			                            <li v-for="(hist,key,index) in history.port" :key="index">  {{key}}      {{hist.server}}     {{hist.version}}</li>
+			                            <li v-for="(hist,key,index) in history.port" :key="index+4">  {{key}}      {{hist.server}}     {{hist.version}}</li>
 			                        </ul>
                             	</div>
                             </li>
@@ -77,13 +76,13 @@
 								<ul style="width: 4500px; left: 0; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
 									<template v-for="(item,index) in basedata.event">
 										<template v-if="index<basedata.event.length&&index%2==0">
-									      <li class="item top" style="width: 170px;" :key="index">
+									      <li class="item top" style="width: 170px;" :key="index+5">
 												<div class="content">
 													<ul>
 														<li class="line-first" style="background-position-y: 9px;" v-text="basedata.event[index].created_at"></li>
-														<li class="title" v-if="basedata.event[index].status ==0"><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;">{{basedata.event[index].port}} 端口关闭</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
-														<li class="title" v-else-if="basedata.event[index].status ==1"><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;">{{basedata.event[index].port}} 端口开启</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
-														<li class="title" v-else><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;">{{basedata.event[index].port}} 端口服务由 {{basedata.event[index].server}} 变为 {{basedata.event[index].version}}</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
+														<li class="title" v-if="basedata.event[index].status ==0"><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;line-height: 2.2em;">{{basedata.event[index].port}} 端口关闭</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
+														<li class="title" v-else-if="basedata.event[index].status ==1"><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;line-height: 2.2em;">{{basedata.event[index].port}} 端口开启</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
+														<li class="title" v-else><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;line-height: 2.2em;">{{basedata.event[index].port}} 端口服务由 {{basedata.event[index].server}} 变为 {{basedata.event[index].version}}</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
 														<li class="overauto" style="border-left: 1px solid rgb(248, 151, 130);width: 187px;height: 80px;overflow: hidden;">
 															<div style="width: 204px;overflow-x: hidden;overflow-y: scroll;height: 80px;">
 																<ul>
@@ -95,7 +94,7 @@
 													</ul>
 												</div>
 											</li>
-											<li v-if="index<basedata.event.length-1" class="item bottom" style="width: 170px;" :key="index">
+											<li v-if="index<basedata.event.length-1" class="item bottom" style="width: 170px;" :key="index+6">
 												<div class="content">
 													<ul>
 														<li class="overauto" style="border-left: 1px solid rgb(26, 132, 206);width: 187px;height: 80px;overflow: hidden;">
@@ -105,9 +104,9 @@
 																</ul>
 															</div>
 														</li>
-														<li class="title" v-if="basedata.event[index+1].status == 0"><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;">{{basedata.event[index+1].port}} 端口关闭</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
-														<li class="title" v-else-if="basedata.event[index+1].status == 1"><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;">{{basedata.event[index+1].port}} 端口开启</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
-														<li class="title" v-else><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;">{{basedata.event[index+1].port}} 端口服务由 {{basedata.event[index+1].server}} 变为 {{basedata.event[index+1].version}}</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
+														<li class="title" v-if="basedata.event[index+1].status == 0"><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;line-height: 2.2em;">{{basedata.event[index+1].port}} 端口关闭</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
+														<li class="title" v-else-if="basedata.event[index+1].status == 1"><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;    line-height: 2.2em;">{{basedata.event[index+1].port}} 端口开启</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
+														<li class="title" v-else><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;line-height: 2.2em;">{{basedata.event[index+1].port}} 端口服务由 {{basedata.event[index+1].server}} 变为 {{basedata.event[index+1].version}}</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
 														<li class="line-first" style="background-position-y: -93px;" v-text="basedata.event[index+1].created_at"></li>
 														<li class="line-last line-point" style="background-position: 0px -20px;"></li>
 													</ul>
@@ -231,6 +230,7 @@
 </script>
 
 <style scoped lang="less">
+@import "../../../static/css/fishBone.css";
 .container,ul,li,dl,dd,dt{
     padding:0;
     margin:0;
@@ -266,49 +266,60 @@ ul,li{
                background:#E4E4E4;
             }
         }
-        .main{
-            display:flex;
-            justify-content: space-around;
-            align-items: center;
-            height:130px;
-            width:100%;
-            list-style:none;            
-            li{
-                width:20%;
-                height:70px;
-                border:1px solid #409EFF;
-                padding:0 10px;
-                display:flex;
-                align-items: center;                
-                .line{
-                    width:1px;
-                    height:70%;
-                    background:#E4E4E4;
-                    margin:0 10px;
-                }
-                .left_text{
-                    font-size:30px;
-                }
-                .left_text:nth-child(1){
-                    color:#5FB878;
-                }
-                .left_text:nth-child(2){
-                    color:#42A7DB;
-                }
-                .left_text:nth-child(3){
-                    color:#F7A358;
-                }
-                .left_text:nth-child(4){
-                    color:#5FB878;
-                }
-                p{
-                	line-height: 20px;
-                }
-            }
-         	li:hover{
-         		box-shadow: 0 0 10px #CCCCCC;
-         	}
+.main{
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+    height:130px;
+    width:100%;
+    list-style:none;    
+    .right{
+    	padding: 0 5px 0 20px;
+    }        
+    li{
+        width:20%;
+        height:70px;
+        border:1px solid RGB(247,163,88);
+        border-radius: 5px;
+        overflow: hidden;
+        display:flex;
+        align-items: center;                
+        
+        .left_text{
+            font-size:30px;
+            width: 80px;
+            height: 70px;
+            color: white;
+            text-align: center;
+            line-height: 70px;
+            background: RGB(247,163,88);
         }
+        p{
+        	line-height: 20px;
+        }
+    }
+ 	li:hover{
+ 		box-shadow: 0 0 10px #CCCCCC;
+ 	}
+ 	li:nth-child(2){
+ 		border:1px solid RGB(64,158,255);
+ 		.left_text{
+ 			background: RGB(64,158,255);
+ 		}
+ 	}
+ 	li:nth-child(3){
+ 		border:1px solid RGB(95,184,120);
+ 		.left_text{
+ 			background: RGB(95,184,120);
+ 		}
+ 	}
+ 	li:nth-child(4){
+ 		border:1px solid RGB(64,158,255);
+ 		.left_text{
+ 			background: RGB(64,158,255);
+ 		}
+ 	}
+}
         
     }
     .dash_line{

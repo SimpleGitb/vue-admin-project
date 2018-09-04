@@ -12,45 +12,25 @@
                     <div class="left_line"></div>
                     <div class="right_line"></div>
                 </div>
-                <!--<div class="main">
-                    <a>
-                        <div class="top_text">850</div>
-                        <div class="bottom">
-                            <p class="bottom_p1">ftp</p>  
-                            <p class="bottom_p2">vsftpd (before 2.0.8) or WU-FTPD</p>
+                <ul class="main" style="color: #606266;">
+                    <li v-for="(port,key,index) in fetchdata.port" :key="index+1">
+                        <div class="left_text" v-text="key"></div>
+                        <div class="right">
+                            <p class="top" v-text="port.server"></p>  
+                            <p class="bottom" v-text="port.version"></p>
                         </div>
-                    </a>
-                    <a>
-                        <div class="top_text">80</div>
-                        <div class="bottom">
-                            <p class="bottom_p1">ftp</p>  
-                            <p class="bottom_p2">vsftpd (before 2.0.8) or WU-FTPD</p>
-                        </div>
-                    </a>
-                    <a>
-                        <div class="top_text">80</div>
-                        <div class="bottom">
-                            <p class="bottom_p1">ftp</p>  
-                            <p class="bottom_p2">vsftpd (before 2.0.8) or WU-FTPD</p>
-                        </div>
-                    </a>
-                    <a>
-                        <div class="top_text">80</div>
-                        <div class="bottom">
-                            <p class="bottom_p1">ftp</p>  
-                            <p class="bottom_p2">vsftpd (before 2.0.8) or WU-FTPD</p>
-                        </div>
-                    </a>
-                </div>-->
-                <el-row :gutter="20" style="color: #606266;">
-				  <el-col :span="4" v-for="(port,key) in fetchdata.port" :key="port.id">
+                    </li>
+                   
+                </ul>
+                <!--<el-row :gutter="20" style="color: #606266;">
+				  <el-col :span="4" v-for="(port,key) in fetchdata.port" :key="port.id+1">
 				  	<div class="top_text" v-text="key"></div>
                         <div class="bottom">
                             <p class="bottom_p1" v-text="port.server"></p>  
                             <p class="bottom_p2" v-text="port.version"></p>
                         </div>
 				  </el-col>
-				</el-row>
+				</el-row>-->
             </div>           
         </div>
         
@@ -70,139 +50,10 @@
 						<div class="bd">
 							<div class="tempWrap" style="overflow:hidden; position:relative; width: 96%;left:2%">
 								<ul  style="width: 4500px; left: 0; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
-									<!--<li class="item top" style="width: 168px; float: left;">
-										<div class="content">
-											<ul>
-												<li class="line-first" style="background-position-y: 9px;">2018年4月19日11:14:52</li>
-												<li class="title"><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;">80 端口服务由 http 变为 ftp</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
-												<li style="border-left: 1px solid rgb(248, 151, 130);height: 28px;"></li>
-												<li style="border-left: 1px solid rgb(248, 151, 130);height: 28px;"></li>
-												<li style="border-left: 1px solid rgb(248, 151, 130);">8080: nginx nginx 1.2</li>
-												<li style="border-left: 1px solid rgb(248, 151, 130);">22: ssh openSSL</li>
-												<li class="line-last line-point" style="background-position: 0px 0px;"></li>
-											</ul>
-										</div>
-									</li>
-									<li class="item bottom" style="width: 168px; float: left;">
-										<div class="content">
-											<ul>
-												<li style="border-left: 1px solid rgb(26, 132, 206);">80: ftp</li>
-												<li style="border-left: 1px solid rgb(26, 132, 206);">8080: nginx nginx 1.2</li>
-												<li style="border-left: 1px solid rgb(26, 132, 206);">22: ssh openSSL</li>
-												<li style="border-left: 1px solid rgb(26, 132, 206);">8089: http nginx</li>
-												<li class="title"><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;">新增 8080 端口</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
-												<li class="line-first" style="background-position-y: -93px;">2018年4月19日12:24:56</li>
-												<li class="line-last line-point" style="background-position: 0px -20px;"></li>
-											</ul>
-										</div>
-									</li>
-									<li class="item top" style="width: 168px; float: left;">
-										<div class="content">
-											<ul>
-												<li class="line-first" style="background-position-y: -111px;">2018年4月19日12:24:56</li>
-												<li class="title"><span class="title-left" style="background-position-y: -120px;">&nbsp;</span><span class="title-center" style="background-position-y: -718px;">90 端口服务器变动</span><span class="title-right" style="background-position-y: -1320px;">&nbsp;</span></li>
-												<li style="border-left: 1px solid rgb(247, 162, 89);">80: ftp</li>
-												<li style="border-left: 1px solid rgb(247, 162, 89);">8080: nginx nginx 1.2</li>
-												<li style="border-left: 1px solid rgb(247, 162, 89);">22: ssh openSSL</li>
-												<li style="border-left: 1px solid rgb(247, 162, 89);">8089: http nginx</li>
-												<li class="line-last line-point" style="background-position: 0px -40px;"></li>
-											</ul>
-										</div>
-									</li>
-									<li class="item bottom" style="width: 168px; float: left;">
-										<div class="content">
-											<ul>
-												<li style="border-left: 1px solid rgb(67, 166, 218);">80: ftp</li>
-												<li style="border-left: 1px solid rgb(67, 166, 218);">8080: nginx nginx 1.2</li>
-												<li style="border-left: 1px solid rgb(67, 166, 218);">22: ssh openSSL</li>
-												<li style="border-left: 1px solid rgb(67, 166, 218);">8089: http nginx</li>
-												<li class="title"><span class="title-left" style="background-position-y: -180px;">&nbsp;</span><span class="title-center" style="background-position-y: -778px;">8090 端口关闭 22 端口由 ssh 变为 rdp</span><span class="title-right" style="background-position-y: -1380px;">&nbsp;</span></li>
-												<li class="line-first" style="background-position-y: -213px;">2018年4月19日12:24:56</li>
-												<li class="line-last line-point" style="background-position: 0px -60px;"></li>
-											</ul>
-										</div>
-									</li>
-									<li class="item top" style="width: 168px; float: left;">
-										<div class="content">
-											<ul>
-												<li class="line-first" style="background-position-y: -231px;">2018年5月19日12:24:56</li>
-												<li class="title"><span class="title-left" style="background-position-y: -240px;">&nbsp;</span><span class="title-center" style="background-position-y: -838px;">90端口服务器变动</span><span class="title-right" style="background-position-y: -1440px;">&nbsp;</span></li>
-												<li style="border-left: 1px solid rgb(249, 191, 59);">80: ftp</li>
-												<li style="border-left: 1px solid rgb(249, 191, 59);">8080: nginx nginx 1.2</li>
-												<li style="border-left: 1px solid rgb(249, 191, 59);">22: ssh openSSL</li>
-												<li style="border-left: 1px solid rgb(249, 191, 59);">8089: http nginx</li>
-												<li class="line-last line-point" style="background-position: 0px -80px;"></li>
-											</ul>
-										</div>
-									</li>
-									<li class="item bottom" style="width: 168px; float: left;">
-										<div class="content">
-											<ul>
-												<li style="border-left: 1px solid rgb(136, 199, 204);">80: ftp</li>
-												<li style="border-left: 1px solid rgb(136, 199, 204);">8080: nginx nginx 1.2</li>
-												<li style="border-left: 1px solid rgb(136, 199, 204);">22: ssh openSSL</li>
-												<li style="border-left: 1px solid rgb(136, 199, 204);">8089: http nginx</li>
-												<li class="title"><span class="title-left" style="background-position-y: -300px;">&nbsp;</span><span class="title-center" style="background-position-y: -898px;">新开90端口</span><span class="title-right" style="background-position-y: -1500px;">&nbsp;</span></li>
-												<li class="line-first" style="background-position-y: -333px;">2018年7月11日14:51:35</li>
-												<li class="line-last line-point" style="background-position: 0px -100px;"></li>
-											</ul>
-										</div>
-									</li>
-									<li class="item top" style="width: 170px; float: left;">
-										<div class="content">
-											<ul>
-												<li class="line-first" style="background-position-y: -351px;">2018年7月11日14:51:35</li>
-												<li class="title"><span class="title-left" style="background-position-y: -360px;">&nbsp;</span><span class="title-center" style="background-position-y: -958px;">90 端口服务器变动</span><span class="title-right" style="background-position-y: -1560px;">&nbsp;</span></li>
-												<li style="border-left: 1px solid rgb(239, 109, 95);">80: ftp</li>
-												<li style="border-left: 1px solid rgb(239, 109, 95);">8080: nginx nginx 1.2</li>
-												<li style="border-left: 1px solid rgb(239, 109, 95);">22: ssh openSSL</li>
-												<li style="border-left: 1px solid rgb(239, 109, 95);">8089: http nginx</li>
-												<li class="line-last line-point" style="background-position: 0px -120px;"></li>
-											</ul>
-										</div>
-									</li>
-									<li class="item bottom" style="width: 170px; float: left;">
-										<div class="content">
-											<ul>
-												<li style="border-left: 1px solid rgb(96, 169, 110);">80: ftp</li>
-												<li style="border-left: 1px solid rgb(96, 169, 110);">8080: nginx nginx 1.2</li>
-												<li style="border-left: 1px solid rgb(96, 169, 110);">22: ssh openSSL</li>
-												<li style="border-left: 1px solid rgb(96, 169, 110);">8089: http nginx</li>
-												<li class="title"><span class="title-left" style="background-position-y: -420px;">&nbsp;</span><span class="title-center" style="background-position-y: -1018px;">新开90端口</span><span class="title-right" style="background-position-y: -1620px;">&nbsp;</span></li>
-												<li class="line-first" style="background-position-y: -453px;">2018年7月12日14:51:35</li>
-												<li class="line-last line-point" style="background-position: 0px -140px;"></li>
-											</ul>
-										</div>
-									</li>
-									<li class="item top" style="width: 170px; float: left;">
-										<div class="content">
-											<ul>
-												<li class="line-first" style="background-position-y: -471px;">2018年7月12日15:51:35</li>
-												<li class="title"><span class="title-left" style="background-position-y: -480px;">&nbsp;</span><span class="title-center" style="background-position-y: -1078px;">90 端口服务器变动</span><span class="title-right" style="background-position-y: -1680px;">&nbsp;</span></li>
-												<li style="border-left: 1px solid rgb(240, 56, 82);">80: ftp</li>
-												<li style="border-left: 1px solid rgb(240, 56, 82);">8080: nginx nginx 1.2</li>
-												<li style="border-left: 1px solid rgb(240, 56, 82);">22: ssh openSSL</li>
-												<li style="border-left: 1px solid rgb(240, 56, 82);">8089: http nginx</li>
-												<li class="line-last line-point" style="background-position: 0px -160px;"></li>
-											</ul>
-										</div>
-									</li>
-									<li class="item bottom" style="width: 170px; float: left;">
-										<div class="content">
-											<ul>
-												<li style="border-left: 1px solid rgb(58, 146, 132);">80: ftp</li>
-												<li style="border-left: 1px solid rgb(58, 146, 132);">8080: nginx nginx 1.2</li>
-												<li style="border-left: 1px solid rgb(58, 146, 132);">22: ssh openSSL</li>
-												<li style="border-left: 1px solid rgb(58, 146, 132);">8089: http nginx</li>
-												<li class="title"><span class="title-left" style="background-position-y: -540px;">&nbsp;</span><span class="title-center" style="background-position-y: -1138px;">新开90端口</span><span class="title-right" style="background-position-y: -1740px;">&nbsp;</span></li>
-												<li class="line-first" style="background-position-y: -573px;">2018年7月12日16:10:35</li>
-												<li class="line-last line-point" style="background-position: 0px -180px;"></li>
-											</ul>
-										</div>
-									</li>-->
+									
 									<template v-for="(item,index) in fetchdata.event">
 										<template v-if="index<fetchdata.event.length&&index%2==0">
-									      <li class="item top" style="width: 170px;" :key="index">
+									      <li class="item top" style="width: 170px;" :key="index+2">
 												<div class="content">
 													<ul>
 														<li class="line-first" style="background-position-y: 9px;" v-text="fetchdata.event[index].created_at"></li>
@@ -220,7 +71,7 @@
 													</ul>
 												</div>
 											</li>
-											<li v-if="index<fetchdata.event.length-1" class="item bottom" style="width: 170px;" :key="index">
+											<li v-if="index<fetchdata.event.length-1" class="item bottom" style="width: 170px;" :key="index+3">
 												<div class="content">
 													<ul>
 														<li class="overauto" style="border-left: 1px solid rgb(26, 132, 206);width: 187px;height: 80px;overflow: hidden;">
@@ -435,7 +286,7 @@ ul,li{
             background:url('/static/img/background.png') center center no-repeat ;
             background-size:85% 70%;
         }
-.el-row {
+/*.el-row {
 	padding-left: 30px;
 	margin-top: 30px;
     margin-bottom: 20px;
@@ -480,7 +331,62 @@ ul,li{
 		.top_text {
 	  		color:#5FB878;
 	  	}
-	}   
+	}   */
+.main{
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+    height:130px;
+    width:100%;
+    list-style:none;    
+    .right{
+    	padding: 0 5px 0 20px;
+    }        
+    li{
+        width:20%;
+        height:70px;
+        border:1px solid RGB(247,163,88);
+        border-radius: 5px;
+        overflow: hidden;
+        display:flex;
+        align-items: center;                
+        
+        .left_text{
+            font-size:30px;
+            width: 80px;
+            height: 70px;
+            color: white;
+            text-align: center;
+            line-height: 70px;
+            background: RGB(247,163,88);
+        }
+        p{
+        	line-height: 20px;
+        }
+    }
+ 	li:hover{
+ 		box-shadow: 0 0 10px #CCCCCC;
+ 	}
+ 	li:nth-child(2){
+ 		border:1px solid RGB(64,158,255);
+ 		.left_text{
+ 			background: RGB(64,158,255);
+ 		}
+ 	}
+ 	li:nth-child(3){
+ 		border:1px solid RGB(95,184,120);
+ 		.left_text{
+ 			background: RGB(95,184,120);
+ 		}
+ 	}
+ 	li:nth-child(4){
+ 		border:1px solid RGB(64,158,255);
+ 		.left_text{
+ 			background: RGB(64,158,255);
+ 		}
+ 	}
+}
+
 	          
 .tempWrap>ul>li:nth-child(2n+1){
 	.line-first{
