@@ -967,7 +967,7 @@
     .threatview .handle-box .right{
         margin-left: 530px;
         .el-input{
-            width: 170px
+            width: 230px
         }
     }
     .threatview .el-icon-picture{

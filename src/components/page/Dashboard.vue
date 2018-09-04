@@ -880,6 +880,7 @@
                     for(var key in data.deal){
                         deal.push(data.deal[key]);
                     };
+                    this.chartData.rows = [];
                     for(var i=0;i<this.confirm.length;i++){
                         this.chartData.rows.push({'时间':time[i],'确认':this.confirm[i],'处置':deal[i]});
                         this.loading = false;

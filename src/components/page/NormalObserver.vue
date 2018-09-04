@@ -303,8 +303,10 @@
         		self.tempWidth();
         	},1500);
 		   
+		},
+		activated(){
 		   this.fetchCustomers();
-        }
+		}
     }
     
 </script>

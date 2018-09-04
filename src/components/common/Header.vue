@@ -514,12 +514,17 @@
         height:70px;
         position: absolute;
         z-index: 11;
-        background: #324157;
+        background: #fff;
+        color:#a0a2a3;
         width: 100%;
         left: -1px;
         text-align: center;
         display: none;
-        border:1px solid #282b33;
+        border:1px solid transparent;
+        box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, .12);
+    }
+    .aseetRecord .line:hover span{
+        color:#00aaff;
     }
     .aseetRecord .el-dropdown{
         float: left;
@@ -539,7 +544,6 @@
     }
     .aseetRecord li span{
         font-size: 16px;
-        color: #bfcbd9;
     }
     .aseetRecord li .icon-yingyongshuli,.aseetRecord li .icon-jiance1{
         margin-right: 10px;

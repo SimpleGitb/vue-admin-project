@@ -1958,7 +1958,7 @@
             },
             changedelay(ip){
                 this.Ip = ip;
-                this.$axios.get('api/site/' + this.rowId +'/usability?node='+ip+'&time='+encodeURIComponent(this.usabval[0] + '#'+ this.usabval[1])).then((res)=>{
+                this.$axios.get('api/site/' + this.rowId +'/usability?node='+ip+'&time='+encodeURIComponent((this.usabval[0] ? this.usabval[0] : '') + '#'+ (this.usabval[1] ? this.usabval[1] : ''))).then((res)=>{
                     let data = res.data.data;
                    this.nodeData = data.node;
                    this.assetsDetails(data);
@@ -1971,7 +1971,7 @@
             changedelay1(t){
                 if(!t){
                     if(this.usabval){
-                        this.$axios.get('api/site/'+ this.rowId +'/usability?time='+encodeURIComponent(this.usabval[0] + '#'+ this.usabval[1])+'&node='+this.Ip ).then((res)=>{
+                        this.$axios.get('api/site/'+ this.rowId +'/usability?time='+encodeURIComponent((this.usabval[0] ? this.usabval[0] : '') + '#'+ (this.usabval[1] ? this.usabval[1] : ''))+'&node='+(this.Ip ? this.Ip : '') ).then((res)=>{
                                 let data = res.data.data;
                                 this.nodeData = data.node;
                                 this.assetsDetails(data);
@@ -5304,7 +5304,7 @@ ul,
         overflow: auto;
         position: absolute;
         .leftContent {
-            height: 1500px;
+            height: 1600px;
             width: 100%;
             overflow: auto;
             margin-top: 20px;
