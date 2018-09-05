@@ -1441,7 +1441,7 @@
                         +'&end='+theReport.startTime[1] +'&id=['+selecedId+']'">导出报表</a>
             </div>
         </el-dialog>  
-             <el-dialog title="导出可用性报表" :visible.sync="usblityVisble" width="30%" class="exportPort">
+             <el-dialog title="导出可用性报表" :visible.sync="usblityVisble" width="40%" class="exportPort">
                 <div class="tip-header">
                     <img src="../../../static/img/assets/qat.png">
                     <p class="tip-msg">点击下方导出按钮后即可导出可用性报表</p>
@@ -3728,7 +3728,7 @@
             }
         },
         created() {
-            this.getsite();
+           
             this.createTime();
             this.loadAll();
             this.$axios.get("api/siteConfigure/select/all").then((res) => {
@@ -3774,6 +3774,7 @@
             }
             else {
                 this.activeName = 'first';
+                 this.getsite();
             }
         },
         mounted() {
@@ -4223,11 +4224,14 @@
         padding-bottom: 5px;
     }
 
-
     .application .table-threat .pagination {
         margin-right: 75px;
     }
 
+    .application .assetsEvent .pagination{
+        margin-top: 0px;
+        margin-right:20px;
+    }
     .application .table-threat .tips .view {
         color: #6aa5ff
     }

@@ -178,7 +178,7 @@
                         </div>
                     </el-form-item>
                     <el-form-item class="tipsbox">
-                            <i class="el-icon-question"></i>
+                            <i class="iconfont icon-wenti"></i>
                             <span>以上为基线监测信息,若信息有误,请手动纠正</span>
                     </el-form-item>
                     </div>
@@ -1208,15 +1208,13 @@
         display: flex;
     }
     .serveTab .el-form .ipserver .tipsbox {
-        margin-left:77px;
-    }
-    .serveTab .el-form .ipserver .tipsbox span{
-        margin-left:10px;
+        margin-left:68px;
     }
 
-    .serveTab .ipserver .iconfont{
-        margin-left: 15px;
+    .serveTab .el-dialog .hidebox .el-form-item:nth-of-type(3) .border {
+        left: 42%;
     }
+
     .serveTab .edit .ipserver .el-form-item .el-input{
         width: 20%;
         display: inline-block;
