@@ -462,17 +462,21 @@
                                             </div>
                                             <div class="item-content">
                                                 <el-table border :data="layerData" style="width: 100%">
-                                                    <el-table-column prop="language" label="开发语言" width="180">
-                                                    </el-table-column>
-                                                    <el-table-column prop="database" label="数据库" width="180">
-                                                    </el-table-column>
-                                                    <el-table-column prop="server" label="Web容器">
-                                                    </el-table-column>
                                                     <el-table-column prop="os" label="操作系统">
                                                     </el-table-column>
-                                                    <el-table-column prop="ip" label="IP/CDN">
+                                                    <el-table-column prop="server" label="服务器" width="180">
                                                     </el-table-column>
-                                                    <el-table-column prop="cms" label="Web指纹">
+                                                    <el-table-column prop="ip" label="IP" width="180">
+                                                    </el-table-column>
+                                                    <el-table-column prop="language" label="开发语言">
+                                                    </el-table-column>
+                                                    <el-table-column prop="database" label="数据库">
+                                                    </el-table-column>
+                                                    <el-table-column prop="cms" label="CMS">
+                                                    </el-table-column>
+                                                    <el-table-column prop="idc" label="IDC">
+                                                    </el-table-column>
+                                                    <el-table-column prop="cdn" label="CDN">
                                                     </el-table-column>
                                                 </el-table>
                                             </div>
@@ -485,15 +489,17 @@
                                             </div>
                                             <div class="item-content">
                                                 <el-table border :data="layerData" style="width: 100%">
-                                                    <el-table-column prop="whois_isp" label="域名注册商" width="180">
+                                                    <el-table-column prop="whois_name" label="域名所有者">
                                                     </el-table-column>
-                                                    <el-table-column prop="whois_name" label="域名所有者" width="180">
+                                                    <el-table-column prop="whois_mail" label="注册邮箱">
                                                     </el-table-column>
-                                                    <el-table-column prop="whois_mail" label="邮箱">
+                                                    <el-table-column prop="whois_isp" label="域名注册商">
                                                     </el-table-column>
                                                     <el-table-column prop="icp_name" label="备案单位">
                                                     </el-table-column>
                                                     <el-table-column prop="icp_id" label="备案号">
+                                                    </el-table-column>
+                                                    <el-table-column prop="whois_date" label="域名过期时间">
                                                     </el-table-column>
                                                     <el-table-column prop="whois_dns" label="DNS">
                                                     </el-table-column>
@@ -520,21 +526,19 @@
                                             </div>
                                             <div class="item-content">
                                                 <el-table border :data="subdomain" style="width: 100%">
-                                                    <el-table-column prop="domain" label="域名" width="180">
+                                                    <el-table-column prop="asset.language" label="开发语言" width="180">
                                                     </el-table-column>
-                                                    <el-table-column prop="name" label="标题" width="180">
+                                                    <el-table-column prop="asset.database" label="数据库" width="180">
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.language" label="开发语言">
+                                                    <el-table-column prop="asset.cdn" label="CDN">
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.database" label="数据库">
-                                                    </el-table-column>
-                                                    <el-table-column prop="asset.server" label="WEB容器">
+                                                    <el-table-column prop="asset.ip" label="IP">
                                                     </el-table-column>
                                                     <el-table-column prop="asset.os" label="操作系统">
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.ip" label="IP/CDN">
+                                                    <el-table-column prop="asset.server" label="服务器">
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.cms" label="Web指纹">
+                                                    <el-table-column prop="asset.cms" label="CMS">
                                                     </el-table-column>
                                                 </el-table>
                                             </div>
@@ -1631,7 +1635,10 @@
                     icp_id: '',
                     whois_dns: '',
                     ipaddress: [],
-                    title: ''
+                    title: '',
+                    idc:'',
+                    cdn:'',
+                    whois_date:''
                 }],
                 subdomain: [],
                 information: {
@@ -1786,6 +1793,9 @@
                         this.layerData[0].icp_id = data.site.asset.icp_id ? data.site.asset.icp_id : '无';
                         this.layerData[0].whois_dns = data.site.asset.whois_dns ? data.site.asset.whois_dns : '无';
                         this.layerData[0].ipaddress = data.site.asset.ip ? data.site.asset.ip : '无';
+                        this.layerData[0].idc = data.site.asset.idc ? data.site.asset.idc : '无';
+                        this.layerData[0].cdn = data.site.asset.cdn ? data.site.asset.cdn : '无';
+                        this.layerData[0].whois_date = data.site.asset.whois_date ? data.site.asset.whois_date : '无';
                         this.subdomain = data.subdomain;
                         this.loading3 = false;
                         this.webasset = false;
@@ -3728,6 +3738,7 @@
             }
         },
         created() {
+            if(!this.$route.params.unItId){this.getsite();}
             this.createTime();
             this.loadAll();
             this.$axios.get("api/siteConfigure/select/all").then((res) => {
@@ -3773,8 +3784,8 @@
             }
             else {
                 this.activeName = 'first';
-                 this.getsite();
             }
+            
         },
         mounted() {
             var text = document.getElementsByClassName('el-table__empty-text');

@@ -41,7 +41,7 @@
             </el-table-column>
                 <el-table-column label="事件">
                 <template slot-scope="scope">
-                    <div :style="{color:color}" v-if="scope.row.event_count == 0 ? color = '#333' : color='red'">
+                    <div :style="{color:color}" v-if="scope.row.event_count == 0 ? color = '#333' : color ='red'">
                         {{ scope.row.event_count }}
                     </div>
                 </template>
@@ -157,7 +157,7 @@
                     </div>
                     <div class="ipserver">
                     <el-form-item label="基线修改">
-                        <div class="box" v-for="(keys,value) in dynamicValidateForm.init"
+                        <div class="box"   v-for="(keys,value) in dynamicValidateForm.init"
                         :key="value">
                             <el-input  v-model="keys.port" ></el-input>
                             <el-input v-model="keys.version"></el-input>
@@ -166,7 +166,7 @@
                                     <i class="el-icon-remove"  @click="removeDomain(value)"></i>
                             </div>
                         </div>
-                        <div class="box"  style="margin-left:68px;margin-top:5px;margin-bottom:5px;"  v-for="(domain, index) in dynamicValidateForm.domains"
+                        <div class="box"  v-for="(domain, index) in dynamicValidateForm.domains"
                         :key="domain.key"
                         :prop="'domains.' + index + '.value'">
                             <el-input v-model="domain.port"></el-input>
@@ -282,11 +282,11 @@
                         <el-button @click="batchAddAssets = false">取 消</el-button>
                         <el-button type="primary" @click="saveAddServer">确 定</el-button>
                     </div>
-        </el-dialog>   
+        </el-dialog>
     </div>
 </template>
 <script>
-    
+
     export default {
         name:'serverAsset',
         data() {
@@ -1197,15 +1197,15 @@
         cursor: pointer;
     }
 
-    .serveTab .el-form .el-form-item .item-ftpd{
-        width: 45%!important;
-    }
     .serveTab .el-form .el-form-item .delete,.serveTab .el-form .el-form-item .add{
         float: right
     }
 
     .serveTab .el-form .ipserver .box{
         display: flex;
+        margin-left:68px;
+        margin-top:5px;
+        margin-bottom:5px;
     }
     .serveTab .el-form .ipserver .tipsbox {
         margin-left:68px;
@@ -1216,7 +1216,7 @@
     }
 
     .serveTab .edit .ipserver .el-form-item .el-input{
-        width: 20%;
+        width: 33%;
         display: inline-block;
         margin-right: 10px;
     }

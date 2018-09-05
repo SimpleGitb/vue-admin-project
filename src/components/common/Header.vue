@@ -516,6 +516,10 @@
         display: block;
         z-index: 11;
     }
+    .header .sitecontent .el-textarea__inner{
+        margin:10px auto;
+        font-family: 'Microsoft Yahei';
+    }
     .aseetRecord .line{
         height:70px;
         position: absolute;
