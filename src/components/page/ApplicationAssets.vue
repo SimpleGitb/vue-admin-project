@@ -2010,7 +2010,7 @@
                 this.activeName = 'first';
                 this.eventLoading = true;
                 this.assetEventTime = [];
-                this.$axios.get('api/site/' + (scope.row.id ? scope.row.id : this.rowId) + '/eventDetail?page=1&limit=10').then((res) => {
+                this.$axios.get('api/site/' + (scope ? scope.row.id : this.rowId) + '/eventDetail?page=1&limit=10').then((res) => {
                     if(res.data.data.events){
                         for(var key in res.data.data.events){
                             this.assetEventTime.push(res.data.data.events[key]);
@@ -3728,7 +3728,6 @@
             }
         },
         created() {
-           
             this.createTime();
             this.loadAll();
             this.$axios.get("api/siteConfigure/select/all").then((res) => {
