@@ -2,7 +2,7 @@
     <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-warning"></i>基线监测 - {{basedata.ip}} - {{basedata.location}}</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-warning"></i>&nbsp;&nbsp;基线监测 - {{basedata.ip}} - {{basedata.location}}</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
@@ -20,7 +20,7 @@
                             <p class="bottom" v-text="port.version"></p>
                         </div>
                     </li>
-                   
+                   <div v-if="portlen == 0"><img class="tupian" src="../../../static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无端口信息</span></div>
                 </ul>
             </div>           
         </div>
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="hc_mai">
-				<div class="fishBone">
+				<div class="fishBone" v-if="eventlen > 0">
 					<div class="wrapper">
 						<div class="bd">
 							<div class="tempWrap" style="overflow:hidden; position:relative; width: 96%;left:2%">
@@ -123,6 +123,7 @@
 					<a class="next" @click="nextPage"></a>
 					<div class="line"></div>
 				</div>            
+            	<div v-if="eventlen == 0" style="text-align: center;line-height: 339px;"><img class="tupian" src="../../../static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无历史变动信息</span></div>
             </div>
         </div>
         
@@ -143,7 +144,9 @@
             	basedata:[],
             	baseport:[],
             	basehistory:[],
-            	historytime:[]
+            	historytime:[],
+            	portlen:"",
+            	eventlen:""
             }
         },
         methods:{
@@ -152,6 +155,8 @@
 	                switch (res.data.status) {
 					        case 1:
 					        	this.basedata = res.data.data;
+					        	this.portlen = this.basedata.port.length;
+					        	this.eventlen = this.basedata.event.length;
 					        	this.baseport = this.basedata.port;
 					        	this.basehistory = this.basedata.history;
 					        	var self = this;
@@ -251,6 +256,7 @@ ul,li{
         .title_top{
             padding-left:15px;
             line-height:40px;
+            color: #333333;
         }
         .line_content{
             display:flex;

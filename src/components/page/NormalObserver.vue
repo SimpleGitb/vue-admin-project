@@ -2,7 +2,7 @@
     <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-warning"></i>正常监测 - {{fetchdata.ip}} - {{fetchdata.location}}</el-breadcrumb-item>
+                <el-breadcrumb-item><img src="../../../static/img/监测.png" style="width: 24px;height: 24px;vertical-align: middle;"/>&nbsp;&nbsp;正常监测 - {{fetchdata.ip}} - {{fetchdata.location}}</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
@@ -13,14 +13,15 @@
                     <div class="right_line"></div>
                 </div>
                 <ul class="main" style="color: #606266;">
+                	
                     <li v-for="(port,key,index) in fetchdata.port" :key="index+1">
-                        <div class="left_text" v-text="key"></div>
+                    	<div class="left_text" v-text="key"></div>
                         <div class="right">
                             <p class="top" v-text="port.server"></p>  
                             <p class="bottom" v-text="port.version"></p>
                         </div>
                     </li>
-                   
+                    <div v-if="portlen == 0"><img class="tupian" src="../../../static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无端口信息</span></div>
                 </ul>
                 <!--<el-row :gutter="20" style="color: #606266;">
 				  <el-col :span="4" v-for="(port,key) in fetchdata.port" :key="port.id+1">
@@ -45,13 +46,13 @@
                 </div>
             </div>
             <div class="hc_mai">
-				<div class="fishBone">
+				<div class="fishBone" v-if="eventlen > 0">
 					<div class="wrapper" >
 						<div class="bd">
 							<div class="tempWrap" style="overflow:hidden; position:relative; width: 96%;left:2%">
 								<ul  style="width: 4500px; left: 0; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
 									
-									<template v-for="(item,index) in fetchdata.event">
+									<template v-for="(item,index) in fetchdata.event" >
 										<template v-if="index<fetchdata.event.length&&index%2==0">
 									      <li class="item top" style="width: 170px;" :key="index+2">
 												<div class="content">
@@ -100,6 +101,7 @@
 					<a class="next" @click="nextPage"></a>
 					<div class="line"></div>
 				</div>            
+           		<div v-if="eventlen == 0" style="text-align: center;line-height: 339px;"><img class="tupian" src="../../../static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无历史变动信息</span></div>
             </div>
         </div>
     </div>
@@ -113,7 +115,9 @@
 				includedComponents:'normalobserver',
             	p:0,
             	leng:"",
-            	fetchdata:[]
+            	fetchdata:[],
+            	portlen:"",
+            	eventlen:""
             }
         },
         methods:{
@@ -132,7 +136,6 @@
         			return;
         		}
         		this.p += 800;
-//      		console.log(this.p);
         		$(".tempWrap>ul").animate({left:this.p},"300");
         	},
         	tempWidth: function(){
@@ -140,13 +143,14 @@
         		var len1 = (len/2*500)+500;
         		this.leng = len1;
         		$(".tempWrap>ul").css("width",len1+"px");
-//      		console.log(len1);
         	},
         	fetchCustomers(){
            		this.$axios.get("api/ip/"+this.$route.query.id+"/normal").then((res)=>{
 	                switch (res.data.status) {
 					        case 1:
 					        	this.fetchdata = res.data.data;
+					        	this.portlen = this.fetchdata.port.length;
+					        	this.eventlen = this.fetchdata.event.length;
 								break;
 							case 403:
 								window.location.href = '/login';
@@ -192,6 +196,7 @@ ul,li{
         .title_top{
             padding-left:15px;
             line-height:40px;
+            color: #333333;
         }
         .line_content{
             display:flex;
@@ -402,5 +407,8 @@ ul,li{
 		background-position-y: -598px;
 	}
 	.title-right{background-position-y: -1200px;}
+}
+.tupian{
+	width: 24px;height: 24px;vertical-align: middle;margin-right: 20px;
 }
 </style>
