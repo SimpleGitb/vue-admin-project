@@ -17,6 +17,7 @@
                 </el-table-column>
                 <el-table-column label="IP">
                     <template slot-scope="scope">
+                        <i  v-if="scope.row.type == 0 ? color = 'red' : color ='red'" :style="{'color':color}" :class="{'iconfont':iconfont,'icon-dian':'icon-dian'}"></i>
                         <span @click="hrefmonitor(scope.row)">{{ scope.row.ip }}</span>
                     </template>
                 </el-table-column>
@@ -299,6 +300,9 @@
                 loading:true,
                 isManage:true,
                 batchAddAssets:false,
+                iconfont:'iconfont',
+                iconDian:true,
+                iconLandian:false,
                 ipdata:[],
                 dayTime:[],
                 optionsite:[
@@ -1087,6 +1091,10 @@
 
 </style>
 <style>
+    .serveTab .el-table tr td:nth-of-type(2) .cell .icon-dian{
+        float: left;
+        font-size: 28px;
+    }
     .serveTab .el-dialog .hidebox .usblity .tips .border{
         left:43%;
     }

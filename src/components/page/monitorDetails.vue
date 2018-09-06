@@ -73,100 +73,86 @@
 
 <script>
     export default {
-    	name: 'monitorDetails',
-        data: function(){
+        name: 'monitorDetails',
+        data: function () {
             return {
-				includedComponents:'monitorDetails',
-            	tableData: [],
-            	multipleSelection: [],
-            	currentPage: 1,
-            	total: 10,
-            	count: 1,
-            	dialogVisible: false,
-            	asset_ip:[],
-            	ip: '',
-            	asset_url:[],
-            	url: '',
-            	email: ''
+                includedComponents: 'monitorDetails',
+                tableData: [],
+                multipleSelection: [],
+                currentPage: 1,
+                total: 10,
+                count: 1,
+                dialogVisible: false,
+                asset_ip: [],
+                ip: '',
+                asset_url: [],
+                url: '',
+                email: ''
             }
         },
-        methods:{
-      		handleSelectionChange(val) {
-		        this.multipleSelection = val;
-		      },
-		    assetsResult(id){
+        methods: {
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            assetsResult(id) {
                 this.$router.push({
-					                    name:'monitorDetails',
-					                })
-		    	// this.$axios.get("api/asset/"+id).then((res) => {
-	            //     switch (res.data.status) {
-				// 		        case 1:
-				// 		        	this.$router.push({
-				// 	                    name:'assetsResult',
-				// 	                    params:{id:id}
-				// 	                })
-				// 		            break;
-				// 		        default: this.$message.error(res.data.msg); break;
-				// 		    } 
-	            // }).catch(v => {
-	            //         console.log(v);
-                //  });
-                
-
-		      	
-		     },
-		      removeBatch(rows){
-			      var ids = [];
-			      rows.forEach(element =>{
-			        ids.push(element.id)
-			      })
-//			      this.tableData.splice(0,1);
-			      this.$confirm('确定要删除选中的文件吗?','提示').then(() =>{
-			      	this.$axios.delete("api/asset/delete", {
+                    name: 'monitorDetails',
+                })
+            },
+            removeBatch(rows) {
+                var ids = [];
+                rows.forEach(element => {
+                    ids.push(element.id)
+                })
+                //			      this.tableData.splice(0,1);
+                this.$confirm('确定要删除选中的文件吗?', '提示').then(() => {
+                    this.$axios.delete("api/asset/delete", {
                         data: {
-                           id: ids
-                      	}
+                            id: ids
+                        }
                     }).then((res) => {
-                       this.handleCurrentChange();
+                        this.handleCurrentChange();
                     });
-			      }).catch(()=>{});
-			    },
-			    handleCurrentChange(val) {
-			        this.$axios.get('api/monitor/'+this.$route.query.id+'?page=1&limit=10').then((res)=>{
-						 this.tableData = res.data.data;
-					})
-			      },
-			      handleClose(done) {
-		        done();
-		      },
-		      handleClick(tab, event) {
-//		        console.log(tab);
-		      },
-		      assetscombSubm(){
-		      	this.$axios.post("api/asset/get", {
-			      		asset_ip: this.asset_ip,
-			      		asset_url: this.asset_url,
-			      		ip: this.ip,
-			      		url: this.url,
-			      		email: this.email
-                    }).then((res) => {
-                        switch (res.data.status) {
-					        case 1:
-//					        	this.$router.push({
-//					                name:'assetsRecord'
-//					               });
-					               this.dialogVisible = false;
-					               this.handleCurrentChange();
-					            break;
-					        default: this.$message.error(res.data.msg); break;
-					    } 
-                    });
-                
-			  }
-		
+                }).catch(() => {});
+            },
+            handleCurrentChange(val) {
+                this.$axios.get('api/monitor/' + this.$route.query.id + '?page=1&limit=10').then((res) => {
+                    this.tableData = res.data.data;
+                })
+            },
+            handleClose(done) {
+                done();
+            },
+            handleClick(tab, event) {
+                //		        console.log(tab);
+            },
+            assetscombSubm() {
+                this.$axios.post("api/asset/get", {
+                    asset_ip: this.asset_ip,
+                    asset_url: this.asset_url,
+                    ip: this.ip,
+                    url: this.url,
+                    email: this.email
+                }).then((res) => {
+                    switch (res.data.status) {
+                        case 1:
+                            //					        	this.$router.push({
+                            //					                name:'assetsRecord'
+                            //					               });
+                            this.dialogVisible = false;
+                            this.handleCurrentChange();
+                            break;
+                        default:
+                            this.$message.error(res.data.msg);
+                            break;
+                    }
+                });
+
+            }
+
         },
         created() {
-					this.handleCurrentChange();
+            this.handleCurrentChange();
         }
     }
   
@@ -180,30 +166,29 @@
 	.record .el-table_1_column_3 a:visited{
 		color: #006AD5;
 	}
-.container{
-	margin-top: 20px;
-	padding: 20px 25px;
-}
-.el-table {
-	margin-top: 20px;
-	text-align: center;
-}
-.popup{
-	float: right;
-	margin-right: 40px;
-	
-	
-}
-.group_head{
-	width: 100%;border-bottom: 1px solid RGB(216,220,229);padding: 5px 0 5px 20px;
-}
+	.container{
+		margin-top: 20px;
+		padding: 20px 25px;
+	}
+	.el-table {
+		margin-top: 20px;
+		text-align: center;
+	}
+	.popup{
+		float: right;
+		margin-right: 40px;
+	}
+	.group_head{
+		width: 100%;
+		border-bottom: 1px solid RGB(216,220,229);
+		padding: 5px 0 5px 20px;
+	}
 </style>
 <style type="text/css">
-	.record .cell .iconfont{
-		font-size: 20px;
-		color: #5a5e66;
-	}
-
+.record .cell .iconfont{
+	font-size: 20px;
+	color: #5a5e66;
+}
 .record .el-table thead>tr{
 	background-color: RGB(242,242,242);
 }
@@ -214,6 +199,9 @@
 	text-align: center;
 	font-size: 14px;
 	color: #000000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 .record .seekbtn{
 	background: RGB(64,158,255);
@@ -224,21 +212,21 @@
 }
 
 .record .el-tabs__nav{
-		width: 100%;
-	}
-	.record .el-tabs--border-card>.el-tabs__header .el-tabs__item{margin: 0;}
-	.record .el-tabs__item{
-		width: 25%;
-		text-align: center;
-	}
-	.record .el-tabs--border-card>.el-tabs__content{
-		padding: 0;
-	}
+	width: 100%;
+}
+.record .el-tabs--border-card>.el-tabs__header .el-tabs__item{margin: 0;}
+.record .el-tabs__item{
+	width: 25%;
+	text-align: center;
+}
+.record .el-tabs--border-card>.el-tabs__content{
+	padding: 0;
+}
 
-	.el-textarea__inner{
-		font-family: "微软雅黑";
-	}
-	.el-dialog__header{
+.el-textarea__inner{
+	font-family: "微软雅黑";
+}
+.el-dialog__header{
 	background: RGB(248,248,248);
 	border-bottom: 1px solid #e2e2e2;
 }
@@ -246,12 +234,12 @@
 	padding-left: 0;
 }
 .record .el-icon-download{
-		color: RGB(64,158,255);
-		cursor: pointer;
-		font-size: 18px;
-	}
-	.record .container .pagin{
-		text-align: right;
-		padding-top: 20px;
-	}
+	color: RGB(64,158,255);
+	cursor: pointer;
+	font-size: 18px;
+}
+.record .container .pagin{
+	text-align: right;
+	padding-top: 20px;
+}
 </style>

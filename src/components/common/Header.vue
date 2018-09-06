@@ -215,6 +215,13 @@
 //		        console.log(tab);
               },
               monitor(){
+                  if(!this.domain){
+                      this.$message.error('请输入域名');
+                      return;
+                  }else if(!this.checked){
+                      this.$message.error('请选择检测内容');
+                      return;
+                  }
                   this.dialogVisible1 = false;
                   this.$axios.post('api/monitor',{
                       url:this.domain,
@@ -224,6 +231,8 @@
                             this.$router.push({
                                 name:'monitorResult'
                             });
+                      }else{
+                          this.$message.error(res.data.msg);
                       }
                   })
               },

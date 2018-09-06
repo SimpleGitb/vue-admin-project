@@ -124,7 +124,7 @@
 </script>
 
 <style scoped>
- @import url('//at.alicdn.com/t/font_754796_tbm8exjyw6t.css');
+ @import url('//at.alicdn.com/t/font_754796_6bmix00gti.css');
     .sidebar{
         display: block;
         position: absolute;

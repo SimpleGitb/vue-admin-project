@@ -86,101 +86,83 @@
 
 <script>
     export default {
-    	name: 'monitorResult',
-        data: function(){
+        name: 'monitorResult',
+        data: function () {
             return {
-				includedComponents:'monitorResult',
-            	tableData: [],
-            	multipleSelection: [],
-            	currentPage: 1,
-            	total: 10,
+                includedComponents: 'monitorResult',
+                tableData: [],
+                multipleSelection: [],
+                currentPage: 1,
+                total: 10,
                 count: 1,
-                checked:true,
-            	dialogVisible: false,
-            	activeName2: 'first',
-            	asset_ip:[],
-            	ip: '',
-            	asset_url:[],
-            	url: '',
-            	checkList3:[],
-            	textarea3: '',
-            	checkList4:[],
-            	email: ''
+                checked: true,
+                dialogVisible: false,
+                activeName2: 'first',
+                asset_ip: [],
+                ip: '',
+                asset_url: [],
+                url: '',
+                checkList3: [],
+                textarea3: '',
+                checkList4: [],
+                email: ''
             }
         },
-        methods:{
-      		handleSelectionChange(val) {
-		        this.multipleSelection = val;
-		      },
-		    assetsResult(id){
-                this.$router.push({ name:'monitorDetails',query:{id:id}})
-		     },
-		      removeBatch(rows){
-			      var ids = [];
-			      rows.forEach(element =>{
-			        ids.push(element.id)
-			      })
-//			      this.tableData.splice(0,1);
-			      this.$confirm('确定要删除选中的文件吗?','提示').then(() =>{
-			      	this.$axios.delete("api/asset/delete", {
+        methods: {
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            assetsResult(id) {
+                this.$router.push({
+                    name: 'monitorDetails',
+                    query: {
+                        id: id
+                    }
+                })
+            },
+            removeBatch(rows) {
+                var ids = [];
+                rows.forEach(element => {
+                    ids.push(element.id)
+                })
+                //			      this.tableData.splice(0,1);
+                this.$confirm('确定要删除选中的文件吗?', '提示').then(() => {
+                    this.$axios.delete("api/monitor/delete", {
                         data: {
-                           id: ids
-                      	}
+                            id: ids
+                        }
                     }).then((res) => {
-                       this.handleCurrentChange();
+                        this.handleCurrentChange();
                     });
-			      }).catch(()=>{});
-			    },
-			    handleCurrentChange(val) {
-			        this.$axios.get("api/monitor?page="+this.currentPage+"&limit="+10).then((res) => {
-		                switch (res.data.status) {
-							        case 1:
-							        	const record = res.data;
-							        	this.tableData = record.data.monitor;
-							        	this.count = record.data.count;
-//							        	console.log(this.count);
-							        	if(this.count <= 10){
-							             	this.total = 10;
-							             }else{
-							             	this.total = (this.count+10) - (this.count)%10;
-							             }
-										break;
-									case 403:
-										window.location.href = '/login';
-									break;
-							        default: this.$message.error(res.data.msg); break;
-							    } 
-		            }).catch(v => {
-		                    console.log(v);
-		             });
-			      },
-		      handleClick(tab, event) {
-//		        console.log(tab);
-		      },
-		      assetscombSubm(){
-		      	this.$axios.post("api/asset/get", {
-			      		asset_ip: this.asset_ip,
-			      		asset_url: this.asset_url,
-			      		ip: this.ip,
-			      		url: this.url,
-			      		email: this.email
-                    }).then((res) => {
-                        switch (res.data.status) {
-					        case 1:
-//					        	this.$router.push({
-//					                name:'assetsRecord'
-//					               });
-					               this.dialogVisible = false;
-					               this.handleCurrentChange();
-					            break;
-					        default: this.$message.error(res.data.msg); break;
-					    } 
-                    });
-                
-		      }
+                }).catch(() => {});
+            },
+            handleCurrentChange(val) {
+                this.$axios.get("api/monitor?page=" + this.currentPage + "&limit=" + 10).then((res) => {
+                    switch (res.data.status) {
+                        case 1:
+                            const record = res.data;
+                            this.tableData = record.data.monitor;
+                            this.count = record.data.count;
+                            if (this.count <= 10) {
+                                this.total = 10;
+                            } else {
+                                this.total = (this.count + 10) - (this.count) % 10;
+                            }
+                            break;
+                        case 403:
+                            window.location.href = '/login';
+                            break;
+                        default:
+                            this.$message.error(res.data.msg);
+                            break;
+                    }
+                }).catch(v => {
+                    console.log(v);
+                });
+            }
         },
         created() {
-					this.handleCurrentChange();
+            this.handleCurrentChange();
         }
     }
   
