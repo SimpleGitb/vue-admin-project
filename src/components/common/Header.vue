@@ -5,8 +5,8 @@
             <img src="/static/img/logo2.png" alt="" class="logoPicture">
         </div>
         <div class="logo">云悉互联网安全监测平台 v3.0</div>
-        <div class="collapse-btn border"  @click.self="collapseChage($event,'p')">
-            <img src="../../../static/img/folds.png" class="fold">
+        <div class="collapse-btn border"  @click.self="collapseChage($event)">
+            <img src="../../../static/img/folds.png" class="fold" @click.stop="collapseChage($event)">
         </div>
         <div class="aseetRecord">
                 <ul>
@@ -16,6 +16,7 @@
                         <i class="el-icon-caret-top el-icon--right"></i>
                             <div class="line" @click.stop="assetsRecord">
                                  <span>梳理记录</span>
+                                 <div class="border"></div>
                             </div>
                     </li>
                     <li @click="hrefmonitor($event)">
@@ -24,6 +25,7 @@
                         <i class="el-icon-caret-top el-icon--right"></i>
                         <div class="line" @click.stop="monitorRecord">
                                  <span>检测记录</span>
+                                 <div class="border"></div>
                             </div>
                     </li>
                 </ul>
@@ -305,14 +307,23 @@
                 // });
             },
             // 侧边栏折叠
-            collapseChage(event,t){
+            collapseChage(event){
                 bus.$emit('collapse', this.collapse);
                     this.collapse = !this.collapse;
-                        if(this.collapse && t == 'p'){
+                        if(this.collapse){
+                            if(event.target.children[0]){
                                 event.target.children[0].src = '../../../static/img/folds.png';
+                            }else{
+                                event.target.src = '../../../static/img/folds.png';
+                            }
                         }else{
+                             if(event.target.children[0]){
                                 event.target.children[0].src = '../../../static/img/fold.png';
-                        }
+                            }else{
+                                event.target.src = '../../../static/img/fold.png';
+                            }
+                        };
+
             },
             assetsRecord(){
                 // this.dialogVisible = true;
@@ -538,6 +549,16 @@
         margin:10px auto;
         font-family: 'Microsoft Yahei';
     }
+    .aseetRecord .line .border{
+        border-left: 6px solid transparent;
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid #fff;
+        border-right: 6px solid transparent;
+        position: absolute;
+        left: 50%;
+        top: -13px;
+        margin-left:-3px;
+    }
     .aseetRecord .line{
         height:70px;
         position: absolute;
@@ -549,7 +570,9 @@
         text-align: center;
         display: none;
         border:1px solid transparent;
-        box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, .12);
+        box-shadow:0 -8px 8px 2px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        margin-top:6px;
     }
     .aseetRecord .line:hover span{
         color:#00aaff;

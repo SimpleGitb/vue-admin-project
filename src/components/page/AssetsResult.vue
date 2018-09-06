@@ -99,20 +99,22 @@
 						<div :key="'ss'+result">
 							<table rules="rows" class="wangzhan">
 								    <tr align="center">
-								       <th width="100">域名所有者</th>
-								       <th width="100">注册邮箱</th>
+								        <th width="100">域名所有者</th>
+								        <th width="100">注册邮箱</th>
 								        <th width="100">域名注册商</th>
 								        <th width="100">备案单位</th>
 								        <th width="100">备案号</th>
 								        <th width="100">域名过期时间</th>
-								        <th width="100">IDC</th>
 								        <th width="100">DNS</th>
-								        <th width="100">开发语言</th>
-								        <th width="100">CDN</th>
-								        <th width="100">IP</th>
 								        <th width="100">操作系统</th>
 								        <th width="100">服务器</th>
-								        <th>CMS</th>
+								        <th width="100">IP</th>
+								        <th width="100">开发语言</th>
+								        <th width="100">数据库</th>
+								        <th width="100">CMS</th>
+								        <th width="100">IDC</th>
+								        <th width="100">CDN</th>
+								        <th width="100">waf</th>
 								    </tr>
 								    <tr align="center">
 								    	<td>
@@ -181,15 +183,26 @@
 											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.whois_date"></el-button>
 											</el-popover>
 								    	</td>
+										<td>
+								    		<el-popover
+											  placement="top"
+											  width="100"
+											  trigger="hover"
+											  v-show="result.webinfo.dns"
+											  >
+											  <slot name="content"><span v-text="result.webinfo.dns"></span></slot>
+											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.dns"></el-button>
+											</el-popover>
+								    	</td>
 								    	<td>
 								    		<el-popover
 											  placement="top"
 											  width="100"
 											  trigger="hover"
-											  v-show="result.webinfo.idc"
+											  v-show="result.webinfo.os"
 											  >
-											  <slot name="content"><span v-text="result.webinfo.idc"></span></slot>
-											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.idc"></el-button>
+											  <slot name="content"><span v-text="result.webinfo.os"></span></slot>
+											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.os"></el-button>
 											</el-popover>
 								    	</td>
 										<td>
@@ -197,32 +210,10 @@
 											  placement="top"
 											  width="100"
 											  trigger="hover"
-											  v-show="result.webinfo.whois_dns"
+											  v-show="result.webinfo.server"
 											  >
-											  <slot name="content"><span v-text="result.webinfo.whois_dns"></span></slot>
-											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.whois_dns"></el-button>
-											</el-popover>
-								    	</td>
-								    	<td>
-								    		<el-popover
-											  placement="top"
-											  width="100"
-											  trigger="hover"
-											  v-show="result.webinfo.language"
-											  >
-											  <slot name="content"><span v-text="result.webinfo.language"></span></slot>
-											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.language"></el-button>
-											</el-popover>
-								    	</td>
-								    	<td>
-								    		<el-popover
-											  placement="top"
-											  width="100"
-											  trigger="hover"
-											  v-show="result.webinfo.cdn"
-											  >
-											  <slot name="content"><span v-text="result.webinfo.cdn"></span></slot>
-											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.cdn"></el-button>
+											  <slot name="content"><span v-text="result.webinfo.server"></span></slot>
+											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.server"></el-button>
 											</el-popover>
 								    	</td>
 								    	<td>
@@ -241,10 +232,10 @@
 											  placement="top"
 											  width="100"
 											  trigger="hover"
-											  v-show="result.webinfo.os"
+											  v-show="result.webinfo.language"
 											  >
-											  <slot name="content"><span v-text="result.webinfo.os"></span></slot>
-											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.os"></el-button>
+											  <slot name="content"><span v-text="result.webinfo.language"></span></slot>
+											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.language"></el-button>
 											</el-popover>
 								    	</td>
 								    	<td>
@@ -252,10 +243,10 @@
 											  placement="top"
 											  width="100"
 											  trigger="hover"
-											  v-show="result.webinfo.server"
+											  v-show="result.webinfo.database"
 											  >
-											  <slot name="content"><span v-text="result.webinfo.server"></span></slot>
-											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.server"></el-button>
+											  <slot name="content"><span v-text="result.webinfo.database"></span></slot>
+											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.database"></el-button>
 											</el-popover>
 								    	</td>
 								    	<td>
@@ -267,6 +258,39 @@
 											  >
 											  <slot name="content"><span v-text="result.webinfo.cms"></span></slot>
 											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.cms"></el-button>
+											</el-popover>
+								    	</td>
+								    	<td>
+								    		<el-popover
+											  placement="top"
+											  width="100"
+											  trigger="hover"
+											  v-show="result.webinfo.idc"
+											  >
+											  <slot name="content"><span v-text="result.webinfo.idc"></span></slot>
+											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.idc"></el-button>
+											</el-popover>
+								    	</td>
+								    	<td>
+								    		<el-popover
+											  placement="top"
+											  width="100"
+											  trigger="hover"
+											  v-show="result.webinfo.cdn"
+											  >
+											  <slot name="content"><span v-text="result.webinfo.cdn"></span></slot>
+											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.cdn"></el-button>
+											</el-popover>
+								    	</td>
+										<td>
+								    		<el-popover
+											  placement="top"
+											  width="100"
+											  trigger="hover"
+											  v-show="result.webinfo.waf"
+											  >
+											  <slot name="content"><span v-text="result.webinfo.waf"></span></slot>
+											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.waf"></el-button>
 											</el-popover>
 								    	</td>
 								    </tr>
@@ -486,10 +510,10 @@
 					  </el-radio-group>
 			  	</div>
 			  	<div class="con_input urlinput" v-if="input_show1">
-			  		<el-input value="dns" readonly></el-input>
-			  		<el-input value="服务器" readonly></el-input>
+			  		<el-input value="域名所有者" readonly></el-input>
+			  		<el-input value="DNS" readonly></el-input>
 			  		<el-input value="IP" readonly></el-input>
-			  		<el-input value="注册人" readonly></el-input>
+			  		<el-input value="服务器" readonly></el-input>
 		  			<template v-for="(port,key,index) in result.port">
 		  				<el-input :key="'f'+index" :value="key"></el-input>
 				  		<el-input :key="'f'+index" :value="port.service" ></el-input>
@@ -916,7 +940,7 @@
 				this.geturl();
 		      },
             getdata(){
-            	this.route = this.$route.params.id;
+            	this.route = this.$route.query.id;
         		this.$axios.get("api/asset/"+this.route).then((res) => {
 	                switch (res.data.status) {
 						        case 1:
@@ -1535,7 +1559,7 @@
        },
         watch:{
         	$route(){
-		        this.route = this.$route.params.id
+		        this.route = this.$route.query.id
 		      },
 		      route() {
 		      	if(this.route!==undefined){

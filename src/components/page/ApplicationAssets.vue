@@ -18,7 +18,7 @@
                             </el-dropdown-menu>
                         </el-dropdown>
                     <!-- 搜索类型 -->
-                    <el-input v-model="select_word" placeholder="请输入网站名称或域名" class="input-with-select" style="width:0">
+                    <el-input v-model="select_word" placeholder="请输入网站名称或域名" class="input-with-select" style="width:25%">
                         <el-button slot="append" icon="el-icon-search" @click="sendSearchAsset"></el-button>
                     </el-input>
                 </div>
@@ -125,7 +125,7 @@
                                                             <!-- 搜索类型 -->
                                                         </div>
                                                         <div class="right">
-                                                            <el-input placeholder="请输入关键词" v-model="keywords1" class="input-with-select" style="width:0">
+                                                            <el-input placeholder="请输入关键词" v-model="keywords1" class="input-with-select" style="width:25%">
                                                                 <el-button slot="append" icon="el-icon-search" @click="sendSearch"></el-button>
                                                             </el-input>
                                                         </div>
@@ -208,7 +208,7 @@
                                                             </el-select>
                                                         </div>
                                                         <div class="right">
-                                                            <el-input placeholder="请输入关键词" v-model="keywords2" class="input-with-select" style="width:0">
+                                                            <el-input placeholder="请输入关键词" v-model="keywords2" class="input-with-select" style="width:25%">
                                                                 <el-button slot="append" icon="el-icon-search" @click="sendSearch1"></el-button>
                                                             </el-input>
                                                         </div>
@@ -289,7 +289,7 @@
                                                             </el-select>
                                                         </div>
                                                         <div class="right">
-                                                            <el-input placeholder="请输入关键词" v-model="keywords3" class="input-with-select" style="width:0">
+                                                            <el-input placeholder="请输入关键词" v-model="keywords3" class="input-with-select" style="width:25%">
                                                                 <el-button slot="append" icon="el-icon-search" @click="sendSearch2"></el-button>
                                                             </el-input>
                                                         </div>
@@ -461,17 +461,17 @@
                                                 </p>
                                             </div>
                                             <div class="item-content">
-                                                <el-table border :data="layerData" style="width: 100%">
+                                                <el-table border :data="layerData">
                                                     <el-table-column prop="os" label="操作系统">
                                                     </el-table-column>
-                                                    <el-table-column label="服务器" width="180" :render-header="renderHeader">
+                                                    <el-table-column label="服务器" :render-header="renderHeader">
                                                            <template slot-scope="scope">
                                                                 <div class="serverTip">
                                                                         {{ scope.row.server }}
                                                                 </div>
                                                                </template>
                                                     </el-table-column>
-                                                    <el-table-column label="IP" width="180" :render-header="renderHeader1">
+                                                    <el-table-column label="IP" :render-header="renderHeader1">
                                                         <template slot-scope="scope">
                                                             <div class="ipTip">
                                                                {{ scope.row.ip }}
@@ -500,7 +500,7 @@
                                                 </p>
                                             </div>
                                             <div class="item-content">
-                                                <el-table border :data="layerData" style="width: 100%">
+                                                <el-table border :data="layerData">
                                                     <el-table-column prop="whois_name" label="域名所有者">
                                                     </el-table-column>
                                                     <el-table-column prop="whois_mail" label="注册邮箱">
@@ -547,10 +547,10 @@
                                                 </p>
                                             </div>
                                             <div class="item-content">
-                                                <el-table border :data="subdomain" style="width: 100%">
-                                                    <el-table-column prop="asset.language" label="开发语言" width="180">
+                                                <el-table border :data="subdomain">
+                                                    <el-table-column prop="asset.language" label="开发语言">
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.database" label="数据库" width="180">
+                                                    <el-table-column prop="asset.database" label="数据库">
                                                     </el-table-column>
                                                     <el-table-column prop="asset.cdn" label="CDN">
                                                     </el-table-column>

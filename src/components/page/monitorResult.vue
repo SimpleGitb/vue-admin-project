@@ -65,7 +65,7 @@
 			      >
 			      <template slot-scope="scope">
 			      	<el-button type="text" @click="assetsResult(scope.row.task_id)" class="seekbtn">查看</el-button>
-			      	<el-button type="text" class="seekbtn orange">导出</el-button>
+			      	<el-button type="text" class="seekbtn orange" @click="exportPort(scope.row.task_id)">导出</el-button>
 			      </template>
 			    </el-table-column>
 			  </el-table>
@@ -111,7 +111,18 @@
         methods: {
             handleSelectionChange(val) {
                 this.multipleSelection = val;
-            },
+			},
+			exportPort(id){
+				this.$axios.get('api/monitor/'+id+'/export').then((res)=>{
+					if(res.status == 200){
+						location.href = 'http://192.168.30.249:8080/api/monitor/'+id+'/export';
+					}else{
+						this.$message.error('请等待');
+					}
+				}).catch(v => {
+                    console.log(v);
+                });
+			},
             assetsResult(id) {
                 this.$router.push({
                     name: 'monitorDetails',

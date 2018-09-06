@@ -242,13 +242,13 @@
                                 </el-select>
                     </el-form-item>
                     <el-form-item label="可用性监测" class="usblity">
-                         <div class="icon">
-                            <i class="el-icon-question"></i>
-                                <div class="tips">
-                                    <div class="border"></div>
-                                    监测服务器连通状态
+                                <div class="icon">
+                                    <i class="el-icon-question"></i>
+                                        <div class="tips">
+                                            <div class="border"></div>
+                                            监测服务器连通状态
+                                        </div>
                                 </div>
-                        </div>
                                 <el-slider
                                     v-model="addserverStrategy.usability"
                                     :format-tooltip="usabilitychange2"
@@ -258,13 +258,13 @@
                                 </el-slider>
                     </el-form-item>
                     <el-form-item label="端口变动">
-                          <div class="icon">
-                            <i class="el-icon-question"></i>
-                                <div class="tips">
-                                    <div class="border"></div>
-                                    监测服务器端口开启、关闭与服务变化
+                                <div class="icon">
+                                    <i class="el-icon-question"></i>
+                                        <div class="tips">
+                                            <div class="border"></div>
+                                            监测服务器端口开启、关闭与服务变化
+                                        </div>
                                 </div>
-                        </div>
                                  <el-slider
                                     v-model="addserverStrategy.port"
                                     :format-tooltip="changestep4"
@@ -338,18 +338,10 @@
                     strategy:'',
                     name:'',
                     domains: [
-                        {
-                            port:'',
-                            server:'',
-                            version:''
-                        }
+                       
                     ],
                     init:[
-                            {
-                                port:'',
-                                server:'',
-                                version:''
-                            }
+                            
                     ]
                 },
                 tableData3: [
