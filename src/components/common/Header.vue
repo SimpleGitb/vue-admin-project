@@ -139,9 +139,9 @@
 			  :modal="false"
 			  :visible.sync="dialogVisible1"
 			  width="35%">
-					<el-checkbox v-model="checked">首页检测</el-checkbox>
-					<el-checkbox v-model="checked1">深度检测</el-checkbox>
-                <el-input class="sitecontent" :rows="7" type="textarea" placeholder="http://www.jxzyy.com.cn">
+					    <el-radio v-model="checked" label="index">首页检测</el-radio>
+                        <el-radio v-model="checked" label="deep">深度监测</el-radio>
+                <el-input v-model="domain" class="sitecontent" :rows="7" type="textarea" placeholder="http://www.jxzyy.com.cn">
                 </el-input>
 			  <span slot="footer" class="dialog-footer">
 			    <el-button type="primary" @click="monitor()">开始检测</el-button>
@@ -156,7 +156,9 @@
             return {
                 collapse: true,
                 fullscreen: false,
+                checkeds:['首页检测'],
                 name: 'admin',
+                domain:'',
                 message: 0,
                 includedComponents:'assetsComb',
             	tableData: [],
@@ -213,10 +215,17 @@
 //		        console.log(tab);
               },
               monitor(){
-                  this.$router.push({
-                      name:'monitorResult'
-                  });
                   this.dialogVisible1 = false;
+                  this.$axios.post('api/monitor',{
+                      url:this.domain,
+                      task:this.checked
+                  }).then((res)=>{
+                      if(res.data.status){
+                            this.$router.push({
+                                name:'monitorResult'
+                            });
+                      }
+                  })
               },
 		      assetscombSubm(){
                   this.$router.push({

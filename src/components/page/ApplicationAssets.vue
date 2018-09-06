@@ -464,9 +464,19 @@
                                                 <el-table border :data="layerData" style="width: 100%">
                                                     <el-table-column prop="os" label="操作系统">
                                                     </el-table-column>
-                                                    <el-table-column prop="server" label="服务器" width="180">
+                                                    <el-table-column label="服务器" width="180" :render-header="renderHeader">
+                                                           <template slot-scope="scope">
+                                                                <div class="serverTip">
+                                                                        {{ scope.row.server }}
+                                                                </div>
+                                                               </template>
                                                     </el-table-column>
-                                                    <el-table-column prop="ip" label="IP" width="180">
+                                                    <el-table-column label="IP" width="180" :render-header="renderHeader1">
+                                                        <template slot-scope="scope">
+                                                            <div class="ipTip">
+                                                               {{ scope.row.ip }}
+                                                            </div>
+                                                        </template>
                                                     </el-table-column>
                                                     <el-table-column prop="language" label="开发语言">
                                                     </el-table-column>
@@ -477,6 +487,8 @@
                                                     <el-table-column prop="idc" label="IDC">
                                                     </el-table-column>
                                                     <el-table-column prop="cdn" label="CDN">
+                                                    </el-table-column>
+                                                    <el-table-column prop="waf" label="waf">
                                                     </el-table-column>
                                                 </el-table>
                                             </div>
@@ -493,7 +505,12 @@
                                                     </el-table-column>
                                                     <el-table-column prop="whois_mail" label="注册邮箱">
                                                     </el-table-column>
-                                                    <el-table-column prop="whois_isp" label="域名注册商">
+                                                    <el-table-column label="域名注册商" :render-header="renderHeader2">
+                                                        <template slot-scope="scope">
+                                                            <div class="whois_ispTip">
+                                                               {{ scope.row.whois_isp }}
+                                                            </div>
+                                                        </template>
                                                     </el-table-column>
                                                     <el-table-column prop="icp_name" label="备案单位">
                                                     </el-table-column>
@@ -501,7 +518,12 @@
                                                     </el-table-column>
                                                     <el-table-column prop="whois_date" label="域名过期时间">
                                                     </el-table-column>
-                                                    <el-table-column prop="whois_dns" label="DNS">
+                                                    <el-table-column label="DNS" :render-header="renderHeader3">
+                                                        <template slot-scope="scope">
+                                                            <div class="whois_dnsTip">
+                                                               {{ scope.row.whois_dns }}
+                                                            </div>
+                                                        </template>
                                                     </el-table-column>
                                                 </el-table>
                                             </div>
@@ -1638,6 +1660,7 @@
                     title: '',
                     idc:'',
                     cdn:'',
+                    waf:'',
                     whois_date:''
                 }],
                 subdomain: [],
@@ -1795,6 +1818,7 @@
                         this.layerData[0].ipaddress = data.site.asset.ip ? data.site.asset.ip : '无';
                         this.layerData[0].idc = data.site.asset.idc ? data.site.asset.idc : '无';
                         this.layerData[0].cdn = data.site.asset.cdn ? data.site.asset.cdn : '无';
+                        this.layerData[0].waf = data.site.asset.waf ? data.site.asset.waf : '无';
                         this.layerData[0].whois_date = data.site.asset.whois_date ? data.site.asset.whois_date : '无';
                         this.subdomain = data.subdomain;
                         this.loading3 = false;
@@ -1952,6 +1976,58 @@
                         return val;
                         break;
                 }
+            },
+            renderHeader(){
+                return (
+                    <div class="headicon server">
+                        <span>服务器</span>
+                            <i class="iconfont icon-icon">
+                                <div class="box">
+                                    基线监测中
+                                    <div class="border"></div>
+                                </div>
+                            </i>
+                    </div>
+                )
+            },
+            renderHeader1(){
+                return (
+                    <div class="headicon ip">
+                        <span>IP</span>
+                        <i class="iconfont icon-icon">
+                                <div class="box">
+                                    基线监测中
+                                    <div class="border"></div>
+                                </div>
+                            </i>
+                    </div>
+                )
+            },
+            renderHeader2(){
+                return (
+                    <div class="headicon whois_name">
+                        <span>域名注册商</span>
+                        <i class="iconfont icon-icon">
+                                <div class="box">
+                                    基线监测中
+                                    <div class="border"></div>
+                                </div>
+                            </i>
+                    </div>
+                )
+            },
+            renderHeader3(){
+                return (
+                    <div class="headicon dns">
+                        <span>DNS</span>
+                        <i class="iconfont icon-icon">
+                                <div class="box">
+                                    基线监测中
+                                    <div class="border"></div>
+                                </div>
+                            </i>
+                    </div>
+                )
             },
             average(row){
                     this.$axios.get('api/site/'+ (this.rowId ? this.rowId : row.id) + '/usability').then((res) =>{
@@ -3810,6 +3886,55 @@
 
 </script>
 <style>
+
+    .application .el-table .headicon .iconfont{
+        margin-left:9px;
+        cursor: pointer;
+    }
+    .application .el-table .server .iconfont .box{
+        left: 40%;
+    }
+    .application .el-table .ip .iconfont .box{
+        left: 32%;
+    }
+    .application .el-table .whois_name .iconfont .box{
+        left:48%;
+    }
+    .application .el-table .dns .iconfont .box{
+        left:38%;
+    }
+    
+    .application .el-table .headicon .iconfont .box{
+        line-height: 20px;
+        position: absolute;
+        padding: 7px;
+        background: #303133;
+        color: #fff;
+        top: -38px;
+        z-index: 10;
+        border-radius: 4px;
+        font-size: 12px;
+        display: none;
+    }
+    .application .el-table .headicon .iconfont:hover .box{
+        display: block;
+    }
+    .application .el-table .headicon .iconfont .box .border{
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 5px solid #393D49;
+                border-bottom: 5px solid transparent;
+                position: absolute;
+                bottom: -10px;
+                padding: 0;
+                left: 50%;
+    }
+        
+    .el-table,.el-table th,.el-table .cell, .el-table th div, .el-table__header-wrapper{
+        overflow: inherit;
+    }
+
+
     .application .availability .left_btn .el-radio-group{
             line-height: 1;
             vertical-align: middle;
@@ -4206,17 +4331,14 @@
     }
 
     .application .el-dialog .hideStrate .el-form-item:nth-of-type(4) .border {
-        left: 37%;
+        left: 39%;
     }
-
     .application .el-dialog .hideStrate .el-form-item:nth-of-type(5) .border {
         left: 22%;
     }
-
     .application .el-dialog .hideStrate .el-form-item:nth-of-type(6) .border {
         left: 18%;
     }
-
     .application .el-dialog .hideStrate .el-form-item:nth-of-type(7) .border {
         left: 16%;
     }

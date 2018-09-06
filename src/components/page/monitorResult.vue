@@ -21,16 +21,14 @@
 			      label="任务ID"
 			      >
 			      <template slot-scope="scope">
-			      	{{ scope.row.name }}
+			      	{{ scope.row.id }}
 			      </template>
 			    </el-table-column>
 			    <el-table-column
 			      label="检测应用"
 			      >
 			      <template slot-scope="scope">
-							<a :href="'api/asset/'+scope.row.id+'/export'">
-								<i class="iconfont icon-xiazai"></i>
-							</a>
+							{{ scope.row.url }}
 			      	<!-- <i><img style="width: 25px;height: 25px;vertical-align: middle;cursor: pointer;" src="../../../static/img/u7720.png"/></i> -->
 			      </template>
 			    </el-table-column>
@@ -38,21 +36,21 @@
 			      label="敏感词"
 			      >
 			      <template slot-scope="scope">
-			      	{{ scope.row.created_at }}
+			      	{{ scope.row.site }}
 			      </template>
 			    </el-table-column>
                 <el-table-column
 			      label="劫持"
 			      >
 			      <template slot-scope="scope">
-			      	{{ scope.row.created_at }}
+			      	{{ scope.row.hijack   }}
 			      </template>
 			    </el-table-column>
                 <el-table-column
 			      label="其他"
 			      >
 			      <template slot-scope="scope">
-			      	{{ scope.row.created_at }}
+			      	{{ scope.row.other }}
 			      </template>
 			    </el-table-column>
                 <el-table-column
@@ -66,8 +64,8 @@
 			      label="操作"
 			      >
 			      <template slot-scope="scope">
-			      	<el-button type="text" @click="assetsResult(scope.row.id)" class="seekbtn">查看</el-button>
-			      	<el-button type="text" @click="assetsResult(scope.row.id)" class="seekbtn orange">导出</el-button>
+			      	<el-button type="text" @click="assetsResult(scope.row.task_id)" class="seekbtn">查看</el-button>
+			      	<el-button type="text" class="seekbtn orange">导出</el-button>
 			      </template>
 			    </el-table-column>
 			  </el-table>
@@ -115,23 +113,7 @@
 		        this.multipleSelection = val;
 		      },
 		    assetsResult(id){
-                this.$router.push({ name:'monitorDetails'})
-		    	// this.$axios.get("api/asset/"+id).then((res) => {
-	            //     switch (res.data.status) {
-				// 		        case 1:
-				// 		        	this.$router.push({
-				// 	                    name:'assetsResult',
-				// 	                    params:{id:id}
-				// 	                })
-				// 		            break;
-				// 		        default: this.$message.error(res.data.msg); break;
-				// 		    } 
-	            // }).catch(v => {
-	            //         console.log(v);
-                //  });
-                
-
-		      	
+                this.$router.push({ name:'monitorDetails',query:{id:id}})
 		     },
 		      removeBatch(rows){
 			      var ids = [];
@@ -150,11 +132,11 @@
 			      }).catch(()=>{});
 			    },
 			    handleCurrentChange(val) {
-			        this.$axios.get("api/asset/index?page="+this.currentPage+"&limit="+10).then((res) => {
+			        this.$axios.get("api/monitor?page="+this.currentPage+"&limit="+10).then((res) => {
 		                switch (res.data.status) {
 							        case 1:
 							        	const record = res.data;
-							        	this.tableData = record.data.infos;
+							        	this.tableData = record.data.monitor;
 							        	this.count = record.data.count;
 //							        	console.log(this.count);
 							        	if(this.count <= 10){

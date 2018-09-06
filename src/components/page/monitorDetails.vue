@@ -16,14 +16,14 @@
 			      label="URL"
 			      >
 			      <template slot-scope="scope">
-			      	{{ scope.row.name }}
+			      	{{ scope.row.url }}
 			      </template>
 			    </el-table-column>
 			    <el-table-column
 			      label="敏感链接"
 			      >
 			      <template slot-scope="scope">
-					{{ scope.row.name }}
+					{{ scope.row.link }}
 			      	<!-- <i><img style="width: 25px;height: 25px;vertical-align: middle;cursor: pointer;" src="../../../static/img/u7720.png"/></i> -->
 			      </template>
 			    </el-table-column>
@@ -31,14 +31,14 @@
 			      label="关键词"
 			      >
 			      <template slot-scope="scope">
-			      	{{ scope.row.created_at }}
+			      	{{ scope.row.keywords }}
 			      </template>
 			    </el-table-column>
                 <el-table-column
 			      label="类型"
 			      >
 			      <template slot-scope="scope">
-			      	{{ scope.row.created_at }}
+			      	{{ scope.row.type }}
 			      </template>
 			    </el-table-column>
                 <el-table-column
@@ -52,7 +52,7 @@
 			      label="快照"
 			      >
                     <template slot-scope="scope">
-                        <a href="javascript:;"><i class="iconfont icon-kuaizhao"></i></a>
+                        <a :href="scope.row.cache_link ? scope.row.cache_link : 'javascript:;'"><i class="iconfont icon-kuaizhao"></i></a>
                     </template>
 			    </el-table-column>
 			  </el-table>
@@ -132,27 +132,9 @@
 			      }).catch(()=>{});
 			    },
 			    handleCurrentChange(val) {
-			        this.$axios.get("api/asset/index?page="+this.currentPage+"&limit="+10).then((res) => {
-		                switch (res.data.status) {
-							        case 1:
-							        	const record = res.data;
-							        	this.tableData = record.data.infos;
-							        	this.count = record.data.count;
-//							        	console.log(this.count);
-							        	if(this.count <= 10){
-							             	this.total = 10;
-							             }else{
-							             	this.total = (this.count+10) - (this.count)%10;
-							             }
-										break;
-									case 403:
-										window.location.href = '/login';
-									break;
-							        default: this.$message.error(res.data.msg); break;
-							    } 
-		            }).catch(v => {
-		                    console.log(v);
-		             });
+			        this.$axios.get('api/monitor/'+this.$route.query.id+'?page=1&limit=10').then((res)=>{
+						 this.tableData = res.data.data;
+					})
 			      },
 			      handleClose(done) {
 		        done();
@@ -180,7 +162,8 @@
 					    } 
                     });
                 
-		      }
+			  }
+		
         },
         created() {
 					this.handleCurrentChange();
