@@ -255,10 +255,13 @@
 
 <style scoped lang="less">
 @import '../../../static/css/fishBone.css';
-.record .el-table_1_column_3 a:link{
+a{
+		color: #409eff;
+	}
+a:link{
 		color: #409EFF;
 	}
-	.record .el-table_1_column_3 a:visited{
+a:visited{
 		color: #006AD5;
 	}
 .container{
@@ -281,9 +284,6 @@
 </style>
 <style type="text/css">
 
-	.record .cell .a{
-		color: #409eff;
-	}
 .record .el-table thead>tr{
 	background-color: RGB(242,242,242);
 }
