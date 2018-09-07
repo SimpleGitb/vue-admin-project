@@ -90,11 +90,11 @@
 					<div v-if="result.url_list==0" class="el-table__empty-block">
 						<span class="el-table__empty-text">暂无数据</span>
 					</div>
-					<template v-for="result in result.url_list">
+					<template v-for="(result,index) in result.url_list">
 						<div :key="result.id+'a'" class="el-tree" @click="openclose1($event)" style="margin-left: 28px;padding: 11px 0;">
 							<span style="vertical-align: middle;"><img src="../../../static/img/箭头-ip_u7775.png"/></span>	
 							<span v-text="result.domain"></span>
-							<el-button type="text" :disabled="urldisabled" style="float: right;margin-right: 30px;padding: 2px 15px;" @click="urldialogVisible = true,urldialog($event,result.domain)">纳入监测</el-button>
+							<el-button type="text" :disabled="urldisabled" style="float: right;margin-right: 30px;padding: 2px 15px;" @click="urldialogVisible = true,urldialog($event,result.domain,index)">纳入监测</el-button>
 						</div>
 						<div :key="result.id+'b'">
 							<table rules="rows" class="wangzhan">
@@ -490,18 +490,17 @@
 			  		<el-input value="服务器" readonly></el-input>
 			  		<el-input value="IP" readonly></el-input>
 			  		<el-input value="注册人" readonly></el-input>
-		  			<template v-for="(port,key,index) in result.port" >
-		  				<el-input :value="key"></el-input>
-				  		<el-input :value="port.service"></el-input>
-				  		<el-input :value="port.version"></el-input>
-				  		<el-input :value="port.version"></el-input>
-				  		<i class="el-icon-remove"></i>
-		  			</template>
-			  		<el-input v-model="add_input1"></el-input>
+		  			
+		  				<el-input :value="urlport.webinfo.dns"></el-input>
+				  		<el-input :value="urlport.webinfo.server"></el-input>
+				  		<el-input :value="urlport.webinfo.ip"></el-input>
+				  		<el-input :value="urlport.webinfo.whois_name"></el-input>
+		  		
+			  		<!--<el-input v-model="add_input1"></el-input>
 			  		<el-input v-model="add_input2"></el-input>
 			  		<el-input v-model="add_input3"></el-input>
 			  		<el-input v-model="add_input3"></el-input>
-			  		<i class="el-icon-circle-plus"></i>
+			  		<i class="el-icon-circle-plus"></i>-->
 			  		<div style="clear: both;font-size: 12px;"><i style="color: RGB(208,208,208);margin-right: 10px;font-size: 14px;" class="el-icon-question"></i>以上为基线监测信息，若信息有误，请手动纠正</div>
 			  	</div>
 			  	<div class="line"></div>
@@ -758,8 +757,8 @@
 				add_input1:"",
 				add_input2:"",
 				add_input3:"",
-				input_show: true,
-				input_show1: true,
+				input_show: false,
+				input_show1: false,
 				inputVisible: false,
 				inputValue: '',
                 resultgyId:'',
@@ -835,24 +834,25 @@
                 resultgydata: [],  
                 ip_resultgydata: [],
 				optionssite: [],
-				sitetag:[] 
+				sitetag:[],
+				urlport:[]
             }
         },
         methods:{
         	radioChange(){
-        		// if(this.radio ==0){
-        		// 	this.input_show = false;
-        		// }else{
-        		// 	this.input_show = true;
-        		// }
+          		 if(this.radio ==0){
+          		 	this.input_show = false;
+          		 }else{
+          		 	this.input_show = true;
+          		 }
         		
         	},
         	radioChange1(){
-        		// if(this.radio1 ==0){
-        		// 	this.input_show1 = false;
-        		// }else{
-        		// 	this.input_show1 = true;
-        		// }
+          		 if(this.radio1 ==0){
+          		 	this.input_show1 = false;
+          		 }else{
+          		 	this.input_show1 = true;
+          		 }
         		
         	},
 		      openclose1(event){
@@ -909,11 +909,12 @@
 					this.ip_input = ip;
 					this.portinput = this.iplist[index].port;
 		      },
-		      urldialog(event,domain){
+		      urldialog(event,domain,index){
 		      	event.stopPropagation();
 		      	this.sitetag = [];
 		      	this.domain =domain+"\/";
 				this.geturl();
+				this.urlport = this.result.url_list[index];
 		      },
             getdata(){
             	this.route = this.$route.query.id;
