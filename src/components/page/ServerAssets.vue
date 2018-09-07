@@ -17,7 +17,17 @@
                 </el-table-column>
                 <el-table-column label="IP">
                     <template slot-scope="scope">
-                        <i  v-if="scope.row.type == 0 ? color = 'red' : color ='red'" :style="{'color':color}" :class="{'iconfont':iconfont,'icon-dian':'icon-dian'}"></i>
+                        <div class="icon" v-if="scope.row.type == 1">
+                            <span>
+                                <img src="../../../static/img/assets/total1.png">
+                            </span>
+                        </div>
+                         <div class="icon icon1" v-else>
+                            <span>
+                                <img src="../../../static/img/assets/total3.png">
+                            </span>
+                        </div>
+                        <!-- <i v-if="scope.row.type == 0 ? color = 'red' : color ='red'" :style="{'color':color}" :class="{'iconfont':iconfont,'icon-dian':'icon-dian'}"></i> -->
                         <span @click="hrefmonitor(scope.row)">{{ scope.row.ip }}</span>
                     </template>
                 </el-table-column>
@@ -53,10 +63,10 @@
                             已暂停
                         </div>
                         <div v-else-if="scope.row.type == 1" @click="changeStatus(scope.row.id,$event)">
-                            基线监测
+                            基线监测中
                         </div>
                         <div v-else-if="scope.row.type == 0" @click="changeStatus(scope.row.id,$event)">
-                            正常监测
+                            正常监测中
                         </div>
                     </template>
                 </el-table-column>
@@ -156,7 +166,7 @@
                         </el-input>
                     </el-form-item>
                     </div>
-                    <div class="ipserver">
+                    <div class="ipserver" v-if="isport">
                     <el-form-item label="基线修改">
                         <div class="box"   v-for="(keys,value) in dynamicValidateForm.init"
                         :key="value">
@@ -368,7 +378,8 @@
                 // 弹出框搜索类型
                 id:'',
                 valueSelect1:'',
-                selectType:''
+                selectType:'',
+                isport:true
             }
         },
         methods: {
@@ -815,12 +826,12 @@
             },
             edit(row){
                 this.id = row.id;
-                // if(row.type == 1){ // 基线
+                if(row.type == 1){ // 基线
+                    this.isport = true;
+                    }else{
+                    this.isport = false
+                };
                     this.editVisible1 = true;
-                //     }else{
-                //     this.$message.error('只有基线监测时用户才可以进行端口修改');
-                //     return;
-                // };
                 for(var i=0;i<this.tableData3.length;i++){
                     if(this.tableData3[i].id == row.id){
                         if(this.tableData3[i].port.length == 0){
@@ -838,7 +849,7 @@
                 // this.validateForm = this.dynamicValidateForm.init;
             },
             saveEdit(){
-                 if(this.dynamicValidateForm.init[0]){
+                 if(this.isport){
                      var obj = [],inow=0,oldiow, arr1 = [];
                         for(var key in this.dynamicValidateForm.init){
                             if(Number(this.dynamicValidateForm.init[key].port) == 0){
@@ -855,15 +866,20 @@
                                         arr1 = [{port:Number(this.dynamicValidateForm.domains[i].port),version:this.dynamicValidateForm.domains[i].version,server:this.dynamicValidateForm.domains[i].server}]
                                 }
                         };
+                           
                          this.$axios.post("api/ip/"+this.id,{
+                            owner_id:this.dynamicValidateForm.ownerId,
+                            configure_id:this.dynamicValidateForm.strategyId,
                             port:[...obj,...arr1]
                         }).then((res)=>{
-                            this.editVisible = false;
+                            this.editVisible1 = false;
                             this.$message.success(res.data.msg);
                             this.getServerList();
-                            this.dynamicValidateForm.domains[0].port = '';
-                            this.dynamicValidateForm.domains[0].server = '';
-                            this.dynamicValidateForm.domains[0].version = '';
+                            for(var i=0;i<this.dynamicValidateForm.domains.length;i++){
+                                    for(var key in this.dynamicValidateForm.domains[i]){
+                                        this.dynamicValidateForm.domains[i][key] = '';
+                                    }
+                            }
                         }).catch(v => {
                         console.log(v);
                     });
@@ -872,25 +888,24 @@
                         var obj = [],arr1 = [];
                         for(var key in this.dynamicValidateForm.init){
                             if(Number(this.dynamicValidateForm.init[key].port == 0)){
-                                  return false;
+                                  break;
                             }else{
                                             obj.push({port:Number(this.dynamicValidateForm.init[key].port),server:this.dynamicValidateForm.init[key].server,version:this.dynamicValidateForm.init[key].version});
                             }
                         };
-                        
-                        for(var i=0;i<this.dynamicValidateForm.domains.length;i++){
-                                for(var key in this.dynamicValidateForm.domains[i]){
-                                        if(Number(this.dynamicValidateForm.domains[i].port == 0)){
-                                            break;
-                                        }
-                                        arr1 = [{port:Number(this.dynamicValidateForm.domains[i].port),version:this.dynamicValidateForm.domains[i].version,server:this.dynamicValidateForm.domains[i].server}]
-                                }
-                        };
 
+                        if(!this.dynamicValidateForm.ownerId){
+                            this.$message.error('请选择单位');
+                            return;
+                        }else if(!this.dynamicValidateForm.strategyId){
+                            this.$message.error('请选择策略');
+                            return;
+                        }
                     this.$axios.post("api/ip/"+this.id,{
-                            port:[...obj,...arr1]
+                            owner_id:this.dynamicValidateForm.ownerId,
+                            configure_id:this.dynamicValidateForm.strategyId
                         }).then((res)=>{
-                            this.editVisible = false;
+                            this.editVisible1 = false;
                             this.$message.success(res.data.msg);
                             this.getServerList();
                             for(var i=0;i<this.dynamicValidateForm.domains.length;i++){
@@ -1083,6 +1098,26 @@
 
 </style>
 <style>
+    .serveTab .el-table .icon,.serveTab .el-table .icon1{
+        float: left;
+    }
+    .serveTab .el-table .icon1 span{
+        background: url("../../../static/img/assets/total2.png")!important; 
+
+    }
+    .serveTab .el-table .icon span{
+        background: url("../../../static/img/assets/total.png"); 
+        width: 13px; 
+        height: 13px; 
+        display: inline-block; 
+        position: relative;
+    }
+    .serveTab .el-table .icon span img{
+        position: absolute;
+        left: 54%;
+        margin-left: -4px;
+        top: 3px;
+    }
     .serveTab .el-table tr td:nth-of-type(2) .cell .icon-dian{
         float: left;
         font-size: 28px;

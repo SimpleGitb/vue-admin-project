@@ -81,7 +81,7 @@
                                                                     >
                                                                     上次发生威胁事件时间:{{scope.row.event}}
                                                                     &nbsp;&nbsp;
-                                                                    <a href="javascript:;" class="view" @click="hrefAsset(scope.row.site_id)">查看详情</a>
+                                                                    <a href="javascript:;" class="view" @click="hrefAsset(scope.row.site_id)">点击查看</a>
                                                                 <el-button slot="reference">{{ scope.row.created_at }}</el-button>
                                                             </el-popover>
                                                         </div>
@@ -1081,6 +1081,9 @@
 <style>
     .threatview .el-table td .tipsbox button{
         border: none;
+    }
+    .threatview .el-table td .tipsbox button span{
+        font-size: 14px;
     }
     .threatview .el-table td .tipsbox button:hover{
         color: #5a5e66;
