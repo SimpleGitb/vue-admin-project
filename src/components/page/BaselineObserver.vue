@@ -2,7 +2,7 @@
     <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-warning"></i>基线监测 - {{basedata.ip}} - {{basedata.location}}</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-warning"></i>&nbsp;&nbsp;基线监测 - {{basedata.ip}} - {{basedata.location}}</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
@@ -20,7 +20,7 @@
                             <p class="bottom" v-text="port.version"></p>
                         </div>
                     </li>
-                   
+                   <div v-if="portlen == 0"><img class="tupian" src="../../../static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无端口信息</span></div>
                 </ul>
             </div>           
         </div>
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="hc_mai">
-				<div class="fishBone">
+				<div class="fishBone" v-if="eventlen > 0">
 					<div class="wrapper">
 						<div class="bd">
 							<div class="tempWrap" style="overflow:hidden; position:relative; width: 96%;left:2%">
@@ -82,6 +82,7 @@
 														<li class="line-first" style="background-position-y: 9px;" v-text="basedata.event[index].created_at"></li>
 														<li class="title" v-if="basedata.event[index].status ==0"><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;line-height: 2.2em;">{{basedata.event[index].port}} 端口关闭</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
 														<li class="title" v-else-if="basedata.event[index].status ==1"><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;line-height: 2.2em;">{{basedata.event[index].port}} 端口开启</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
+														<li class="title" v-else-if="basedata.event[index].status ==3"><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;line-height: 2.2em;">ip不可用</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
 														<li class="title" v-else><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;line-height: 2.2em;">{{basedata.event[index].port}} 端口服务由 {{basedata.event[index].server}} 变为 {{basedata.event[index].version}}</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
 														<li class="overauto" style="border-left: 1px solid rgb(248, 151, 130);width: 187px;height: 80px;overflow: hidden;">
 															<div style="width: 204px;overflow-x: hidden;overflow-y: scroll;height: 80px;">
@@ -106,6 +107,7 @@
 														</li>
 														<li class="title" v-if="basedata.event[index+1].status == 0"><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;line-height: 2.2em;">{{basedata.event[index+1].port}} 端口关闭</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
 														<li class="title" v-else-if="basedata.event[index+1].status == 1"><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;    line-height: 2.2em;">{{basedata.event[index+1].port}} 端口开启</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
+														<li class="title" v-else-if="basedata.event[index+1].status == 3"><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;    line-height: 2.2em;">ip不可用</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
 														<li class="title" v-else><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;line-height: 2.2em;">{{basedata.event[index+1].port}} 端口服务由 {{basedata.event[index+1].server}} 变为 {{basedata.event[index+1].version}}</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
 														<li class="line-first" style="background-position-y: -93px;" v-text="basedata.event[index+1].created_at"></li>
 														<li class="line-last line-point" style="background-position: 0px -20px;"></li>
@@ -123,6 +125,7 @@
 					<a class="next" @click="nextPage"></a>
 					<div class="line"></div>
 				</div>            
+            	<div v-if="eventlen == 0" style="text-align: center;line-height: 339px;"><img class="tupian" src="../../../static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无历史变动信息</span></div>
             </div>
         </div>
         
@@ -143,7 +146,9 @@
             	basedata:[],
             	baseport:[],
             	basehistory:[],
-            	historytime:[]
+            	historytime:[],
+            	portlen:"",
+            	eventlen:""
             }
         },
         methods:{
@@ -152,6 +157,8 @@
 	                switch (res.data.status) {
 					        case 1:
 					        	this.basedata = res.data.data;
+					        	this.portlen = this.basedata.port.length;
+					        	this.eventlen = this.basedata.event.length;
 					        	this.baseport = this.basedata.port;
 					        	this.basehistory = this.basedata.history;
 					        	var self = this;
@@ -251,6 +258,7 @@ ul,li{
         .title_top{
             padding-left:15px;
             line-height:40px;
+            color: #333333;
         }
         .line_content{
             display:flex;
