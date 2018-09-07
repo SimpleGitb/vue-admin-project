@@ -61,7 +61,6 @@
                                                         <div v-if="scope.row.event == 0" class="tipsbox">
                                                             <el-popover
                                                                     placement="top-start"
-                                                                    title="标题"
                                                                     trigger="hover"
                                                                     content="该站点从未发生过威胁">
                                                                 <el-button slot="reference">{{ scope.row.created_at }}</el-button>
@@ -70,7 +69,6 @@
                                                         <div v-if="scope.row.event == 1" class="tipsbox">
                                                             <el-popover
                                                                     placement="top-start"
-                                                                    title="标题"
                                                                     trigger="hover"
                                                                     content="该站点第一次发生威胁">
                                                                 <el-button slot="reference">{{ scope.row.created_at }}</el-button>
@@ -79,9 +77,11 @@
                                                         <div v-if="scope.row.event !== 0 && scope.row.event !== 1" class="tipsbox">
                                                             <el-popover
                                                                     placement="top-start"
-                                                                    title="标题"
                                                                     trigger="hover"
-                                                                    :content="'上次发生威胁事件时间:'+scope.row.event">
+                                                                    >
+                                                                    上次发生威胁事件时间:{{scope.row.event}}
+                                                                    &nbsp;&nbsp;
+                                                                    <a href="javascript:;" class="view" @click="hrefAsset(scope.row.site_id)">查看详情</a>
                                                                 <el-button slot="reference">{{ scope.row.created_at }}</el-button>
                                                             </el-popover>
                                                         </div>
@@ -661,9 +661,9 @@
                     }
                 }
             },
-            hrefAsset(){
+            hrefAsset(id){
                 var row = {
-                   id:this.row.id,
+                   id:id,
                    name:'assets'
                };
                this.$router.push({  name:'assets','params': row });

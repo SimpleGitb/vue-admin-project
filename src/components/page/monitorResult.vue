@@ -120,6 +120,7 @@
 						this.$message.error('请等待');
 					}
 				}).catch(v => {
+					this.$message.error('接口异常请稍后重试');
                     console.log(v);
                 });
 			},
@@ -158,7 +159,10 @@
                                 this.total = 10;
                             } else {
                                 this.total = (this.count + 10) - (this.count) % 10;
-                            }
+                            };
+							for(var i=0;i<this.tableData.length;i++){
+								this.tableData[i].disabled = true;
+							}
                             break;
                         case 403:
                             window.location.href = '/login';
