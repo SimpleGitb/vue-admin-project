@@ -54,7 +54,7 @@
 									
 									<template v-for="(item,index) in fetchdata.event" >
 										<template v-if="index<fetchdata.event.length&&index%2==0">
-									      <li class="item top" style="width: 170px;" :key="index+2">
+									      <li class="item top" style="width: 170px;" :key="'a'+index">
 												<div class="content">
 													<ul>
 														<li class="line-first" style="background-position-y: 9px;" v-text="fetchdata.event[index].created_at"></li>
@@ -65,7 +65,7 @@
 														<li class="overauto" style="border-left: 1px solid rgb(248, 151, 130);width: 187px;height: 80px;overflow: hidden;">
 															<div style="width: 204px;overflow-x: hidden;overflow-y: scroll;height: 80px;">
 																<ul>
-																	<li v-for="(port,key) in fetchdata.event[index].history.port">{{key}}：{{port.server}} | {{port.version}}</li>
+																	<li :key="'s'+key" v-for="(port,key) in fetchdata.event[index].history.port">{{key}}：{{port.server}} | {{port.version}}</li>
 																</ul>
 															</div>
 														</li>
@@ -79,7 +79,7 @@
 														<li class="overauto" style="border-left: 1px solid rgb(26, 132, 206);width: 187px;height: 80px;overflow: hidden;">
 															<div style="width: 204px;overflow-x: hidden;overflow-y: scroll;height: 80px;">
 																<ul>
-																	<li v-for="(port,key) in fetchdata.event[index].history.port">{{key}}：{{port.server}} | {{port.version}}</li>
+																	<li :key="'a'+key" v-for="(port,key) in fetchdata.event[index].history.port">{{key}}：{{port.server}} | {{port.version}}</li>
 																</ul>
 															</div>
 														</li>

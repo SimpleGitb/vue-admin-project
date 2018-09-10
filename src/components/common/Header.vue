@@ -5,8 +5,8 @@
             <img src="/static/img/logo2.png" alt="" class="logoPicture">
         </div>
         <div class="logo">云悉互联网安全监测平台 v3.0</div>
-        <div class="collapse-btn border"  @click.self="collapseChage($event,'p')">
-            <img src="../../../static/img/folds.png" class="fold">
+        <div class="collapse-btn border"  @click.self="collapseChage($event)">
+            <img src="../../../static/img/folds.png" class="fold" @click.stop="collapseChage($event)">
         </div>
         <div class="aseetRecord">
                 <ul>
@@ -16,6 +16,7 @@
                         <i class="el-icon-caret-top el-icon--right"></i>
                             <div class="line" @click.stop="assetsRecord">
                                  <span>梳理记录</span>
+                                 <div class="border"></div>
                             </div>
                     </li>
                     <li @click="hrefmonitor($event)">
@@ -24,6 +25,7 @@
                         <i class="el-icon-caret-top el-icon--right"></i>
                         <div class="line" @click.stop="monitorRecord">
                                  <span>检测记录</span>
+                                 <div class="border"></div>
                             </div>
                     </li>
                 </ul>
@@ -38,27 +40,29 @@
                             </li>
                         </el-tooltip>
                             <el-tooltip effect="dark" :content="message?`有${message}条未读消息`:`消息中心`" placement="bottom">
-                        <li @click="hrefmsg">
-                                    <i class="el-icon-bell"><span class="btn-bell-badge" v-if="message>0"></span></i>
-                        </li>
+                                <li @click="hrefmsg">
+                                            <i class="el-icon-bell"><span class="btn-bell-badge" v-if="message>0"></span></i>
+                                </li>
                             </el-tooltip>
-                        <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <li>
                         <div class="user-avator"><img src="static/img/img.jpg"></div>
                         <!-- 用户名下拉菜单 -->
+                       <el-col>
+                        <el-dropdown  @command="handleCommand">
                             <span class="el-dropdown-link">
-                                {{username}} <i class="el-icon-caret-bottom"></i>
+                                {{username}}<i class="el-icon-arrow-down el-icon--right"></i>
                             </span>
                             <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item>
-                                        <router-link to="/ModifyData" tag="p">
-                                            修改资料
-                                        </router-link>
+                                <el-dropdown-item>
+                                    <router-link to="/ModifyData" tag="p">
+                                        修改资料
+                                    </router-link>
                                     </el-dropdown-item>
-                                <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
+                                <el-dropdown-item command="loginout">退出登录</el-dropdown-item>
                             </el-dropdown-menu>
-                    </li>
                         </el-dropdown>
+                    </el-col>
+                    </li>
                 </ul>
                 <!-- 消息中心 -->
 
@@ -139,12 +143,12 @@
 			  :modal="false"
 			  :visible.sync="dialogVisible1"
 			  width="35%">
-					<el-checkbox v-model="checked">首页检测</el-checkbox>
-					<el-checkbox v-model="checked1">深度检测</el-checkbox>
-                <el-input class="sitecontent" :rows="7" type="textarea" placeholder="http://www.jxzyy.com.cn">
+					    <el-radio v-model="checked" label="index">首页检测</el-radio>
+                        <el-radio v-model="checked" label="deep">深度监测</el-radio>
+                <el-input v-model="domain" class="sitecontent" :rows="7" type="textarea" placeholder="http://www.jxzyy.com.cn">
                 </el-input>
 			  <span slot="footer" class="dialog-footer">
-			    <el-button type="primary" @click="assetscombSubm()">开始检测</el-button>
+			    <el-button type="primary" @click="monitor()">开始检测</el-button>
 			  </span>
 			</el-dialog>
     </div>
@@ -156,7 +160,9 @@
             return {
                 collapse: true,
                 fullscreen: false,
+                checkeds:['首页检测'],
                 name: 'admin',
+                domain:'',
                 message: 0,
                 includedComponents:'assetsComb',
             	tableData: [],
@@ -206,17 +212,39 @@
             handleSelectionChange(val) {
 		        this.multipleSelection = val;
 		      },
-			  handleClose(done) {
+			handleClose(done) {
 		        done();
 		      },
-		      handleClick(tab, event) {
+		    handleClick(tab, event) {
 //		        console.log(tab);
-		      },
-		      assetscombSubm(){
-                  this.$router.push({
-                      name:'monitorResult'
+              },
+            monitor(){
+                  if(!this.domain){
+                      this.$message.error('请输入域名');
+                      return;
+                  }else if(!this.checked){
+                      this.$message.error('请选择检测内容');
+                      return;
+                  }
+                  this.dialogVisible1 = false;
+                  this.$axios.post('api/monitor',{
+                      url:this.domain,
+                      task:this.checked
+                  }).then((res)=>{
+                      if(res.data.status){
+                            this.$router.push({
+                                name:'monitorResult'
+                            });
+                      }else{
+                          this.$message.error(res.data.msg);
+                      }
                   })
-			/*  	this.$axios.post("api/asset/get", {
+              },
+		    assetscombSubm(){
+                  this.$router.push({
+                      name:'assetsRecord'
+                  })
+			    /*  	this.$axios.post("api/asset/get", {
 						asset_ip: this.asset_ip,
 						asset_url: this.asset_url,
 						ip: this.ip,
@@ -225,9 +253,9 @@
 					}).then((res) => {
 						switch (res.data.status) {
 							case 1:
-//					        	this.$router.push({
-//					                name:'assetsRecord'
-//					               });
+                    //					        	this.$router.push({
+                    //					                name:'assetsRecord'
+                    //					               });
 									this.dialogVisible = false;
 									this.handleCurrentChange();
 								break;
@@ -237,11 +265,11 @@
 		      },
             handleSelectionChange(val) {
 		        this.multipleSelection = val;
-		      },
-		      handleClick(tab, event) {
-//		        console.log(tab);
-		      },
-		      assetscombSubm(){
+		    },
+		    handleClick(tab, event) {
+                //		        console.log(tab);
+		    },
+		    assetscombSubm(){
 		      	this.$axios.post("api/asset/get", {
 			      		asset_ip: this.asset_ip,
 			      		asset_url: this.asset_url,
@@ -281,14 +309,24 @@
                 // });
             },
             // 侧边栏折叠
-            collapseChage(event,t){
+            collapseChage(event){
                 bus.$emit('collapse', this.collapse);
                     this.collapse = !this.collapse;
-                        if(this.collapse && t == 'p'){
+                        if(this.collapse){
+                            console.log(event)
+                            if(event.target && event.target.children[0]){
                                 event.target.children[0].src = '../../../static/img/folds.png';
+                            }else{
+                                event.target.src = '../../../static/img/folds.png';
+                            }
                         }else{
+                             if(event.target && event.target.children[0]){
                                 event.target.children[0].src = '../../../static/img/fold.png';
-                        }
+                            }else{
+                                event.target.src = '../../../static/img/fold.png';
+                            }
+                        };
+
             },
             assetsRecord(){
                 // this.dialogVisible = true;
@@ -344,6 +382,13 @@
 
 </script>
 <style scoped>
+    .el-dropdown-menu{
+        top: 58px!important;
+        width: 10%;
+    }
+    .el-dropdown-menu .el-dropdown-menu__item{
+        line-height: 40px;
+    }
     .aseetRecord{
         display: inline-block;
     }
@@ -483,6 +528,7 @@
     }
     .user-avator{
         margin-left: 20px;
+        margin-right: 10px;
     }
     .user-avator img{
         display: block;
@@ -506,22 +552,40 @@
     }
 </style>
 <style lang="scss">
+
     .aseetRecord li:hover .line{
         display: block;
         z-index: 11;
+    }
+    .header .sitecontent .el-textarea__inner{
+        margin:10px auto;
+        font-family: 'Microsoft Yahei';
+    }
+    .aseetRecord .line .border{
+        border-left: 6px solid transparent;
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid #fff;
+        border-right: 6px solid transparent;
+        position: absolute;
+        left: 50%;
+        top: -13px;
+        margin-left:-3px;
     }
     .aseetRecord .line{
         height:70px;
         position: absolute;
         z-index: 11;
         background: #fff;
-        color:#a0a2a3;
+        color:#191c1d;
         width: 100%;
         left: -1px;
         text-align: center;
         display: none;
         border:1px solid transparent;
-        box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, .12);
+        box-shadow:0px 2px 12px 2px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        margin-top:6px;
+        top: 66px;
     }
     .aseetRecord .line:hover span{
         color:#00aaff;

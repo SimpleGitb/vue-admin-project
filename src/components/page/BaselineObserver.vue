@@ -87,7 +87,7 @@
 														<li class="overauto" style="border-left: 1px solid rgb(248, 151, 130);width: 187px;height: 80px;overflow: hidden;">
 															<div style="width: 204px;overflow-x: hidden;overflow-y: scroll;height: 80px;">
 																<ul>
-																	<li v-for="(port,key) in basedata.event[index].history.port">{{key}}：{{port.server}} | {{port.version}}</li>
+																	<li :key="'t'+key" v-for="(port,key) in basedata.event[index].history.port">{{key}}：{{port.server}} | {{port.version}}</li>
 																</ul>
 															</div>
 														</li>
@@ -101,7 +101,7 @@
 														<li class="overauto" style="border-left: 1px solid rgb(26, 132, 206);width: 187px;height: 80px;overflow: hidden;">
 															<div style="width: 204px;overflow-x: hidden;overflow-y: scroll;height: 80px;">
 																<ul>
-																	<li v-for="(port,key) in basedata.event[index].history.port">{{key}}：{{port.server}} | {{port.version}}</li>
+																	<li :key="'s'+key" v-for="(port,key) in basedata.event[index].history.port">{{key}}：{{port.server}} | {{port.version}}</li>
 																</ul>
 															</div>
 														</li>

@@ -32,10 +32,18 @@
                 <template slot-scope="scope">{{ scope.row.owner }}</template>
             </el-table-column>
             <el-table-column label="站点数量">
-                <template slot-scope="scope">{{ scope.row.site_count }}</template>
+                <template slot-scope="scope">
+                    <span class="cursor" @click="hrefAsset(scope)">
+                        {{ scope.row.site_count }}
+                    </span>
+                    </template>
             </el-table-column>
             <el-table-column label="异常站点数">
-                <template slot-scope="scope">{{ scope.row.threat }}</template>
+                <template slot-scope="scope">
+                    <span class="cursor" @click="hrefAsset(scope,'threat')">
+                        {{ scope.row.threat }}
+                    </span>
+                    </template>
             </el-table-column>
             <el-table-column label="所属销售">
               <template slot-scope="scope">{{ scope.row.salesman }}</template>
@@ -248,7 +256,6 @@
                 selectType:''
             }
         },
-
         methods: {
             handleChange(value) {
                 this.alertData.province=value[0];
@@ -256,6 +263,13 @@
                 this.alertData.county=value[2]
                 this.selectedAlertAdress=value;
                 this.sendSearch();
+            },
+            hrefAsset(scope,type){
+                if(type == 'threat'){
+                    this.$router.push({  name:'assets',params:{'threat':scope.row.id}});
+                }else{
+                    this.$router.push({  name:'assets',params:{'unItId':scope.row.id}});
+                }
             },
             selectEmergency(row){
                     var id = '';
@@ -664,6 +678,9 @@
     .Unit .el-textarea__inner{
         font-family: "Microsoft Yahei";
     }
+    .Unit .cursor{
+        cursor: pointer;
+    }
     .Unit .el-breadcrumb .el-breadcrumb__inner .iconfont{
        font-size:18px;
     }
@@ -727,7 +744,7 @@
         text-align: center;
     }
 
-    .Unit .el-table__header-wrapper .has-gutter tr{
+    .Unit .el-table__header-wrapper .has-gutter tr th{
         background: #f2f2f2
     }
 

@@ -17,6 +17,16 @@
                 </el-table-column>
                 <el-table-column label="IP">
                     <template slot-scope="scope">
+                        <div class="icon" v-if="scope.row.status == 1">
+                            <span>
+                                <img src="../../../static/img/assets/total1.png">
+                            </span>
+                        </div>
+                         <div class="icon icon1" v-else>
+                            <span>
+                                <img src="../../../static/img/assets/total3.png">
+                            </span>
+                        </div>
                         <span @click="hrefmonitor(scope.row)">{{ scope.row.ip }}</span>
                     </template>
                 </el-table-column>
@@ -41,7 +51,7 @@
             </el-table-column>
                 <el-table-column label="事件">
                 <template slot-scope="scope">
-                    <div :style="{color:color}" v-if="scope.row.event_count == 0 ? color = '#333' : color='red'">
+                    <div :style="{color:color}" v-if="scope.row.event_count == 0 ? color = '#333' : color ='red'">
                         {{ scope.row.event_count }}
                     </div>
                 </template>
@@ -52,10 +62,10 @@
                             已暂停
                         </div>
                         <div v-else-if="scope.row.type == 1" @click="changeStatus(scope.row.id,$event)">
-                            基线监测
+                            基线监测中
                         </div>
                         <div v-else-if="scope.row.type == 0" @click="changeStatus(scope.row.id,$event)">
-                            正常监测
+                            正常监测中
                         </div>
                     </template>
                 </el-table-column>
@@ -74,10 +84,6 @@
         </div>
 
         <el-dialog title="修改" class="edit" :visible.sync="editVisible1" width="30%">
-                <div class="tip-header">
-                    <img src="../../../static/img/assets/qat.png">
-                    <p class="tip-msg">以下为基线监测信息，若信息有误，请手动纠正</p>
-                </div>
                    <el-form :model="dynamicValidateForm" ref="dynamicValidateForm" class="demo-dynamic">
                     <el-form-item label="所属单位">
                         <el-autocomplete style="width:80%;" popper-class="my-autocomplete" v-model="dynamicValidateForm.owner" @focus="querySearch" :fetch-suggestions="querySearch"
@@ -159,8 +165,9 @@
                         </el-input>
                     </el-form-item>
                     </div>
-                    <div class="ipserver">
-                    <el-form-item v-for="(keys,value) in dynamicValidateForm.init"
+                    <div class="ipserver" v-if="isport">
+                    <el-form-item label="基线修改">
+                        <div class="box"   v-for="(keys,value) in dynamicValidateForm.init"
                         :key="value">
                             <el-input  v-model="keys.port" ></el-input>
                             <el-input v-model="keys.version"></el-input>
@@ -168,20 +175,25 @@
                             <div class="delete">
                                     <i class="el-icon-remove"  @click="removeDomain(value)"></i>
                             </div>
-                    </el-form-item>
-                     <el-form-item
-                        v-for="(domain, index) in dynamicValidateForm.domains"
+                        </div>
+                        <div class="box"  v-for="(domain, index) in dynamicValidateForm.domains"
                         :key="domain.key"
                         :prop="'domains.' + index + '.value'">
-                        <el-input v-model="domain.port"></el-input>
-                        <el-input v-model="domain.server"></el-input>
-                        <el-input class="item-ftpd"  v-model="domain.version"></el-input>  
-                        <div class="add">
-                            <i class="el-icon-circle-plus" @click="addDomain()"></i>
+                            <el-input v-model="domain.port"></el-input>
+                            <el-input v-model="domain.server"></el-input>
+                            <el-input class="item-ftpd"  v-model="domain.version"></el-input>  
+                            <div class="add">
+                                <i class="el-icon-circle-plus" @click="addDomain()"></i>
+                            </div>
                         </div>
+                    </el-form-item>
+                    <el-form-item class="tipsbox">
+                            <i class="iconfont icon-wenti"></i>
+                            <span>以上为基线监测信息,若信息有误,请手动纠正</span>
                     </el-form-item>
                     </div>
             </el-form>
+            
             <div slot="footer" class="dialog-footer">
                 <el-button @click="editVisible1 = false">取消</el-button>
                 <el-button type="primary" @click="saveEdit('dynamicValidateForm')">确定</el-button>
@@ -239,13 +251,13 @@
                                 </el-select>
                     </el-form-item>
                     <el-form-item label="可用性监测" class="usblity">
-                         <div class="icon">
-                            <i class="el-icon-question"></i>
-                                <div class="tips">
-                                    <div class="border"></div>
-                                    监测服务器连通状态
+                                <div class="icon">
+                                    <i class="el-icon-question"></i>
+                                        <div class="tips">
+                                            <div class="border"></div>
+                                            监测服务器连通状态
+                                        </div>
                                 </div>
-                        </div>
                                 <el-slider
                                     v-model="addserverStrategy.usability"
                                     :format-tooltip="usabilitychange2"
@@ -255,13 +267,13 @@
                                 </el-slider>
                     </el-form-item>
                     <el-form-item label="端口变动">
-                          <div class="icon">
-                            <i class="el-icon-question"></i>
-                                <div class="tips">
-                                    <div class="border"></div>
-                                    监测服务器端口开启、关闭与服务变化
+                                <div class="icon">
+                                    <i class="el-icon-question"></i>
+                                        <div class="tips">
+                                            <div class="border"></div>
+                                            监测服务器端口开启、关闭与服务变化
+                                        </div>
                                 </div>
-                        </div>
                                  <el-slider
                                     v-model="addserverStrategy.port"
                                     :format-tooltip="changestep4"
@@ -280,11 +292,11 @@
                         <el-button @click="batchAddAssets = false">取 消</el-button>
                         <el-button type="primary" @click="saveAddServer">确 定</el-button>
                     </div>
-        </el-dialog>   
+        </el-dialog>
     </div>
 </template>
 <script>
-    
+
     export default {
         name:'serverAsset',
         data() {
@@ -297,6 +309,9 @@
                 loading:true,
                 isManage:true,
                 batchAddAssets:false,
+                iconfont:'iconfont',
+                iconDian:true,
+                iconLandian:false,
                 ipdata:[],
                 dayTime:[],
                 optionsite:[
@@ -332,18 +347,10 @@
                     strategy:'',
                     name:'',
                     domains: [
-                        {
-                            port:'',
-                            server:'',
-                            version:''
-                        }
+                       
                     ],
                     init:[
-                            {
-                                port:'',
-                                server:'',
-                                version:''
-                            }
+                            
                     ]
                 },
                 tableData3: [
@@ -370,7 +377,8 @@
                 // 弹出框搜索类型
                 id:'',
                 valueSelect1:'',
-                selectType:''
+                selectType:'',
+                isport:true
             }
         },
         methods: {
@@ -476,8 +484,8 @@
                         ip:this.batchAdd.content,
                         configure:{
                             name:this.addserverStrategy.name,
-                            start:this.addserverStrategy.startTime[0],
-                            end:this.addserverStrategy.startTime[1],
+                            start:this.addserverStrategy.startTime[0].toLocaleDateString().split('/').join('-'),
+                            end:this.addserverStrategy.startTime[1].toLocaleDateString().split('/').join('-'),
                             daily_start:this.addserverStrategy.startdaily,
                             daily_end:this.addserverStrategy.enddaily,
                             remark:this.addserverStrategy.remark,
@@ -622,12 +630,12 @@
                 this.batchAdd.owner = data.owner;
                 this.batchAdd.ownerId = data.id;
             },
-            hrefmonitor(row){
+            hrefmonitor(scope){
                 var row = {
-                    id:row.id
+                    id:scope.id
                 }
-                if(row.alive == 0) return;
-                if(row.type == 1){ // 基线监测
+                if(scope.alive == 0) return;
+                if(scope.type == 1){ // 基线监测
                     this.$router.push({
                         name: 'permission',
                         'query': row
@@ -778,7 +786,7 @@
                this.$axios.get("api/ip?page="+t+"&limit=10").then((res)=>{
                     let data = res.data;
                     this.totalpage = Math.ceil(res.data.data.count);
-                    this.tableData3 = data.data;
+                    this.tableData3 = data.data.data;
                }).catch(v=>{
                     console.log(v)
                });
@@ -817,12 +825,12 @@
             },
             edit(row){
                 this.id = row.id;
-                // if(row.type == 1){ // 基线
-                    this.editVisible1 = true;
-                //     }else{
-                //     this.$message.error('只有基线监测时用户才可以进行端口修改');
-                //     return;
-                // };
+                if(row.type == 1){ // 基线
+                    this.isport = true;
+                    }else{
+                    this.isport = false
+                };
+                this.editVisible1 = true;
                 for(var i=0;i<this.tableData3.length;i++){
                     if(this.tableData3[i].id == row.id){
                         if(this.tableData3[i].port.length == 0){
@@ -840,7 +848,7 @@
                 // this.validateForm = this.dynamicValidateForm.init;
             },
             saveEdit(){
-                 if(this.dynamicValidateForm.init[0]){
+                 if(this.isport){
                      var obj = [],inow=0,oldiow, arr1 = [];
                         for(var key in this.dynamicValidateForm.init){
                             if(Number(this.dynamicValidateForm.init[key].port) == 0){
@@ -857,15 +865,20 @@
                                         arr1 = [{port:Number(this.dynamicValidateForm.domains[i].port),version:this.dynamicValidateForm.domains[i].version,server:this.dynamicValidateForm.domains[i].server}]
                                 }
                         };
+                           
                          this.$axios.post("api/ip/"+this.id,{
+                            owner_id:this.dynamicValidateForm.ownerId,
+                            configure_id:this.dynamicValidateForm.strategyId,
                             port:[...obj,...arr1]
                         }).then((res)=>{
-                            this.editVisible = false;
+                            this.editVisible1 = false;
                             this.$message.success(res.data.msg);
                             this.getServerList();
-                            this.dynamicValidateForm.domains[0].port = '';
-                            this.dynamicValidateForm.domains[0].server = '';
-                            this.dynamicValidateForm.domains[0].version = '';
+                            for(var i=0;i<this.dynamicValidateForm.domains.length;i++){
+                                    for(var key in this.dynamicValidateForm.domains[i]){
+                                        this.dynamicValidateForm.domains[i][key] = '';
+                                    }
+                            }
                         }).catch(v => {
                         console.log(v);
                     });
@@ -874,25 +887,24 @@
                         var obj = [],arr1 = [];
                         for(var key in this.dynamicValidateForm.init){
                             if(Number(this.dynamicValidateForm.init[key].port == 0)){
-                                  return false;
+                                  break;
                             }else{
                                             obj.push({port:Number(this.dynamicValidateForm.init[key].port),server:this.dynamicValidateForm.init[key].server,version:this.dynamicValidateForm.init[key].version});
                             }
                         };
-                        
-                        for(var i=0;i<this.dynamicValidateForm.domains.length;i++){
-                                for(var key in this.dynamicValidateForm.domains[i]){
-                                        if(Number(this.dynamicValidateForm.domains[i].port == 0)){
-                                            break;
-                                        }
-                                        arr1 = [{port:Number(this.dynamicValidateForm.domains[i].port),version:this.dynamicValidateForm.domains[i].version,server:this.dynamicValidateForm.domains[i].server}]
-                                }
-                        };
 
+                        if(!this.dynamicValidateForm.ownerId){
+                            this.$message.error('请选择单位');
+                            return;
+                        }else if(!this.dynamicValidateForm.strategyId){
+                            this.$message.error('请选择策略');
+                            return;
+                        }
                     this.$axios.post("api/ip/"+this.id,{
-                            port:[...obj,...arr1]
+                            owner_id:this.dynamicValidateForm.ownerId,
+                            configure_id:this.dynamicValidateForm.strategyId
                         }).then((res)=>{
-                            this.editVisible = false;
+                            this.editVisible1 = false;
                             this.$message.success(res.data.msg);
                             this.getServerList();
                             for(var i=0;i<this.dynamicValidateForm.domains.length;i++){
@@ -1085,6 +1097,30 @@
 
 </style>
 <style>
+    .serveTab .el-table .icon,.serveTab .el-table .icon1{
+        float: left;
+    }
+    .serveTab .el-table .icon1 span{
+        background: url("../../../static/img/assets/total2.png")!important; 
+
+    }
+    .serveTab .el-table .icon span{
+        background: url("../../../static/img/assets/total.png"); 
+        width: 13px; 
+        height: 13px; 
+        display: inline-block; 
+        position: relative;
+    }
+    .serveTab .el-table .icon span img{
+        position: absolute;
+        left: 54%;
+        margin-left: -4px;
+        top: 3px;
+    }
+    .serveTab .el-table tr td:nth-of-type(2) .cell .icon-dian{
+        float: left;
+        font-size: 28px;
+    }
     .serveTab .el-dialog .hidebox .usblity .tips .border{
         left:43%;
     }
@@ -1179,10 +1215,11 @@
         background: #f8f8f8;
         border-bottom: 1px solid #e2e2e2;
     }
-    .serveTab .el-icon-remove{
+    .serveTab .el-icon-remove, .serveTab .el-form .el-form-item .add{
         font-size: 18px;
         color: #adadad;
     }
+
     .serveTab .item-value{
         width: 250px;
         height: 28px;
@@ -1194,18 +1231,29 @@
         cursor: pointer;
     }
 
-    .serveTab .el-form .el-form-item .item-ftpd{
-        width: 45%!important;
-    }
     .serveTab .el-form .el-form-item .delete,.serveTab .el-form .el-form-item .add{
         float: right
     }
-    .serveTab .edit .ipserver .el-form-item .el-input{
-        width: 20%;
-        display: inline-block;
+
+    .serveTab .el-form .ipserver .box{
+        display: flex;
+        margin-left:68px;
+        margin-top:5px;
+        margin-bottom:5px;
+    }
+    .serveTab .el-form .ipserver .tipsbox {
+        margin-left:68px;
     }
 
+    .serveTab .el-dialog .hidebox .el-form-item:nth-of-type(3) .border {
+        left: 42%;
+    }
 
+    .serveTab .edit .ipserver .el-form-item .el-input{
+        width: 33%;
+        display: inline-block;
+        margin-right: 10px;
+    }
 
     .serveTab .el-table td:first-child .cell, .serveTab .el-table th:first-child .cell{
         padding-left: 15px;
@@ -1215,7 +1263,7 @@
         text-align: center
     }
 
-    .serveTab .el-table__header-wrapper .has-gutter tr{
+    .serveTab .el-table__header-wrapper .has-gutter tr th{
         background: #f2f2f2;
     }
 
@@ -1223,8 +1271,5 @@
         text-align: center;
     }
 
-   .serveTab .el-table th.is-leaf{
-        border-bottom: none;
-}
 
 </style>

@@ -28,14 +28,14 @@
                                         <el-button slot="append" icon="el-icon-search" @click="sendSearch"></el-button>
                                 </el-input>
                             </div>
-                            <div class="table-threat"  @mouseleave="hideTips">
-                                    <div class="tips" ref="tips" :style="{left:tipsLeft,top:tipsTop,display:display}">
+                            <div class="table-threat">
+                                    <!-- <div class="tips" ref="tips" :style="{left:tipsLeft,top:tipsTop,display:display}">
                                         <span>{{tipsMsgs}}</span>
                                         <a v-show="isshow" href="javascript:;" @click="hrefAsset" class="view">立即查看</a>
                                         <div class="border"></div>
                                         <a href="javascript:;" class="close" @click="closeTips">x</a>
-                                    </div>
-                                     <el-table @cell-mouse-enter="showTips" border v-loading="loading"  ref="multipleTable" :data="tableData3" tooltip-effect="dark"  @selection-change="handleSelectionChange">
+                                    </div> -->
+                                     <el-table border v-loading="loading"  ref="multipleTable" :data="tableData3" tooltip-effect="dark"  @selection-change="handleSelectionChange">
                                         <el-table-column label="主管单位" width="150">
                                                 <template slot-scope="scope">
                                                                 {{ scope.row.name }}
@@ -57,8 +57,35 @@
                                             </template>
                                         </el-table-column> 
                                           <el-table-column prop="" label="发生时间">
-                                            <template slot-scope="scope">                                               
-                                                                {{ scope.row.created_at }}
+                                            <template slot-scope="scope">
+                                                        <div v-if="scope.row.event == 0" class="tipsbox">
+                                                            <el-popover
+                                                                    placement="top-start"
+                                                                    trigger="hover"
+                                                                    content="该站点从未发生过威胁">
+                                                                <el-button slot="reference">{{ scope.row.created_at }}</el-button>
+                                                            </el-popover>
+                                                        </div>
+                                                        <div v-if="scope.row.event == 1" class="tipsbox">
+                                                            <el-popover
+                                                                    placement="top-start"
+                                                                    trigger="hover"
+                                                                    content="该站点第一次发生威胁">
+                                                                <el-button slot="reference">{{ scope.row.created_at }}</el-button>
+                                                            </el-popover>
+                                                        </div>
+                                                        <div v-if="scope.row.event !== 0 && scope.row.event !== 1" class="tipsbox">
+                                                            <el-popover
+                                                                    placement="top-start"
+                                                                    trigger="hover"
+                                                                    >
+                                                                    上次发生威胁事件时间:{{scope.row.event}}
+                                                                    &nbsp;&nbsp;
+                                                                    <a href="javascript:;" class="view" @click="hrefAsset(scope.row.site_id)">点击查看</a>
+                                                                <el-button slot="reference">{{ scope.row.created_at }}</el-button>
+                                                            </el-popover>
+                                                        </div>
+                                                                
                                                 </template>
                                         </el-table-column>
                                          <el-table-column prop="" label="关键词">
@@ -460,6 +487,7 @@
                 includedComponents:'Threatview',
                 labelPosition: 'center',
                 activeName2: 'threat',
+                content:'',
                 loading:true,
                 loading1:true,
                 loading2:true,
@@ -633,9 +661,9 @@
                     }
                 }
             },
-            hrefAsset(){
+            hrefAsset(id){
                 var row = {
-                   id:this.row.id,
+                   id:id,
                    name:'assets'
                };
                this.$router.push({  name:'assets','params': row });
@@ -1051,6 +1079,27 @@
 
 </style>
 <style>
+    .threatview .el-table td .tipsbox button{
+        border: none;
+    }
+    .threatview .el-table td .tipsbox button span{
+        font-size: 14px;
+    }
+    .threatview .el-table td .tipsbox button:hover{
+        color: #5a5e66;
+        border-color: #fff;
+        background-color: transparent;
+    }
+    .threatview .el-table td .tipsbox button:focus{
+        color: #5a5e66;
+        border-color: transparent;
+        background-color: transparent
+    }
+
+    .threatview .el-table tr:hover .tipsbox button,.threatview .el-table td:hover .tipsbox button{
+        background: #f5f7fa;
+    }
+
 
     .threatview .el-table .cell .btn-list .list-item span{
         position: absolute;
@@ -1146,7 +1195,7 @@
         margin-top: 10px;
     }
 
-    .threatview .el-table__header-wrapper .has-gutter tr{
+    .threatview .el-table__header-wrapper .has-gutter tr th{
         background: #f2f2f2
     }
 

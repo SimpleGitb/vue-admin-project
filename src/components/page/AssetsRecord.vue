@@ -167,8 +167,7 @@
 						        case 1:
 						        	this.$router.push({
 					                    name:'assetsResult',
-					                    'query':{id:id}
-//					                    params:{id:id}
+					                    query:{id:id}
 					                })
 						            break;
 						        default: this.$message.error(res.data.msg); break;

@@ -727,7 +727,8 @@ import { regionDataPlus} from 'element-china-area-data';
     .userTable .el-cascader{
         width: 170px;
     }
-    .userTable .el-table thead{
+    .userTable .el-table thead tr th{
+        background-color: #f2f2f2;
         color: #666;
     }
        @media screen and (max-width: 1100px) {
@@ -736,9 +737,6 @@ import { regionDataPlus} from 'element-china-area-data';
            }
    }
 
-    .userTable .has-gutter tr {
-        background: #f2f2f2;
-    }
     .userTable .cell{
         display: flex;
         justify-content: center;
@@ -749,19 +747,6 @@ import { regionDataPlus} from 'element-china-area-data';
         text-align: center;
     }
 
-    .userTable .el-table td, .userTable .el-table th.is-leaf{
-        border: none;
-        border-left:1px solid #ebebeb;
-    }
-
-    .userTable .el-table td:first-child, .userTable .el-table th.is-leaf:first-child{
-        border-left: none;
-    }
-
-    .userTable .el-table td{
-        border-bottom: 1px solid #ddd
-    }
-     
      .userTable .el-dialog__header {
         background: #f8f8f8;
         border-bottom: 1px solid #e2e2e2;

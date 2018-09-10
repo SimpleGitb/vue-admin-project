@@ -21,16 +21,14 @@
 			      label="任务ID"
 			      >
 			      <template slot-scope="scope">
-			      	{{ scope.row.name }}
+			      	{{ scope.row.id }}
 			      </template>
 			    </el-table-column>
 			    <el-table-column
-			      label="监测应用"
+			      label="检测应用"
 			      >
 			      <template slot-scope="scope">
-							<a :href="'api/asset/'+scope.row.id+'/export'">
-								<i class="iconfont icon-xiazai"></i>
-							</a>
+							{{ scope.row.url }}
 			      	<!-- <i><img style="width: 25px;height: 25px;vertical-align: middle;cursor: pointer;" src="../../../static/img/u7720.png"/></i> -->
 			      </template>
 			    </el-table-column>
@@ -38,21 +36,21 @@
 			      label="敏感词"
 			      >
 			      <template slot-scope="scope">
-			      	{{ scope.row.created_at }}
+			      	{{ scope.row.site }}
 			      </template>
 			    </el-table-column>
                 <el-table-column
 			      label="劫持"
 			      >
 			      <template slot-scope="scope">
-			      	{{ scope.row.created_at }}
+			      	{{ scope.row.hijack   }}
 			      </template>
 			    </el-table-column>
                 <el-table-column
 			      label="其他"
 			      >
 			      <template slot-scope="scope">
-			      	{{ scope.row.created_at }}
+			      	{{ scope.row.other }}
 			      </template>
 			    </el-table-column>
                 <el-table-column
@@ -66,8 +64,8 @@
 			      label="操作"
 			      >
 			      <template slot-scope="scope">
-			      	<el-button type="text" @click="assetsResult(scope.row.id)" class="seekbtn">查看</el-button>
-			      	<el-button type="text" @click="assetsResult(scope.row.id)" class="seekbtn">导出</el-button>
+			      	<el-button type="text" @click="assetsResult(scope.row.task_id)" class="seekbtn">查看</el-button>
+			      	<el-button type="text" class="seekbtn orange" @click="exportPort(scope.row)" :disabled="!scope.row.disabled">导出</el-button>
 			      </template>
 			    </el-table-column>
 			  </el-table>
@@ -88,117 +86,102 @@
 
 <script>
     export default {
-    	name: 'monitorResult',
-        data: function(){
+        name: 'monitorResult',
+        data: function () {
             return {
-				includedComponents:'monitorResult',
-            	tableData: [],
-            	multipleSelection: [],
-            	currentPage: 1,
-            	total: 10,
+                includedComponents: 'monitorResult',
+                tableData: [],
+                multipleSelection: [],
+                currentPage: 1,
+                total: 10,
                 count: 1,
-                checked:true,
-            	dialogVisible: false,
-            	activeName2: 'first',
-            	asset_ip:[],
-            	ip: '',
-            	asset_url:[],
-            	url: '',
-            	checkList3:[],
-            	textarea3: '',
-            	checkList4:[],
-            	email: ''
+                checked: true,
+                dialogVisible: false,
+                activeName2: 'first',
+                asset_ip: [],
+                ip: '',
+                asset_url: [],
+                url: '',
+                checkList3: [],
+                textarea3: '',
+                checkList4: [],
+                email: ''
             }
         },
-        methods:{
-      		handleSelectionChange(val) {
-		        this.multipleSelection = val;
-		      },
-		    assetsResult(id){
-                this.$router.push({ name:'monitorDetails'})
-		    	// this.$axios.get("api/asset/"+id).then((res) => {
-	            //     switch (res.data.status) {
-				// 		        case 1:
-				// 		        	this.$router.push({
-				// 	                    name:'assetsResult',
-				// 	                    params:{id:id}
-				// 	                })
-				// 		            break;
-				// 		        default: this.$message.error(res.data.msg); break;
-				// 		    } 
-	            // }).catch(v => {
-	            //         console.log(v);
-                //  });
-                
-
-		      	
-		     },
-		      removeBatch(rows){
-			      var ids = [];
-			      rows.forEach(element =>{
-			        ids.push(element.id)
-			      })
-//			      this.tableData.splice(0,1);
-			      this.$confirm('确定要删除选中的文件吗?','提示').then(() =>{
-			      	this.$axios.delete("api/asset/delete", {
+        methods: {
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+			},
+			exportPort(scope){
+				if(scope.disabled){
+					scope.disabled = false;
+					this.$axios.get('api/monitor/'+scope.task_id+'/export').then((res)=>{
+						if(res.status == 200){
+							location.href = '/api/monitor/'+scope.task_id+'/export';
+							scope.disabled = true;
+						}else{
+							this.$message.error('请等待');
+						}
+					}).catch(v => {
+						this.$message.error('接口异常请稍后重试');
+						console.log(v);
+					});
+				}
+			},
+            assetsResult(id) {
+                this.$router.push({
+                    name: 'monitorDetails',
+                    query: {
+                        id: id
+                    }
+                })
+            },
+            removeBatch(rows) {
+                var ids = [];
+                rows.forEach(element => {
+                    ids.push(element.id)
+                })
+                //			      this.tableData.splice(0,1);
+                this.$confirm('确定要删除选中的文件吗?', '提示').then(() => {
+                    this.$axios.delete("api/monitor/delete", {
                         data: {
-                           id: ids
-                      	}
+                            id: ids
+                        }
                     }).then((res) => {
-                       this.handleCurrentChange();
+                        this.handleCurrentChange();
                     });
-			      }).catch(()=>{});
-			    },
-			    handleCurrentChange(val) {
-			        this.$axios.get("api/asset/index?page="+this.currentPage+"&limit="+10).then((res) => {
-		                switch (res.data.status) {
-							        case 1:
-							        	const record = res.data;
-							        	this.tableData = record.data.infos;
-							        	this.count = record.data.count;
-//							        	console.log(this.count);
-							        	if(this.count <= 10){
-							             	this.total = 10;
-							             }else{
-							             	this.total = (this.count+10) - (this.count)%10;
-							             }
-										break;
-									case 403:
-										window.location.href = '/login';
-									break;
-							        default: this.$message.error(res.data.msg); break;
-							    } 
-		            }).catch(v => {
-		                    console.log(v);
-		             });
-			      },
-		      handleClick(tab, event) {
-//		        console.log(tab);
-		      },
-		      assetscombSubm(){
-		      	this.$axios.post("api/asset/get", {
-			      		asset_ip: this.asset_ip,
-			      		asset_url: this.asset_url,
-			      		ip: this.ip,
-			      		url: this.url,
-			      		email: this.email
-                    }).then((res) => {
-                        switch (res.data.status) {
-					        case 1:
-//					        	this.$router.push({
-//					                name:'assetsRecord'
-//					               });
-					               this.dialogVisible = false;
-					               this.handleCurrentChange();
-					            break;
-					        default: this.$message.error(res.data.msg); break;
-					    } 
-                    });
-                
-		      }
+                }).catch(() => {});
+            },
+            handleCurrentChange(val) {
+                this.$axios.get("api/monitor?page=" + this.currentPage + "&limit=" + 10).then((res) => {
+                    switch (res.data.status) {
+                        case 1:
+                            const record = res.data;
+							this.tableData = record.data.monitor;
+                            this.count = record.data.count;
+                            if (this.count <= 10) {
+                                this.total = 10;
+                            } else {
+                                this.total = (this.count + 10) - (this.count) % 10;
+                            };
+							for(var i=0;i<this.tableData.length;i++){
+								this.tableData[i].disabled = true;
+							}
+                            break;
+                        case 403:
+                            window.location.href = '/login';
+                            break;
+                        default:
+                            this.$message.error(res.data.msg);
+                            break;
+                    }
+                }).catch(v => {
+                    console.log(v);
+                });
+            }
         },
         created() {
-					this.handleCurrentChange();
+            this.handleCurrentChange();
         }
     }
   
@@ -251,7 +234,9 @@
 	height: 20px;
 	line-height: 0;
 }
-
+.record .seekbtn.orange{
+	background:#ff9933
+}
 .record .el-tabs__nav{
 		width: 100%;
 }

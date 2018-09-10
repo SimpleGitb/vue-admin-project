@@ -44,7 +44,7 @@
 	|           |-- Login.vue          	 // 登录
 	|           |-- ModifyData.vue         // 修改资料
 	|           |-- monitorDetails.vue       // 监测详情
-	|           |-- monitorResult.vue           // 图片上传
+	|           |-- monitorResult.vue           // 安全检测记录
 	|           |-- NormalObserver.vue        // 正常监测
 	|           |-- PushSetting.vue        // 推送设置
 	|           |-- ServerAssets.vue        // 服务器资产

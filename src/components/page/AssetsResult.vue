@@ -14,7 +14,7 @@
 						<span class="el-table__empty-text" >暂无数据</span>
 					</div>
 					<template v-for="(result,index) in result.ip_list">
-						<div class="el-tree el-tree-node2" :key="index+'c'" @click="openclose1($event)" v-on:mouseenter="mouseEnter($event)" v-on:mouseleave="mouseLeave($event)" style="margin-left: 28px;padding: 11px 0;">
+						<div :key="'g'+index" class="el-tree el-tree-node2" @click="openclose1($event)" v-on:mouseenter="mouseEnter($event)" v-on:mouseleave="mouseLeave($event)" style="margin-left: 28px;padding: 11px 0;">
 							<span style="vertical-align: middle;"><img src="../../../static/img/箭头-ip_u7775.png"/></span>	
 							<span v-text="result.ip"></span>
 							<el-button type="text" style="float: right;margin-right: 30px;padding: 2px 15px;" class="btnshow" @click="dialogVisible = true,dialog($event,result.ip,index)" :disabled="ipdisabled">纳入监测</el-button>
@@ -32,7 +32,7 @@
 								        <th width="140">版本号</th>
 								        <th></th>
 								    </tr>
-								    <tr align="center" v-for="(port,key,index) in result.port" :key="index">
+								    <tr :key="'a'+index" align="center" v-for="(port,key,index) in result.port">
 								    	<td v-text="key"></td>
 								    	<td v-text="port.service"></td>
 								    	<td v-text="port.version"></td>
@@ -60,7 +60,7 @@
 								        <th></th>
 								        <th width="100" style="float: right;line-height: 40px;border: 0;">操作</th>
 								    </tr>
-								    <tr align="center" v-for="(port,key,index) in result.domains" :key="index" v-on:mouseenter="mouseEnter($event)" v-on:mouseleave="mouseLeave($event)">
+								    <tr :key="'b'+index" align="center" v-for="(port,key,index) in result.domains" v-on:mouseenter="mouseEnter($event)" v-on:mouseleave="mouseLeave($event)">
 								    	<td v-text="port.domain"></td>
 								        <td v-text="port.webinfo.cdn"></td>
 								        <td v-text="port.webinfo.server"></td>
@@ -90,37 +90,31 @@
 					<div v-if="result.url_list==0" class="el-table__empty-block">
 						<span class="el-table__empty-text">暂无数据</span>
 					</div>
-<<<<<<< HEAD
 					<template v-for="(result,index) in result.url_list">
-=======
-<<<<<<< HEAD
-					<template v-for="(result,index) in result.url_list">
-=======
-					<template v-for="result in result.url_list">
->>>>>>> 6b34d80d4280717962d661f4a947bcbdd1fd8696
->>>>>>> idea
-						<div :key="result.id+'a'" class="el-tree" @click="openclose1($event)" style="margin-left: 28px;padding: 11px 0;">
+						<div :key="index" class="el-tree" @click="openclose1($event)" style="margin-left: 28px;padding: 11px 0;">
 							<span style="vertical-align: middle;"><img src="../../../static/img/箭头-ip_u7775.png"/></span>	
 							<span v-text="result.domain"></span>
 							<el-button type="text" :disabled="urldisabled" style="float: right;margin-right: 30px;padding: 2px 15px;" @click="urldialogVisible = true,urldialog($event,result.domain,index)">纳入监测</el-button>
 						</div>
-						<div :key="result.id+'b'">
+						<div :key="'ss'+result">
 							<table rules="rows" class="wangzhan">
 								    <tr align="center">
-								       <th width="100">域名所有者</th>
-								       <th width="100">注册邮箱</th>
+								        <th width="100">域名所有者</th>
+								        <th width="100">注册邮箱</th>
 								        <th width="100">域名注册商</th>
 								        <th width="100">备案单位</th>
 								        <th width="100">备案号</th>
 								        <th width="100">域名过期时间</th>
-								        <th width="100">IDC</th>
 								        <th width="100">DNS</th>
-								        <th width="100">开发语言</th>
-								        <th width="100">CDN</th>
-								        <th width="100">IP</th>
 								        <th width="100">操作系统</th>
 								        <th width="100">服务器</th>
-								        <th>CMS</th>
+								        <th width="100">IP</th>
+								        <th width="100">开发语言</th>
+								        <th width="100">数据库</th>
+								        <th width="100">CMS</th>
+								        <th width="100">IDC</th>
+								        <th width="100">CDN</th>
+								        <th width="100">waf</th>
 								    </tr>
 								    <tr align="center">
 								    	<td>
@@ -189,15 +183,26 @@
 											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.whois_date"></el-button>
 											</el-popover>
 								    	</td>
+										<td>
+								    		<el-popover
+											  placement="top"
+											  width="100"
+											  trigger="hover"
+											  v-show="result.webinfo.dns"
+											  >
+											  <slot name="content"><span v-text="result.webinfo.dns"></span></slot>
+											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.dns"></el-button>
+											</el-popover>
+								    	</td>
 								    	<td>
 								    		<el-popover
 											  placement="top"
 											  width="100"
 											  trigger="hover"
-											  v-show="result.webinfo.idc"
+											  v-show="result.webinfo.os"
 											  >
-											  <slot name="content"><span v-text="result.webinfo.idc"></span></slot>
-											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.idc"></el-button>
+											  <slot name="content"><span v-text="result.webinfo.os"></span></slot>
+											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.os"></el-button>
 											</el-popover>
 								    	</td>
 										<td>
@@ -205,32 +210,10 @@
 											  placement="top"
 											  width="100"
 											  trigger="hover"
-											  v-show="result.webinfo.whois_dns"
+											  v-show="result.webinfo.server"
 											  >
-											  <slot name="content"><span v-text="result.webinfo.whois_dns"></span></slot>
-											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.whois_dns"></el-button>
-											</el-popover>
-								    	</td>
-								    	<td>
-								    		<el-popover
-											  placement="top"
-											  width="100"
-											  trigger="hover"
-											  v-show="result.webinfo.language"
-											  >
-											  <slot name="content"><span v-text="result.webinfo.language"></span></slot>
-											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.language"></el-button>
-											</el-popover>
-								    	</td>
-								    	<td>
-								    		<el-popover
-											  placement="top"
-											  width="100"
-											  trigger="hover"
-											  v-show="result.webinfo.cdn"
-											  >
-											  <slot name="content"><span v-text="result.webinfo.cdn"></span></slot>
-											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.cdn"></el-button>
+											  <slot name="content"><span v-text="result.webinfo.server"></span></slot>
+											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.server"></el-button>
 											</el-popover>
 								    	</td>
 								    	<td>
@@ -249,10 +232,10 @@
 											  placement="top"
 											  width="100"
 											  trigger="hover"
-											  v-show="result.webinfo.os"
+											  v-show="result.webinfo.language"
 											  >
-											  <slot name="content"><span v-text="result.webinfo.os"></span></slot>
-											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.os"></el-button>
+											  <slot name="content"><span v-text="result.webinfo.language"></span></slot>
+											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.language"></el-button>
 											</el-popover>
 								    	</td>
 								    	<td>
@@ -260,10 +243,10 @@
 											  placement="top"
 											  width="100"
 											  trigger="hover"
-											  v-show="result.webinfo.server"
+											  v-show="result.webinfo.database"
 											  >
-											  <slot name="content"><span v-text="result.webinfo.server"></span></slot>
-											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.server"></el-button>
+											  <slot name="content"><span v-text="result.webinfo.database"></span></slot>
+											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.database"></el-button>
 											</el-popover>
 								    	</td>
 								    	<td>
@@ -275,6 +258,39 @@
 											  >
 											  <slot name="content"><span v-text="result.webinfo.cms"></span></slot>
 											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.cms"></el-button>
+											</el-popover>
+								    	</td>
+								    	<td>
+								    		<el-popover
+											  placement="top"
+											  width="100"
+											  trigger="hover"
+											  v-show="result.webinfo.idc"
+											  >
+											  <slot name="content"><span v-text="result.webinfo.idc"></span></slot>
+											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.idc"></el-button>
+											</el-popover>
+								    	</td>
+								    	<td>
+								    		<el-popover
+											  placement="top"
+											  width="100"
+											  trigger="hover"
+											  v-show="result.webinfo.cdn"
+											  >
+											  <slot name="content"><span v-text="result.webinfo.cdn"></span></slot>
+											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.cdn"></el-button>
+											</el-popover>
+								    	</td>
+										<td>
+								    		<el-popover
+											  placement="top"
+											  width="100"
+											  trigger="hover"
+											  v-show="result.webinfo.waf"
+											  >
+											  <slot name="content"><span v-text="result.webinfo.waf"></span></slot>
+											  <el-button style="width: 80px;white-space:nowrap;overflow: hidden;border: 0;" slot="reference" v-text="result.webinfo.waf"></el-button>
 											</el-popover>
 								    	</td>
 								    </tr>
@@ -293,7 +309,7 @@
 								        <th width="180">CMS</th>
 								        <th></th>
 								    </tr>
-								    <tr align="center" v-for="(sub,key,index) in result.subdomain" :key="index">
+								    <tr :key="'c'+key" align="center" v-for="(sub,key) in result.subdomain">
 								    	<td v-text="sub.domain"></td>
 								    	<td v-text="sub.webinfo.server"></td>
 								        <td v-text="sub.webinfo.cdn"></td>
@@ -318,7 +334,7 @@
 								        <th width="180">版本号</th>
 								        <th></th>
 								    </tr>
-								    <tr align="center" v-for="(port,key,index) in result.port" :key="index">
+								    <tr :key="'c'+index" align="center" v-for="(port,key,index) in result.port">
 								    	<td v-text="key"></td>
 								    	<td v-text="port.service"></td>
 								    	<td v-text="port.version"></td>
@@ -340,8 +356,8 @@
 					<div v-if="result.email_list==0" class="el-table__empty-block">
 						<span class="el-table__empty-text">暂无数据</span>
 					</div>
-					<template v-for="(result,index) in result.email_list">
-						<div :key="index" class="el-tree" @click="openclose1($event)" style="margin-left: 28px;padding: 11px 0;">
+					<template v-for="result in result.email_list">
+						<div :key="'qq'+result" class="el-tree" @click="openclose1($event)" style="margin-left: 28px;padding: 11px 0;">
 							<span style="vertical-align: middle;"><img src="../../../static/img/箭头-ip_u7775.png"/></span>	
 							<span>abc@qq.com</span>
 						</div>
@@ -358,7 +374,7 @@
 								        <th width="180">版本号</th>
 								        <th></th>
 								    </tr>
-								    <tr align="center" v-for="(port,key,index) in result.email_list" :key="index">
+								    <tr :key="'d'+index" align="center" v-for="(port,key,index) in result.email_list">
 								    	<td v-text="key"></td>
 								    	<td v-text="port.service"></td>
 								    	<td v-text="port.version"></td>
@@ -392,7 +408,7 @@
 			  		<el-input value="端口" readonly></el-input>
 			  		<el-input value="版本" readonly></el-input>
 			  		<el-input value="服务器" readonly></el-input>
-		  			<div v-for="(port,key,index) in portinput" :key="index">
+		  			<div :key="'e'+index" v-for="(port,key,index) in portinput">
 		  				<el-input :value="key"></el-input>
 				  		<el-input :value="port.service"></el-input>
 				  		<el-input :value="port.version" ></el-input>
@@ -458,7 +474,7 @@
                         </el-input>
                     </el-form-item>    
 		            <el-form-item label="网站标签:">
-		                <el-tag closable @close="closeSiteTag(item)" v-for="(item,index) in sitetag" :key="index">
+		                <el-tag :key="'e'+index" closable @close="closeSiteTag(item)" v-for="(item,index) in sitetag">
 		                    {{item}}
 		                </el-tag>
 		                    <el-input
@@ -494,34 +510,25 @@
 					  </el-radio-group>
 			  	</div>
 			  	<div class="con_input urlinput" v-if="input_show1">
-			  		<el-input value="dns" readonly></el-input>
-			  		<el-input value="服务器" readonly></el-input>
+			  		<el-input value="域名所有者" readonly></el-input>
+			  		<el-input value="DNS" readonly></el-input>
 			  		<el-input value="IP" readonly></el-input>
 			  		<el-input value="注册人" readonly></el-input>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> idea
-		  			
 		  				<el-input :value="urlport.webinfo.dns"></el-input>
 				  		<el-input :value="urlport.webinfo.server"></el-input>
 				  		<el-input :value="urlport.webinfo.ip"></el-input>
 				  		<el-input :value="urlport.webinfo.whois_name"></el-input>
 		  		
-			  		<!--<el-input v-model="add_input1"></el-input>
-<<<<<<< HEAD
-=======
-=======
-		  			<template v-for="(port,key,index) in result.port" >
-		  				<el-input :value="key"></el-input>
-				  		<el-input :value="port.service"></el-input>
-				  		<el-input :value="port.version"></el-input>
-				  		<el-input :value="port.version"></el-input>
-				  		<i class="el-icon-remove"></i>
+			  		<el-input v-model="add_input1"></el-input>
+			  		<el-input value="服务器" readonly></el-input>
+		  			<template v-for="(port,key,index) in result.port">
+		  				<el-input :key="'f'+index" :value="key"></el-input>
+				  		<el-input :key="'f'+index" :value="port.service" ></el-input>
+				  		<el-input :key="'f'+index" :value="port.version" ></el-input>
+				  		<el-input :key="'f'+index" :value="port.version"></el-input>
+				  		<i :key="'f'+index" class="el-icon-remove" ></i>
 		  			</template>
 			  		<el-input v-model="add_input1"></el-input>
->>>>>>> 6b34d80d4280717962d661f4a947bcbdd1fd8696
->>>>>>> idea
 			  		<el-input v-model="add_input2"></el-input>
 			  		<el-input v-model="add_input3"></el-input>
 			  		<el-input v-model="add_input3"></el-input>
@@ -728,12 +735,12 @@
                 <el-button type="primary" @click="addTag()">添加</el-button>
             </el-form-item>
             <el-form-item class="unitTag">
-                <el-tag closable @close="closeUnitTag(item)" v-for="(item,index) in unitData" :key="index">
+                <el-tag :key="'fg'+index" closable @close="closeUnitTag(item)" v-for="(item,index) in unitData">
                     {{item}}
                 </el-tag>
             </el-form-item>
             <el-form-item label="网站标签:">
-                <el-tag closable @close="closeSiteTag(item)" v-for="(item,index) in sitetag" :key="index">
+                <el-tag :key="'fs'+index" closable @close="closeSiteTag(item)" v-for="(item,index) in sitetag">
                     {{item}}
                 </el-tag>
                     <el-input

@@ -26,9 +26,10 @@
                         </el-table-column>
                         <el-table-column
                             prop="created_at"
+                            width="200"
                             label="时间">
                         </el-table-column>
-                       <el-table-column prop="" label="操作">
+                       <el-table-column  width="200" label="操作">
                             <template slot-scope="scope">
                                     <a href="javascript:;" target="_blank" class="toview" @click="toview(scope.row)">查看</a>
                             </template>
@@ -53,7 +54,7 @@
                         <el-table-column
                             prop="date"
                             class="title"
-                            label="服务器">
+                            label="描述">
                         <template slot-scope="scope">
                                 <span class="mark" v-if="!scope.row.read">·</span>
                                 {{scope.row.server}}端口{{scope.row.port}}
@@ -64,9 +65,10 @@
                         </el-table-column>
                         <el-table-column
                             prop="created_at"
+                            width="200"
                             label="时间">
                         </el-table-column>
-                       <el-table-column  label="操作">
+                       <el-table-column  width="200" label="操作">
                         <template slot-scope="scope">
                                 <a href="javascript:;" v-if="scope.row.action == 0" class="toview">已过期</a>
                                 <a href="javascript:;" v-else-if="scope.row.action == 1" @click="disposal(scope.row)" class="toview">处置</a>
@@ -101,9 +103,11 @@
                         </el-table-column>
                         <el-table-column
                             prop="created_at"
+                            width="200"
                             label="时间">
                         </el-table-column>
                         <el-table-column
+                            width="200"
                             label="操作">
                             <template slot-scope="scope">
                                 <a href="javascript:;" target="_blank" class="toview" @click="usabilityView(scope.row)">查看</a>
@@ -451,6 +455,9 @@
 
 <style>
 
+    .message .el-table__body-wrapper .el-table__row td:nth-of-type(2){
+        display: flex;
+    }
     .message .el-table .cell:nth-of-type(2){
         display: flex;
     }
@@ -495,10 +502,17 @@
         color: #409EFF;
     }
 
-    .message .el-table__header-wrapper .has-gutter tr{
+    .message .el-table__header-wrapper .has-gutter tr th{
         background: #f2f2f2;
         font-size: 14px;
     }
+
+    .message .el-dialog__header{
+        background: #f8f8f8;
+        border-bottom: 1px solid #e2e2e2;
+        padding: 10px 15px 10px;
+    }
+
 
     .message .el-table td{
         text-align: center;
