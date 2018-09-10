@@ -90,7 +90,11 @@
 					<div v-if="result.url_list==0" class="el-table__empty-block">
 						<span class="el-table__empty-text">暂无数据</span>
 					</div>
+<<<<<<< HEAD
 					<template v-for="(result,index) in result.url_list">
+=======
+					<template v-for="result in result.url_list">
+>>>>>>> 6b34d80d4280717962d661f4a947bcbdd1fd8696
 						<div :key="result.id+'a'" class="el-tree" @click="openclose1($event)" style="margin-left: 28px;padding: 11px 0;">
 							<span style="vertical-align: middle;"><img src="../../../static/img/箭头-ip_u7775.png"/></span>	
 							<span v-text="result.domain"></span>
@@ -490,6 +494,7 @@
 			  		<el-input value="服务器" readonly></el-input>
 			  		<el-input value="IP" readonly></el-input>
 			  		<el-input value="注册人" readonly></el-input>
+<<<<<<< HEAD
 		  			
 		  				<el-input :value="urlport.webinfo.dns"></el-input>
 				  		<el-input :value="urlport.webinfo.server"></el-input>
@@ -497,6 +502,16 @@
 				  		<el-input :value="urlport.webinfo.whois_name"></el-input>
 		  		
 			  		<!--<el-input v-model="add_input1"></el-input>
+=======
+		  			<template v-for="(port,key,index) in result.port" >
+		  				<el-input :value="key"></el-input>
+				  		<el-input :value="port.service"></el-input>
+				  		<el-input :value="port.version"></el-input>
+				  		<el-input :value="port.version"></el-input>
+				  		<i class="el-icon-remove"></i>
+		  			</template>
+			  		<el-input v-model="add_input1"></el-input>
+>>>>>>> 6b34d80d4280717962d661f4a947bcbdd1fd8696
 			  		<el-input v-model="add_input2"></el-input>
 			  		<el-input v-model="add_input3"></el-input>
 			  		<el-input v-model="add_input3"></el-input>
