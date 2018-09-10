@@ -1271,8 +1271,5 @@
         text-align: center;
     }
 
-   .serveTab .el-table th.is-leaf{
-        border-bottom: none;
-}
 
 </style>

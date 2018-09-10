@@ -888,6 +888,12 @@
         </div>
         <el-dialog title="资产添加" :visible.sync="showdialog" width="35%">
             <el-form label-width="100px">
+                <el-form-item>
+                    <el-radio-group v-model="assetsalertData.monitor">
+                        <el-radio label="0">正常监测</el-radio>
+                        <el-radio label="1">基线监测</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                 <el-form-item label="所属单位">
                     <el-autocomplete style="width:80%;" popper-class="my-autocomplete" v-model="assetsalertData.owner" @focus="querySearch" :fetch-suggestions="querySearch"
                         placeholder="请选择该网站直属单位，鼠标点击后支持搜索" @select="selectunit">
@@ -1110,6 +1116,12 @@
         </el-dialog>
         <el-dialog title="资产编辑" :visible.sync="addAssetsDialog" width="35%">
             <el-form label-width="100px">
+                 <el-form-item>
+                    <el-radio-group v-model="editAssets.monitor">
+                        <el-radio label="normal">正常监测</el-radio>
+                        <el-radio label="base">基线监测</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                 <el-form-item label="所属单位">
                     <el-autocomplete style="width:80%;" popper-class="my-autocomplete" v-model="editAssets.owner" @focus="querySearch" :fetch-suggestions="querySearch"
                         placeholder="请输入内容" @select="selectunit">
@@ -1332,6 +1344,12 @@
         </el-dialog>
         <el-dialog title="批量添加" :visible.sync="batchAddAssets" width="35%" class="batchAdd">
             <el-form label-width="100px">
+                <el-form-item>
+                    <el-radio-group v-model="batchAdd.monitor">
+                        <el-radio label="0">正常监测</el-radio>
+                        <el-radio label="1">基线监测</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                 <el-form-item label="选择策略">
                     <el-autocomplete popper-class="my-autocomplete" style="width:80%" v-model="batchAdd.strategy" @focus="querySearch1" :fetch-suggestions="querySearch1"
                         placeholder="请选择策略" @select="selectstrategydata">
@@ -1495,9 +1513,11 @@
         data() {
             return {
                 currentPage2:1,
+                typeval:'',
                 includedComponents:'application',
                 labelPosition: 'center',
                 batchchoice: '',
+                a:'123',
                 usabval:'',
                 usblityVisble:false,
                 tabPosition:'day',
@@ -1557,6 +1577,7 @@
                     startTime: [new Date().toLocaleDateString(),new Date(2018, 11, 30).toLocaleDateString()]
                 },
                 batchAdd: {
+                    monitor:'1',
                     strategy: '',
                     content: ''
                 },
@@ -1564,6 +1585,7 @@
                     superior: ''
                 },
                 assetsalertData: {
+                    monitor:'1',
                     ownerId: '',
                     owner: '',
                     name: '',
@@ -1602,6 +1624,7 @@
                     domainmonitorNum1: 0
                 },
                 editAssets: {
+                    monitor:'0',
                     ownerId: '',
                     owner: '',
                     name: '',
@@ -1661,7 +1684,8 @@
                     idc:'',
                     cdn:'',
                     waf:'',
-                    whois_date:''
+                    whois_date:'',
+                    type:''
                 }],
                 subdomain: [],
                 information: {
@@ -1820,6 +1844,7 @@
                         this.layerData[0].cdn = data.site.asset.cdn ? data.site.asset.cdn : '无';
                         this.layerData[0].waf = data.site.asset.waf ? data.site.asset.waf : '无';
                         this.layerData[0].whois_date = data.site.asset.whois_date ? data.site.asset.whois_date : '无';
+                        this.typeval = data.site.type;
                         this.subdomain = data.subdomain;
                         this.loading3 = false;
                         this.webasset = false;
@@ -1828,6 +1853,9 @@
                     });           
                 // 最新威胁
                 this.getThreat(row.id);
+            },
+            showStrategy(){
+                console.log(111)
             },
             tabclick(tab){
                  if(tab.name == 'third'){ // 基本信息
@@ -1977,57 +2005,113 @@
                         break;
                 }
             },
-            renderHeader(){
-                return (
-                    <div class="headicon server">
-                        <span>服务器</span>
-                            <i class="iconfont icon-icon">
-                                <div class="box">
-                                    基线监测中
-                                    <div class="border"></div>
-                                </div>
-                            </i>
-                    </div>
-                )
+            renderHeader() {
+                if(this.typeval){
+                    return (
+                        <div class="headicon server">
+                                <span>IP</span>
+                                    <i class="iconfont icon-icon">
+                                        <div class="box">
+                                            基线监测中
+                                            <div class="border"></div>
+                                        </div>
+                                    </i>
+                        </div>
+                        )
+                }else{
+                    return (
+                        <div class="headicon server">
+                                <span>IP</span>
+                                    <i class="iconfont icon-icon">
+                                        <div class="box">
+                                            正常监测中
+                                            <div class="border"></div>
+                                        </div>
+                                    </i>
+                        </div>
+                        )
+                }
             },
             renderHeader1(){
+                if(this.typeval){
+                    return (
+                        <div class="headicon ip">
+                            <span>IP</span>
+                            <i class="iconfont icon-icon">
+                                    <div class="box">
+                                        基线监测中
+                                        <div class="border"></div>
+                                    </div>
+                                </i>
+                        </div>
+                    )
+            }else{
                 return (
                     <div class="headicon ip">
                         <span>IP</span>
                         <i class="iconfont icon-icon">
                                 <div class="box">
-                                    基线监测中
+                                    正常监测中
                                     <div class="border"></div>
                                 </div>
                             </i>
                     </div>
                 )
+            }
             },
             renderHeader2(){
-                return (
-                    <div class="headicon whois_name">
-                        <span>域名注册商</span>
-                        <i class="iconfont icon-icon">
-                                <div class="box">
-                                    基线监测中
-                                    <div class="border"></div>
-                                </div>
-                            </i>
-                    </div>
-                )
+                if(this.typeval){
+                    return (
+                        <div class="headicon whois_name">
+                            <span>域名注册商</span>
+                            <i class="iconfont icon-icon">
+                                    <div class="box">
+                                        基线监测中
+                                        <div class="border"></div>
+                                    </div>
+                                </i>
+                        </div>
+                    )
+                }else{
+                    return (
+                        <div class="headicon whois_name">
+                            <span>域名注册商</span>
+                            <i class="iconfont icon-icon">
+                                    <div class="box">
+                                        正常监测中
+                                        <div class="border"></div>
+                                    </div>
+                                </i>
+                        </div>
+                    )
+                }
             },
             renderHeader3(){
-                return (
-                    <div class="headicon dns">
-                        <span>DNS</span>
-                        <i class="iconfont icon-icon">
-                                <div class="box">
-                                    基线监测中
-                                    <div class="border"></div>
-                                </div>
-                            </i>
-                    </div>
-                )
+                if(this.typeval){
+                    return (
+                        <div class="headicon dns">
+                            <span>DNS</span>
+                            <i class="iconfont icon-icon">
+                                    <div class="box">
+                                        基线监测中
+                                        <div class="border"></div>
+                                    </div>
+                                </i>
+                        </div>
+                    )
+                }else{
+                    return (
+                        <div class="headicon dns">
+                            <span>DNS</span>
+                            <i class="iconfont icon-icon">
+                                    <div class="box">
+                                        正常监测中
+                                        <div class="border"></div>
+                                    </div>
+                                </i>
+                        </div>
+                    )
+                }
             },
             average(row){
                     this.$axios.get('api/site/'+ (this.rowId ? this.rowId : row.id) + '/usability').then((res) =>{
@@ -2605,6 +2689,7 @@
                     this.editAssets.name = data.name;
                     this.editAssets.url = data.domain;
                     this.editAssets.remark = data.remark;
+                    this.editAssets.monitor = Number(data.type);
                     var arr = new Set(data.superior);
                     this.unitData2 = Array.from(arr);
                     this.sitetag2 = data.tags ? data.tags : [];
@@ -3481,7 +3566,7 @@
                 if (!this.editAssets.strategydata) {
                     this.$message.error('请选择策略');
                     return;
-                }
+                };
 
                 if (this.isdisable) {
                     this.$axios.post("api/site/" + this.unitRowId + '/update', {
@@ -3498,7 +3583,8 @@
                         continue_count: Number(this.editAssets.continue_count),
                         notice_count: Number(this.editAssets.notice_count),
                         cookie: Number(this.editAssets.custom),
-                        jump: Number(this.editAssets.jump)
+                        jump: Number(this.editAssets.jump),
+                        type:Number(this.editAssets.monitor)
                     }).then((res) => {
                         let data = res.data;
                         if (data.status == 1) {
@@ -3540,6 +3626,7 @@
                             cookie: Number(this.editAssets.custom),
                             jump: Number(this.editAssets.jump)
                         },
+                        type:Number(this.editAssets.monitor),
                         remark: this.editAssets.remark,
                         superior: this.unitId1,
                         tags: this.sitetag2,
@@ -3598,7 +3685,8 @@
                         continue_count: Number(this.assetsalertData.continue_count),
                         notice_count: Number(this.assetsalertData.notice_count),
                         cookie: Number(this.assetsalertData.custom),
-                        jump: Number(this.assetsalertData.jump)
+                        jump: Number(this.assetsalertData.jump),
+                        type:Number(this.assetsalertData.monitor)
                     }).then((res) => {
                         let data = res.data;
                         if (data.status == 1) {
@@ -3643,6 +3731,7 @@
                             cookie: Number(this.assetsalertData.custom),
                             jump: Number(this.assetsalertData.jump)
                         },
+                        type:Number(this.assetsalertData.monitor),
                         remark: this.assetsalertData.remark,
                         superior: this.unitId,
                         tags: this.sitetag
@@ -3813,6 +3902,14 @@
                     })
             }
         },
+        watch:{
+            typeval:function(){
+                this.renderHeader();
+                this.renderHeader1();
+                this.renderHeader2();
+                this.renderHeader3();
+            }
+        },
         created() {
             if(!this.$route.params.unItId){this.getsite();}
             this.createTime();
@@ -3892,10 +3989,10 @@
         cursor: pointer;
     }
     .application .el-table .server .iconfont .box{
-        left: 40%;
+        left: 28%;
     }
     .application .el-table .ip .iconfont .box{
-        left: 32%;
+        left: 29%;
     }
     .application .el-table .whois_name .iconfont .box{
         left:48%;
@@ -4726,9 +4823,6 @@ ul,
         font-size: 14px;
     }
 
-    .el-table__header thead {
-        background: #f2f2f2
-    }
 
     .handle-input {
         width: 100px;
