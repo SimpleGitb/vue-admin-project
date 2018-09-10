@@ -17,7 +17,7 @@
                 </el-table-column>
                 <el-table-column label="IP">
                     <template slot-scope="scope">
-                        <div class="icon" v-if="scope.row.type == 1">
+                        <div class="icon" v-if="scope.row.status == 1">
                             <span>
                                 <img src="../../../static/img/assets/total1.png">
                             </span>
@@ -27,7 +27,6 @@
                                 <img src="../../../static/img/assets/total3.png">
                             </span>
                         </div>
-                        <!-- <i v-if="scope.row.type == 0 ? color = 'red' : color ='red'" :style="{'color':color}" :class="{'iconfont':iconfont,'icon-dian':'icon-dian'}"></i> -->
                         <span @click="hrefmonitor(scope.row)">{{ scope.row.ip }}</span>
                     </template>
                 </el-table-column>

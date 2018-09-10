@@ -40,27 +40,29 @@
                             </li>
                         </el-tooltip>
                             <el-tooltip effect="dark" :content="message?`有${message}条未读消息`:`消息中心`" placement="bottom">
-                        <li @click="hrefmsg">
-                                    <i class="el-icon-bell"><span class="btn-bell-badge" v-if="message>0"></span></i>
-                        </li>
+                                <li @click="hrefmsg">
+                                            <i class="el-icon-bell"><span class="btn-bell-badge" v-if="message>0"></span></i>
+                                </li>
                             </el-tooltip>
-                        <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <li>
                         <div class="user-avator"><img src="static/img/img.jpg"></div>
                         <!-- 用户名下拉菜单 -->
+                       <el-col :span="12">
+                        <el-dropdown  @command="handleCommand">
                             <span class="el-dropdown-link">
-                                {{username}} <i class="el-icon-caret-bottom"></i>
+                                {{name}}<i class="el-icon-arrow-down el-icon--right"></i>
                             </span>
                             <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item>
-                                        <router-link to="/ModifyData" tag="p">
-                                            修改资料
-                                        </router-link>
+                                <el-dropdown-item command="xxx">
+                                    <router-link to="/ModifyData" tag="p">
+                                        修改资料
+                                    </router-link>
                                     </el-dropdown-item>
-                                <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
+                                <el-dropdown-item command="loginout">退出登录</el-dropdown-item>
                             </el-dropdown-menu>
-                    </li>
                         </el-dropdown>
+                    </el-col>
+                    </li>
                 </ul>
                 <!-- 消息中心 -->
 
@@ -311,13 +313,14 @@
                 bus.$emit('collapse', this.collapse);
                     this.collapse = !this.collapse;
                         if(this.collapse){
-                            if(event.target.children[0]){
+                            console.log(event)
+                            if(event.target && event.target.children[0]){
                                 event.target.children[0].src = '../../../static/img/folds.png';
                             }else{
                                 event.target.src = '../../../static/img/folds.png';
                             }
                         }else{
-                             if(event.target.children[0]){
+                             if(event.target && event.target.children[0]){
                                 event.target.children[0].src = '../../../static/img/fold.png';
                             }else{
                                 event.target.src = '../../../static/img/fold.png';
@@ -379,6 +382,9 @@
 
 </script>
 <style scoped>
+    .el-dropdown-menu{
+        top: 58px!important;
+    }
     .aseetRecord{
         display: inline-block;
     }
@@ -518,6 +524,7 @@
     }
     .user-avator{
         margin-left: 20px;
+        margin-right: 10px;
     }
     .user-avator img{
         display: block;
@@ -541,6 +548,7 @@
     }
 </style>
 <style lang="scss">
+
     .aseetRecord li:hover .line{
         display: block;
         z-index: 11;
@@ -573,6 +581,7 @@
         box-shadow:0 -8px 8px 2px rgba(0, 0, 0, 0.1);
         border-radius: 4px;
         margin-top:6px;
+        top: 66px;
     }
     .aseetRecord .line:hover span{
         color:#00aaff;
