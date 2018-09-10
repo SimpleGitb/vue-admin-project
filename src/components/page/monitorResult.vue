@@ -65,7 +65,7 @@
 			      >
 			      <template slot-scope="scope">
 			      	<el-button type="text" @click="assetsResult(scope.row.task_id)" class="seekbtn">查看</el-button>
-			      	<el-button type="text" class="seekbtn orange" @click="exportPort(scope.row.task_id)">导出</el-button>
+			      	<el-button type="text" class="seekbtn orange" @click="exportPort(scope.row)" :disabled="!scope.row.disabled">导出</el-button>
 			      </template>
 			    </el-table-column>
 			  </el-table>
@@ -112,17 +112,21 @@
             handleSelectionChange(val) {
                 this.multipleSelection = val;
 			},
-			exportPort(id){
-				this.$axios.get('api/monitor/'+id+'/export').then((res)=>{
-					if(res.status == 200){
-						location.href = 'http://192.168.30.249:8080/api/monitor/'+id+'/export';
-					}else{
-						this.$message.error('请等待');
-					}
-				}).catch(v => {
-					this.$message.error('接口异常请稍后重试');
-                    console.log(v);
-                });
+			exportPort(scope){
+				if(scope.disabled){
+					scope.disabled = false;
+					this.$axios.get('api/monitor/'+scope.task_id+'/export').then((res)=>{
+						if(res.status == 200){
+							location.href = '/api/monitor/'+scope.task_id+'/export';
+							scope.disabled = true;
+						}else{
+							this.$message.error('请等待');
+						}
+					}).catch(v => {
+						this.$message.error('接口异常请稍后重试');
+						console.log(v);
+					});
+				}
 			},
             assetsResult(id) {
                 this.$router.push({
@@ -153,7 +157,7 @@
                     switch (res.data.status) {
                         case 1:
                             const record = res.data;
-                            this.tableData = record.data.monitor;
+							this.tableData = record.data.monitor;
                             this.count = record.data.count;
                             if (this.count <= 10) {
                                 this.total = 10;

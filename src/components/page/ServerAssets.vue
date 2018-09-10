@@ -630,12 +630,12 @@
                 this.batchAdd.owner = data.owner;
                 this.batchAdd.ownerId = data.id;
             },
-            hrefmonitor(row){
+            hrefmonitor(scope){
                 var row = {
-                    id:row.id
+                    id:scope.id
                 }
-                if(row.alive == 0) return;
-                if(row.type == 1){ // 基线监测
+                if(scope.alive == 0) return;
+                if(scope.type == 1){ // 基线监测
                     this.$router.push({
                         name: 'permission',
                         'query': row
@@ -830,7 +830,7 @@
                     }else{
                     this.isport = false
                 };
-                    this.editVisible1 = true;
+                this.editVisible1 = true;
                 for(var i=0;i<this.tableData3.length;i++){
                     if(this.tableData3[i].id == row.id){
                         if(this.tableData3[i].port.length == 0){

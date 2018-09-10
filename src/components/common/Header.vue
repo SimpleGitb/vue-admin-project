@@ -53,7 +53,7 @@
                                 {{name}}<i class="el-icon-arrow-down el-icon--right"></i>
                             </span>
                             <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item command="xxx">
+                                <el-dropdown-item>
                                     <router-link to="/ModifyData" tag="p">
                                         修改资料
                                     </router-link>
@@ -578,7 +578,7 @@
         text-align: center;
         display: none;
         border:1px solid transparent;
-        box-shadow:0 -8px 8px 2px rgba(0, 0, 0, 0.1);
+        box-shadow:0px 2px 12px 2px rgba(0, 0, 0, 0.1);
         border-radius: 4px;
         margin-top:6px;
         top: 66px;
