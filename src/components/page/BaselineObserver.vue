@@ -2,7 +2,7 @@
     <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-warning"></i>基线监测 - {{basedata.ip}} - {{basedata.location}}</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-warning"></i>&nbsp;&nbsp;基线监测 - {{basedata.ip}} - {{basedata.location}}</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
@@ -13,14 +13,14 @@
                     <div class="right_line"></div>
                 </div>
                 <ul class="main" style="color: #606266;">
-                    <li v-for="(port,key,index) in baseport.port" :key="index+1">
+                    <li v-for="(port,key,index) in baseport.port">
                         <div class="left_text" v-text="key"></div>
                         <div class="right">
                             <p class="top" v-text="port.server"></p>  
                             <p class="bottom" v-text="port.version"></p>
                         </div>
                     </li>
-                   
+                   <div v-if="portlen == 0"><img class="tupian" src="../../../static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无端口信息</span></div>
                 </ul>
             </div>           
         </div>
@@ -36,8 +36,8 @@
             <div class="historyLine">
                 <div class="dash_line">
                     <div style="overflow:hidden; position:relative; height: 60px;">
-                    	<ul class="processCorn" id="yearList" style="width: 100%; position: relative;margin-left: 45%;overflow: hidden;">
-	                        <li v-for="(time,value,index) in historytime" :key="index+2"><i class="iconfont icon-danxuan"></i> <span v-text="time"></span></li>
+                    	<ul class="processCorn" id="yearList" style="width: 100%; position: relative;margin-left: 45%;">
+	                        <li v-for="(time,value,index) in historytime"><i class="iconfont icon-danxuan"></i> <span style="width:150px" v-text="time"></span></li>
 	                    </ul>
                     </div>
                 </div>
@@ -45,10 +45,10 @@
                     <img @click="btnPrev()" class="left_arrow" src="/static/img/left.png" alt="">
                     <div class="middle" style="width: 530px;position: relative; overflow: hidden;margin-top: 50px;">
                         <ul class="middle_content" id="cUl">
-                            <li v-for="(history,val,index) in basehistory" :key="index+3">
+                            <li v-for="(history,val,index) in basehistory">
                             	<div style="width: 530px;">
                             		<ul>
-			                            <li v-for="(hist,key,index) in history.port" :key="index+4">  {{key}}      {{hist.server}}     {{hist.version}}</li>
+			                            <li v-for="(hist,key,index) in history.port">  {{key}}      {{hist.server}}     {{hist.version}}</li>
 			                        </ul>
                             	</div>
                             </li>
@@ -69,19 +69,20 @@
                 </div>
             </div>
             <div class="hc_mai">
-				<div class="fishBone">
+				<div class="fishBone" v-if="eventlen > 0">
 					<div class="wrapper">
 						<div class="bd">
 							<div class="tempWrap" style="overflow:hidden; position:relative; width: 96%;left:2%">
 								<ul style="width: 4500px; left: 0; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
 									<template v-for="(item,index) in basedata.event">
 										<template v-if="index<basedata.event.length&&index%2==0">
-									      <li class="item top" style="width: 170px;" :key="index+5">
+									      <li class="item top" style="width: 170px;">
 												<div class="content">
 													<ul>
 														<li class="line-first" style="background-position-y: 9px;" v-text="basedata.event[index].created_at"></li>
 														<li class="title" v-if="basedata.event[index].status ==0"><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;line-height: 2.2em;">{{basedata.event[index].port}} 端口关闭</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
 														<li class="title" v-else-if="basedata.event[index].status ==1"><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;line-height: 2.2em;">{{basedata.event[index].port}} 端口开启</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
+														<li class="title" v-else-if="basedata.event[index].status ==3"><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;line-height: 2.2em;">ip不可用</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
 														<li class="title" v-else><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;line-height: 2.2em;">{{basedata.event[index].port}} 端口服务由 {{basedata.event[index].server}} 变为 {{basedata.event[index].version}}</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
 														<li class="overauto" style="border-left: 1px solid rgb(248, 151, 130);width: 187px;height: 80px;overflow: hidden;">
 															<div style="width: 204px;overflow-x: hidden;overflow-y: scroll;height: 80px;">
@@ -94,7 +95,7 @@
 													</ul>
 												</div>
 											</li>
-											<li v-if="index<basedata.event.length-1" class="item bottom" style="width: 170px;" :key="index+6">
+											<li v-if="index<basedata.event.length-1" class="item bottom" style="width: 170px;">
 												<div class="content">
 													<ul>
 														<li class="overauto" style="border-left: 1px solid rgb(26, 132, 206);width: 187px;height: 80px;overflow: hidden;">
@@ -106,6 +107,7 @@
 														</li>
 														<li class="title" v-if="basedata.event[index+1].status == 0"><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;line-height: 2.2em;">{{basedata.event[index+1].port}} 端口关闭</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
 														<li class="title" v-else-if="basedata.event[index+1].status == 1"><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;    line-height: 2.2em;">{{basedata.event[index+1].port}} 端口开启</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
+														<li class="title" v-else-if="basedata.event[index+1].status == 3"><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;    line-height: 2.2em;">ip不可用</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
 														<li class="title" v-else><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;line-height: 2.2em;">{{basedata.event[index+1].port}} 端口服务由 {{basedata.event[index+1].server}} 变为 {{basedata.event[index+1].version}}</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
 														<li class="line-first" style="background-position-y: -93px;" v-text="basedata.event[index+1].created_at"></li>
 														<li class="line-last line-point" style="background-position: 0px -20px;"></li>
@@ -123,6 +125,7 @@
 					<a class="next" @click="nextPage"></a>
 					<div class="line"></div>
 				</div>            
+            	<div v-if="eventlen == 0" style="text-align: center;line-height: 339px;"><img class="tupian" src="../../../static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无历史变动信息</span></div>
             </div>
         </div>
         
@@ -143,7 +146,9 @@
             	basedata:[],
             	baseport:[],
             	basehistory:[],
-            	historytime:[]
+            	historytime:[],
+            	portlen:"",
+            	eventlen:""
             }
         },
         methods:{
@@ -152,6 +157,8 @@
 	                switch (res.data.status) {
 					        case 1:
 					        	this.basedata = res.data.data;
+					        	this.portlen = this.basedata.port.length;
+					        	this.eventlen = this.basedata.event.length;
 					        	this.baseport = this.basedata.port;
 					        	this.basehistory = this.basedata.history;
 					        	var self = this;
@@ -186,7 +193,7 @@
             },
             updata(){
                 $("#cUl").animate({left:-(this.w*this.n)+'px'},300);
-                $("#yearList").animate({left:-((170)*this.n)+'px'},300);
+                $("#yearList").animate({left:-((150)*this.n)+'px'},300);
                 $(".processCorn").find("li").eq(this.n).addClass("active").siblings().removeClass("active");
             },
             prevPage: function(){
@@ -251,6 +258,7 @@ ul,li{
         .title_top{
             padding-left:15px;
             line-height:40px;
+            color: #333333;
         }
         .line_content{
             display:flex;
@@ -324,7 +332,7 @@ ul,li{
     }
     .dash_line{
         width:90%;
-        height:20px;
+        height:22px;
         border-bottom:3px dashed #E4E4E4;
         position:relative;
         margin:0 auto;
@@ -411,4 +419,7 @@ ul,li{
     .active{
 		    color: red;
 		}
+.tupian{
+	width: 24px;height: 24px;vertical-align: middle;margin-right: 20px;
+}
 </style>
