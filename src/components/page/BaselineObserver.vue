@@ -13,7 +13,7 @@
                     <div class="right_line"></div>
                 </div>
                 <ul class="main" style="color: #606266;">
-                    <li v-for="(port,key,index) in baseport.port" :key="index+1">
+                    <li v-for="(port,key,index) in baseport.port">
                         <div class="left_text" v-text="key"></div>
                         <div class="right">
                             <p class="top" v-text="port.server"></p>  
@@ -36,8 +36,8 @@
             <div class="historyLine">
                 <div class="dash_line">
                     <div style="overflow:hidden; position:relative; height: 60px;">
-                    	<ul class="processCorn" id="yearList" style="width: 100%; position: relative;margin-left: 45%;overflow: hidden;">
-	                        <li v-for="(time,value,index) in historytime" :key="index+2"><i class="iconfont icon-danxuan"></i> <span v-text="time"></span></li>
+                    	<ul class="processCorn" id="yearList" style="width: 100%; position: relative;margin-left: 45%;">
+	                        <li v-for="(time,value,index) in historytime"><i class="iconfont icon-danxuan"></i> <span style="width:150px" v-text="time"></span></li>
 	                    </ul>
                     </div>
                 </div>
@@ -45,10 +45,10 @@
                     <img @click="btnPrev()" class="left_arrow" src="/static/img/left.png" alt="">
                     <div class="middle" style="width: 530px;position: relative; overflow: hidden;margin-top: 50px;">
                         <ul class="middle_content" id="cUl">
-                            <li v-for="(history,val,index) in basehistory" :key="index+3">
+                            <li v-for="(history,val,index) in basehistory">
                             	<div style="width: 530px;">
                             		<ul>
-			                            <li v-for="(hist,key,index) in history.port" :key="index+4">  {{key}}      {{hist.server}}     {{hist.version}}</li>
+			                            <li v-for="(hist,key,index) in history.port">  {{key}}      {{hist.server}}     {{hist.version}}</li>
 			                        </ul>
                             	</div>
                             </li>
@@ -76,7 +76,7 @@
 								<ul style="width: 4500px; left: 0; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
 									<template v-for="(item,index) in basedata.event">
 										<template v-if="index<basedata.event.length&&index%2==0">
-									      <li class="item top" style="width: 170px;" :key="index+5">
+									      <li class="item top" style="width: 170px;">
 												<div class="content">
 													<ul>
 														<li class="line-first" style="background-position-y: 9px;" v-text="basedata.event[index].created_at"></li>
@@ -95,7 +95,7 @@
 													</ul>
 												</div>
 											</li>
-											<li v-if="index<basedata.event.length-1" class="item bottom" style="width: 170px;" :key="index+6">
+											<li v-if="index<basedata.event.length-1" class="item bottom" style="width: 170px;">
 												<div class="content">
 													<ul>
 														<li class="overauto" style="border-left: 1px solid rgb(26, 132, 206);width: 187px;height: 80px;overflow: hidden;">
@@ -193,7 +193,7 @@
             },
             updata(){
                 $("#cUl").animate({left:-(this.w*this.n)+'px'},300);
-                $("#yearList").animate({left:-((170)*this.n)+'px'},300);
+                $("#yearList").animate({left:-((150)*this.n)+'px'},300);
                 $(".processCorn").find("li").eq(this.n).addClass("active").siblings().removeClass("active");
             },
             prevPage: function(){
@@ -419,4 +419,7 @@ ul,li{
     .active{
 		    color: red;
 		}
+.tupian{
+	width: 24px;height: 24px;vertical-align: middle;margin-right: 20px;
+}
 </style>
