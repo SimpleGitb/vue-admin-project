@@ -727,7 +727,7 @@ import { regionDataPlus} from 'element-china-area-data';
     .userTable .el-cascader{
         width: 170px;
     }
-    .userTable .el-table thead tr{
+    .userTable .el-table thead tr th{
         background-color: #f2f2f2;
         color: #666;
     }

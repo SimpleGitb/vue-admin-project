@@ -484,8 +484,8 @@
                         ip:this.batchAdd.content,
                         configure:{
                             name:this.addserverStrategy.name,
-                            start:this.addserverStrategy.startTime[0],
-                            end:this.addserverStrategy.startTime[1],
+                            start:this.addserverStrategy.startTime[0].toLocaleDateString().split('/').join('-'),
+                            end:this.addserverStrategy.startTime[1].toLocaleDateString().split('/').join('-'),
                             daily_start:this.addserverStrategy.startdaily,
                             daily_end:this.addserverStrategy.enddaily,
                             remark:this.addserverStrategy.remark,
@@ -1263,7 +1263,7 @@
         text-align: center
     }
 
-    .serveTab .el-table__header-wrapper .has-gutter tr{
+    .serveTab .el-table__header-wrapper .has-gutter tr th{
         background: #f2f2f2;
     }
 

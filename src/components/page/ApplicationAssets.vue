@@ -562,6 +562,8 @@
                                                     </el-table-column>
                                                     <el-table-column prop="asset.cms" label="CMS">
                                                     </el-table-column>
+                                                    <el-table-column prop="asset.waf" label="waf">
+                                                    </el-table-column>
                                                 </el-table>
                                             </div>
                                         </div>
@@ -1118,8 +1120,8 @@
             <el-form label-width="100px">
                  <el-form-item>
                     <el-radio-group v-model="editAssets.monitor">
-                        <el-radio label="normal">正常监测</el-radio>
-                        <el-radio label="base">基线监测</el-radio>
+                        <el-radio label="0">正常监测</el-radio>
+                        <el-radio label="1">基线监测</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="所属单位">
@@ -1481,8 +1483,8 @@
                 </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="exportVisble = false">取消</el-button>
-                    <a class="exportBtn" :href="'/api/site/threat/export?start='+theReport.startTime[0]
-                        +'&end='+theReport.startTime[1] +'&id=['+selecedId+']'">导出报表</a>
+                    <a class="exportBtn" :href="'/api/site/threat/export?start='+theReport.startTime[0].toLocaleDateString().split('/').join('-')
+                        +'&end='+theReport.startTime[1].toLocaleDateString().split('/').join('-') +'&id=['+selecedId+']'">导出报表</a>
             </div>
         </el-dialog>  
              <el-dialog title="导出可用性报表" :visible.sync="usblityVisble" width="40%" class="exportPort">
@@ -1500,8 +1502,8 @@
                 </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="usblityVisble = false">取消</el-button>
-                    <a class="exportBtn" :href="'/api/site/'+rowId+'/usability/export?start='+usblityReport.startTime[0]
-                        +'&end='+usblityReport.startTime[1]">导出报表</a>
+                    <a class="exportBtn" :href="'/api/site/'+rowId+'/usability/export?start='+usblityReport.startTime[0].toLocaleDateString().split('/').join('-')
+                        +'&end='+usblityReport.startTime[1].toLocaleDateString().split('/').join('-')">导出报表</a>
             </div>
         </el-dialog>      
     </div>
@@ -1571,10 +1573,10 @@
                 inputValue2: '',
                 owner_id:'',
                 theReport:{
-                    startTime: [new Date().toLocaleDateString(),new Date(2018, 11, 30).toLocaleDateString()]
+                    startTime: [new Date(),new Date(2018, 11, 30)]
                 },
                 usblityReport:{
-                    startTime: [new Date().toLocaleDateString(),new Date(2018, 11, 30).toLocaleDateString()]
+                    startTime: [new Date(),new Date(2018, 11, 30)]
                 },
                 batchAdd: {
                     monitor:'1',
@@ -1687,7 +1689,9 @@
                     whois_date:'',
                     type:''
                 }],
-                subdomain: [],
+                subdomain: [
+                   
+                ],
                 information: {
                     count: {
                         index: '',
@@ -1825,28 +1829,28 @@
                         let data = res.data.data;
                         this.layerData[0].site = data.site.name ? data.site.name : '无';
                         this.layerData[0].domain = data.site.domain ? data.site.domain : '无';
-                        this.layerData[0].language = data.site.asset.language ? data.site.asset.language : '无';
-                        this.layerData[0].database = data.site.asset.database ? data.site.asset.database : '无';
-                        this.layerData[0].server = data.site.asset.server ? data.site.asset.server : '无';
-                        this.layerData[0].os = data.site.asset.os ? data.site.asset.os : '无';
-                        this.layerData[0].ip = data.site.asset.ip ? data.site.asset.ip : '无';
-                        this.layerData[0].cms = data.site.asset.cms ? data.site.asset.cms : '无';
-                        this.layerData[0].whois_isp = data.site.asset.whois_isp ? data.site.asset.whois_isp : '无';
-                        this.layerData[0].whois_name = data.site.asset.whois_name ? data.site.asset.whois_name :
+                        this.loading3 = false;
+                        this.layerData[0].language = data.site.asset ? data.site.asset.language : '无';
+                        this.layerData[0].database = data.site.asset ? data.site.asset.database : '无';
+                        this.layerData[0].server = data.site.asset ? data.site.asset.server : '无';
+                        this.layerData[0].os = data.site.asset ? data.site.asset.os : '无';
+                        this.layerData[0].ip = data.site.asset ? data.site.asset.ip : '无';
+                        this.layerData[0].cms = data.site.asset ? data.site.asset.cms : '无';
+                        this.layerData[0].whois_isp = data.site.asset ? data.site.asset.whois_isp : '无';
+                        this.layerData[0].whois_name = data.site.asset ? data.site.asset.whois_name :
                             '无';
-                        this.layerData[0].whois_mail = data.site.asset.whois_mail ? data.site.asset.whois_mail :
+                        this.layerData[0].whois_mail = data.site.asset ? data.site.asset.whois_mail :
                             '无';
-                        this.layerData[0].icp_name = data.site.asset.icp_name ? data.site.asset.icp_name : '无';
-                        this.layerData[0].icp_id = data.site.asset.icp_id ? data.site.asset.icp_id : '无';
-                        this.layerData[0].whois_dns = data.site.asset.whois_dns ? data.site.asset.whois_dns : '无';
-                        this.layerData[0].ipaddress = data.site.asset.ip ? data.site.asset.ip : '无';
-                        this.layerData[0].idc = data.site.asset.idc ? data.site.asset.idc : '无';
-                        this.layerData[0].cdn = data.site.asset.cdn ? data.site.asset.cdn : '无';
-                        this.layerData[0].waf = data.site.asset.waf ? data.site.asset.waf : '无';
-                        this.layerData[0].whois_date = data.site.asset.whois_date ? data.site.asset.whois_date : '无';
+                        this.layerData[0].icp_name = data.site.asset ? data.site.asset.icp_name : '无';
+                        this.layerData[0].icp_id = data.site.asset ? data.site.asset.icp_id : '无';
+                        this.layerData[0].whois_dns = data.site.asset ? data.site.asset.whois_dns : '无';
+                        this.layerData[0].ipaddress = data.site.asset ? data.site.asset.ip : '无';
+                        this.layerData[0].idc = data.site.asset ? data.site.asset.idc : '无';
+                        this.layerData[0].cdn = data.site.asset ? data.site.asset.cdn : '无';
+                        this.layerData[0].waf = data.site.asset ? data.site.asset.waf : '无';
+                        this.layerData[0].whois_date = data.site.asset ? data.site.asset.whois_date : '无';
                         this.typeval = data.site.type;
                         this.subdomain = data.subdomain;
-                        this.loading3 = false;
                         this.webasset = false;
                     }).catch(v => {
                         console.log(v);
@@ -2009,7 +2013,7 @@
                 if(this.typeval){
                     return (
                         <div class="headicon server">
-                                <span>IP</span>
+                                <span>服务器</span>
                                     <i class="iconfont icon-icon">
                                         <div class="box">
                                             基线监测中
@@ -2021,7 +2025,7 @@
                 }else{
                     return (
                         <div class="headicon server">
-                                <span>IP</span>
+                                <span>服务器</span>
                                     <i class="iconfont icon-icon">
                                         <div class="box">
                                             正常监测中
@@ -2498,7 +2502,8 @@
                 };
                 this.$axios.post('api/batch', {
                     configure_id: this.configure_id,
-                    data: this.batchAdd.content
+                    data: this.batchAdd.content,
+                    type:this.batchAdd.monitor
                 }).then((res) => {
                     let data = res.data;
                     if (data.status == 1) {
@@ -2689,7 +2694,7 @@
                     this.editAssets.name = data.name;
                     this.editAssets.url = data.domain;
                     this.editAssets.remark = data.remark;
-                    this.editAssets.monitor = Number(data.type);
+                    this.editAssets.monitor = String(data.type);
                     var arr = new Set(data.superior);
                     this.unitData2 = Array.from(arr);
                     this.sitetag2 = data.tags ? data.tags : [];
@@ -3602,13 +3607,15 @@
                         console.log(v);
                     });
                 } else {
+                    var startTime = this.editAssets.startTime[0].toLocaleDateString().split('/').join('-');
+                    var endTime = this.editAssets.startTime[1].toLocaleDateString().split('/').join('-');
                     this.$axios.post("api/site/" + this.unitRowId + '/update', {
                         owner_id: this.selectedUnit.id,
                         name: this.editAssets.name,
                         domain: this.editAssets.url,
                         configure: {
-                            start: this.editAssets.startTime[0],
-                            end: this.editAssets.startTime[1],
+                            start: startTime,
+                            end: endTime,
                             daily_start: this.editAssets.startdaily,
                             daily_end: this.editAssets.enddaily,
                             index: Number(this.editAssets.homemonitoringNum1),
@@ -3707,13 +3714,15 @@
                         this.$message.error('请选择单位');
                         return;
                     };
+                    let startTime =  this.assetsalertData.startTime[0].split(' ')[0];
+                    let endTime =  this.assetsalertData.startTime[1].split(' ')[0];
                     this.$axios.post("api/site", {
                         owner_id: this.selectedUnit.id,
                         name: this.assetsalertData.name,
                         domain: this.assetsalertData.url,
                         configure: {
-                            start: this.assetsalertData.startTime[0],
-                            end: this.assetsalertData.startTime[1],
+                            start: startTime,
+                            end: endTime,
                             daily_start: this.assetsalertData.startdaily,
                             daily_end: this.assetsalertData.enddaily,
                             index: Number(this.assetsalertData.homemonitoringNum1),
@@ -3989,7 +3998,7 @@
         cursor: pointer;
     }
     .application .el-table .server .iconfont .box{
-        left: 28%;
+        left: 38%;
     }
     .application .el-table .ip .iconfont .box{
         left: 29%;
@@ -4095,7 +4104,7 @@
         display: flex;
     }
     .application .left .el-dropdown .el-button{
-        height:34px;
+        height:31px;
     }
 
 .el-input-group__append .el-button, .el-input-group__append .el-select, .el-input-group__prepend .el-button, .el-input-group__prepend .el-select{
@@ -4189,7 +4198,7 @@
         }
     }
 
-    .application .has-gutter tr {
+    .application .has-gutter tr th{
         background-color: #f2f2f2;
     }
 

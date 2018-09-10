@@ -1195,7 +1195,7 @@
         margin-top: 10px;
     }
 
-    .threatview .el-table__header-wrapper .has-gutter tr{
+    .threatview .el-table__header-wrapper .has-gutter tr th{
         background: #f2f2f2
     }
 

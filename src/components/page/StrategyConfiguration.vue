@@ -1481,8 +1481,8 @@
                 };
                 this.$axios.post('api/siteConfigure/'+this.strategyId,{
                     name:this.editStrategys.name,
-                    start: this.editStrategys.startTime[0],
-                    end: this.editStrategys.startTime[1],
+                    start: this.editStrategys.startTime[0].toLocaleDateString().split('/').join('-'),
+                    end: this.editStrategys.startTime[1].toLocaleDateString().split('/').join('-'),
                     daily_start:this.editStrategys.startdaily,
                     daily_end:this.editStrategys.enddaily,
                     index:this.editStrategys.homemonitoringNum1,
@@ -1533,8 +1533,8 @@
             saveEditServerStrategy(){
                 this.$axios.post('api/ipConfigure/'+this.serverId,{
                     name:this.editserverStrategy.name,
-                    start:this.addserverStrategy.startTime[0],
-                    end:this.addserverStrategy.startTime[1],
+                    start:this.addserverStrategy.startTime[0].toLocaleDateString().split('/').join('-'),
+                    end:this.addserverStrategy.startTime[1].toLocaleDateString().split('/').join('-'),
                     daily_start:this.editserverStrategy.startdaily,
                     daily_end:this.editserverStrategy.enddaily,
                     remark:this.editserverStrategy.remark,
@@ -1701,8 +1701,8 @@
                 // console.log(this.addStrategy.domainmonitorNum1)
                 this.$axios.post('api/siteConfigure',{
                     name:this.addStrategy.name,
-                    start:this.addStrategy.startTime[0],  
-                    end:this.addStrategy.startTime[1],
+                    start:this.addStrategy.startTime[0].toLocaleDateString().split('/').join('-'),  
+                    end:this.addStrategy.startTime[1].toLocaleDateString().split('/').join('-'),
                     daily_start:this.addStrategy.startdaily,
                     daily_end:this.addStrategy.enddaily,
                     index:this.addStrategy.homemonitoringNum1,
@@ -2279,7 +2279,7 @@
         width: 24px;
         height: 24px;
     }
-    .strate .el-table__header-wrapper .has-gutter tr {
+    .strate .el-table__header-wrapper .has-gutter tr th{
         background: #f2f2f2;
     }
     .strate .msg{

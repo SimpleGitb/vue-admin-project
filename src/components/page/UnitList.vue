@@ -744,7 +744,7 @@
         text-align: center;
     }
 
-    .Unit .el-table__header-wrapper .has-gutter tr{
+    .Unit .el-table__header-wrapper .has-gutter tr th{
         background: #f2f2f2
     }
 

@@ -47,10 +47,10 @@
                     <li>
                         <div class="user-avator"><img src="static/img/img.jpg"></div>
                         <!-- 用户名下拉菜单 -->
-                       <el-col :span="12">
+                       <el-col>
                         <el-dropdown  @command="handleCommand">
                             <span class="el-dropdown-link">
-                                {{name}}<i class="el-icon-arrow-down el-icon--right"></i>
+                                {{username}}<i class="el-icon-arrow-down el-icon--right"></i>
                             </span>
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item>
@@ -212,13 +212,13 @@
             handleSelectionChange(val) {
 		        this.multipleSelection = val;
 		      },
-			  handleClose(done) {
+			handleClose(done) {
 		        done();
 		      },
-		      handleClick(tab, event) {
+		    handleClick(tab, event) {
 //		        console.log(tab);
               },
-              monitor(){
+            monitor(){
                   if(!this.domain){
                       this.$message.error('请输入域名');
                       return;
@@ -240,11 +240,11 @@
                       }
                   })
               },
-		      assetscombSubm(){
+		    assetscombSubm(){
                   this.$router.push({
                       name:'assetsRecord'
                   })
-			/*  	this.$axios.post("api/asset/get", {
+			    /*  	this.$axios.post("api/asset/get", {
 						asset_ip: this.asset_ip,
 						asset_url: this.asset_url,
 						ip: this.ip,
@@ -253,9 +253,9 @@
 					}).then((res) => {
 						switch (res.data.status) {
 							case 1:
-//					        	this.$router.push({
-//					                name:'assetsRecord'
-//					               });
+                    //					        	this.$router.push({
+                    //					                name:'assetsRecord'
+                    //					               });
 									this.dialogVisible = false;
 									this.handleCurrentChange();
 								break;
@@ -265,11 +265,11 @@
 		      },
             handleSelectionChange(val) {
 		        this.multipleSelection = val;
-		      },
-		      handleClick(tab, event) {
-//		        console.log(tab);
-		      },
-		      assetscombSubm(){
+		    },
+		    handleClick(tab, event) {
+                //		        console.log(tab);
+		    },
+		    assetscombSubm(){
 		      	this.$axios.post("api/asset/get", {
 			      		asset_ip: this.asset_ip,
 			      		asset_url: this.asset_url,
@@ -384,6 +384,10 @@
 <style scoped>
     .el-dropdown-menu{
         top: 58px!important;
+        width: 10%;
+    }
+    .el-dropdown-menu .el-dropdown-menu__item{
+        line-height: 40px;
     }
     .aseetRecord{
         display: inline-block;
