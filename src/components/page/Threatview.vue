@@ -2,7 +2,7 @@
     <div class="threatview">
 		<div class="crumbs">
 			<el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="iconfont icon-zonglan"></i> 威胁详情</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="iconfont icon-yingyongshuli"></i> 威胁详情</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">

@@ -2,7 +2,7 @@
     <div class="pushSetting">
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="iconfont icon-peizhiguanli"></i> 系统设置</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="iconfont icon-jixian"></i> 系统设置</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">

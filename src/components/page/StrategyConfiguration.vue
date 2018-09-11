@@ -2,7 +2,7 @@
 	<div class="strate">
 		<div class="crumbs">
 			<el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="iconfont icon-strategy"></i> 策略管理</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="iconfont icon-zhishishuli"></i> 策略管理</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">

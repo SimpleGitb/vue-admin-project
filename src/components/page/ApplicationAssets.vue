@@ -3,7 +3,7 @@
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item>
-                    <i class="iconfont icon-wangzhan"></i> 应用资产</el-breadcrumb-item>
+                    <i class="iconfont icon-diqiu"></i> 应用资产</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
@@ -1495,7 +1495,7 @@
                    <el-form>
                     <el-form-item label="时间筛选">
                         <el-date-picker v-model="usblityReport.startTime" type="daterange" range-separator="至" start-placeholder="开始日期"
-                        end-placeholder="结束日期"  format="yyyy 年 MM 月 dd 日" @change="test"
+                        end-placeholder="结束日期"  format="yyyy 年 MM 月 dd 日"
                             value-format="yyyy-MM-dd">
                         </el-date-picker>
                     </el-form-item>
@@ -1800,8 +1800,6 @@
             }
         },
         methods: {
-            test(){
-            },
             handleSizeChange(val){
                 this.loading2 = true;
                 this.vals = val;

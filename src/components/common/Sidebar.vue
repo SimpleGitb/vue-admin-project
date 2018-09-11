@@ -42,7 +42,7 @@
                         title: '资产管理',
                         subs: [
                             {
-                                icon: 'icon-wangzhan',
+                                icon: 'icon-diqiu',
                                 index: 'assets',
                                 title: '应用资产'
                             },
@@ -59,19 +59,19 @@
                         title: '信息管理',
                         subs: [
                             {
-                                icon: 'icon-weibiaoti2010101',
+                                icon: 'icon-list',
                                 index: 'unitlist',
                                 title: '单位列表',
                             }
                         ]
                     },
                     {
-                        icon: 'icon-guanliyuan',
+                        icon: 'icon-yonghuguanli',
                         index: '3',
                         title: '用户管理',
                         subs: [
                             {
-                                icon:'icon-yonghuliebiao',
+                                icon:'icon-user-list',
                                 index: 'user',
                                 title: '用户列表',
                             }
@@ -83,24 +83,24 @@
                         title: '威胁详情',
                         subs:[
                             {
-                                icon:'icon-zonglan',
+                                icon:'icon-yingyongshuli',
                                 index:'monitoring',
                                 title:'威胁总览'
                             }
                         ]
                     },
                     {
-                        icon: 'icon-msnui-sys-set',
+                        icon: 'icon-xitongshezhi',
                         index: '5',
                         title: '系统设置',
                         subs:[
                             {
-                                icon:'icon-peizhiguanli',
+                                icon:'icon-jixian',
                                 index:'pushSetting',
                                 title:'推送配置'
                             },
                             {
-                                icon:'icon-strategy',
+                                icon:'icon-zhishishuli',
                                 index:'StrategyConfiguration',
                                 title:'策略管理'
                             }
@@ -124,7 +124,7 @@
 </script>
 
 <style scoped>
- @import url('//at.alicdn.com/t/font_754796_t5oika62p9.css');
+ @import url('//at.alicdn.com/t/font_754796_z9kk01y4pcs.css');
     .sidebar{
         display: block;
         position: absolute;
