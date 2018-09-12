@@ -37,7 +37,11 @@
                 <div class="dash_line">
                     <div style="overflow:hidden; position:relative; height: 60px;">
                     	<ul class="processCorn" id="yearList" style="width: 100%; position: relative;margin-left: 45%;">
+<<<<<<< HEAD
 	                        <li v-for="(time,value,index) in historytime"><i class="iconfont icon-danxuan"></i> <span style="width:160px" v-text="time"></span></li>
+=======
+	                        <li v-for="(time,value,index) in historytime"><i class="iconfont icon-danxuan"></i> <span style="width:150px" v-text="time"></span></li>
+>>>>>>> 7a0671f1a8ae2836a98c174053df578892294ab3
 	                    </ul>
                     </div>
                 </div>
@@ -193,7 +197,11 @@
             },
             updata(){
                 $("#cUl").animate({left:-(this.w*this.n)+'px'},300);
+<<<<<<< HEAD
                 $("#yearList").animate({left:-((160)*this.n)+'px'},300);
+=======
+                $("#yearList").animate({left:-((150)*this.n)+'px'},300);
+>>>>>>> 7a0671f1a8ae2836a98c174053df578892294ab3
                 $(".processCorn").find("li").eq(this.n).addClass("active").siblings().removeClass("active");
             },
             prevPage: function(){
