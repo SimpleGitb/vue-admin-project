@@ -22,7 +22,19 @@
                         </div>
                     </li>
                     <div v-if="portlen == 0"><img class="tupian" src="../../../static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无端口信息</span></div>
+<<<<<<< HEAD
                 </ul>    
+=======
+<<<<<<< HEAD
+                </ul>    
+=======
+<<<<<<< HEAD
+                </ul>    
+=======
+                </ul>
+>>>>>>> 7a0671f1a8ae2836a98c174053df578892294ab3
+>>>>>>> 40e1f1c258bcaa77f4501b403432d02d5d50e56e
+>>>>>>> 3c202a9a583bc4982ee59ce0b85697e927f386d2
                 <!--<el-row :gutter="20" style="color: #606266;">
 				  <el-col :span="4" v-for="(port,key) in fetchdata.port" :key="port.id+1">
 				  	<div class="top_text" v-text="key"></div>
