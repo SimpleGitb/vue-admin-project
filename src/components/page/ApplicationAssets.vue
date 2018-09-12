@@ -396,7 +396,7 @@
                                                 </el-tabs>
                                             </div>
                                         </el-tab-pane>
-                                        <el-tab-pane label="资产事件" name="assetEvent">
+                                        <el-tab-pane label="可用性事件" name="assetEvent">
                                             <div class="assetsEvent" v-loading="eventLoading">
                                                 <div class="item-noText" v-if="assetEventTime.length== 0">
                                                     <img src="../../../static/img/assets/noText.png">
@@ -423,7 +423,7 @@
                                                             </div>                                                    
                                             </div>
                                         </el-tab-pane>
-                                        <el-tab-pane label="威胁情报">
+                                        <!-- <el-tab-pane label="威胁情报">
                                             <div class="intelligence">
                                                 <ul>
                                                     <li>
@@ -436,6 +436,9 @@
                                                     </li>
                                                 </ul>
                                             </div>
+                                        </el-tab-pane> -->
+                                        <el-tab-pane label="资产事件">
+                                             123
                                         </el-tab-pane>
                                     </el-tabs>
                                 </div>
@@ -547,22 +550,51 @@
                                                 </p>
                                             </div>
                                             <div class="item-content">
-                                                <el-table border :data="subdomain">
-                                                    <el-table-column prop="asset.language" label="开发语言">
+                                                 <el-table ref="domain" border :data="subdomain">
+                                                      <el-table-column prop="language" label="域名" width="200">
+                                                        <template slot-scope="scope">
+                                                               {{ scope.row.domain}}
+                                                        </template>
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.database" label="数据库">
+                                                    <el-table-column prop="language" label="开发语言" width="200">
+                                                        <template slot-scope="scope">
+                                                               {{ scope.row.asset.language}}
+                                                        </template>
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.cdn" label="CDN">
+                                                    <el-table-column prop="database" label="数据库" width="200">
+                                                        <template slot-scope="scope">
+                                                               {{ scope.row.asset.database}}
+                                                        </template>
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.ip" label="IP">
+                                                    <el-table-column prop="cdn" label="CDN" width="200">
+                                                        <template slot-scope="scope">
+                                                               {{ scope.row.asset.cdn}}
+                                                        </template>
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.os" label="操作系统">
+                                                    <el-table-column prop="ip" label="IP" width="200">
+                                                         <template slot-scope="scope">
+                                                               {{ scope.row.asset.ip}}
+                                                        </template>
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.server" label="服务器">
+                                                    <el-table-column prop="os" label="操作系统" width="200">
+                                                        <template slot-scope="scope">
+                                                               {{ scope.row.asset.os}}
+                                                        </template>
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.cms" label="CMS">
+                                                    <el-table-column prop="server" label="服务器" width="200">
+                                                         <template slot-scope="scope">
+                                                               {{ scope.row.asset.server}}
+                                                        </template>
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.waf" label="waf">
+                                                    <el-table-column prop="cms" label="CMS" width="200">
+                                                        <template slot-scope="scope">
+                                                               {{ scope.row.asset.cms}}
+                                                        </template>
+                                                    </el-table-column>
+                                                    <el-table-column prop="waf" label="waf" width="200">
+                                                        <template slot-scope="scope">
+                                                               {{ scope.row.asset.waf}}
+                                                        </template>
                                                     </el-table-column>
                                                 </el-table>
                                             </div>
@@ -866,7 +898,7 @@
                                             start-placeholder="开始日期"
                                             end-placeholder="结束日期">
                                             </el-date-picker>
-                                        <el-radio-button label="custom"><span @click="custom">自定义</span></el-radio-button>
+                                        <el-radio-button label="custom"><span @click="customval = !customval">自定义</span></el-radio-button>
                                         </el-radio-group>
                                 </div>
                                 <div class="right_btn">
@@ -1487,7 +1519,7 @@
                         +'&end='+theReport.startTime[1].toLocaleDateString().split('/').join('-') +'&id=['+selecedId+']'">导出报表</a>
             </div>
         </el-dialog>  
-             <el-dialog title="导出可用性报表" :visible.sync="usblityVisble" width="40%" class="exportPort">
+        <el-dialog title="导出可用性报表" :visible.sync="usblityVisble" width="40%" class="exportPort">
                 <div class="tip-header">
                     <img src="../../../static/img/assets/qat.png">
                     <p class="tip-msg">点击下方导出按钮后即可导出可用性报表</p>
@@ -1825,6 +1857,8 @@
                 this.rowId = row.id;
                     this.$axios.get('api/site/' + this.rowId + '/asset').then((res) => {
                         let data = res.data.data;
+                        this.subdomain = data.subdomain;
+                        console.log(this.$refs.domain.$el.offsetWidth)
                         this.layerData[0].site = data.site.name ? data.site.name : '无';
                         this.layerData[0].domain = data.site.domain ? data.site.domain : '无';
                         this.loading3 = false;
@@ -1848,16 +1882,12 @@
                         this.layerData[0].waf = data.site.asset ? data.site.asset.waf : '无';
                         this.layerData[0].whois_date = data.site.asset ? data.site.asset.whois_date : '无';
                         this.typeval = data.site.type;
-                        this.subdomain = data.subdomain;
                         this.webasset = false;
                     }).catch(v => {
                         console.log(v);
                     });           
                 // 最新威胁
                 this.getThreat(row.id);
-            },
-            showStrategy(){
-                console.log(111)
             },
             tabclick(tab){
                  if(tab.name == 'third'){ // 基本信息
@@ -1913,9 +1943,6 @@
                 }else if(tab.name == 'fourth'){
                     this.getHistory(this.rowId)
                 }
-            },
-            custom(){
-                this.customval = !this.customval;
             },
             usabilitychange(val){
                 switch (val) {
@@ -2008,112 +2035,82 @@
                 }
             },
             renderHeader() {
+                var text = '';
                 if(this.typeval){
-                    return (
-                        <div class="headicon server">
-                                <span>服务器</span>
-                                    <i class="iconfont icon-icon">
-                                        <div class="box">
-                                            基线监测中
-                                            <div class="border"></div>
-                                        </div>
-                                    </i>
-                        </div>
-                        )
+                    text = '基线监测中';
                 }else{
-                    return (
+                    text = '正常监测中';
+                }
+
+                return (
                         <div class="headicon server">
                                 <span>服务器</span>
                                     <i class="iconfont icon-icon">
                                         <div class="box">
-                                            正常监测中
+                                            {text}
                                             <div class="border"></div>
                                         </div>
                                     </i>
                         </div>
                         )
-                }
             },
             renderHeader1(){
+                var text = '';
                 if(this.typeval){
-                    return (
+                    text =   '基线监测中';
+                }else{
+                    text =   '正常监测中';
+                };
+                return (
                         <div class="headicon ip">
                             <span>IP</span>
                             <i class="iconfont icon-icon">
                                     <div class="box">
-                                        基线监测中
+                                        {text}
                                         <div class="border"></div>
                                     </div>
                                 </i>
                         </div>
                     )
-            }else{
-                return (
-                    <div class="headicon ip">
-                        <span>IP</span>
-                        <i class="iconfont icon-icon">
-                                <div class="box">
-                                    正常监测中
-                                    <div class="border"></div>
-                                </div>
-                            </i>
-                    </div>
-                )
-            }
             },
             renderHeader2(){
+                 var text = '';
                 if(this.typeval){
-                    return (
-                        <div class="headicon whois_name">
-                            <span>域名注册商</span>
-                            <i class="iconfont icon-icon">
-                                    <div class="box">
-                                        基线监测中
-                                        <div class="border"></div>
-                                    </div>
-                                </i>
-                        </div>
-                    )
+                    text = '基线监测中';
+                    
                 }else{
-                    return (
+                    text = '正常监测中';
+                };
+                return (
                         <div class="headicon whois_name">
                             <span>域名注册商</span>
                             <i class="iconfont icon-icon">
                                     <div class="box">
-                                        正常监测中
+                                        {text}
                                         <div class="border"></div>
                                     </div>
                                 </i>
                         </div>
                     )
-                }
             },
             renderHeader3(){
+                var text = '';
                 if(this.typeval){
-                    return (
-                        <div class="headicon dns">
-                            <span>DNS</span>
-                            <i class="iconfont icon-icon">
-                                    <div class="box">
-                                        基线监测中
-                                        <div class="border"></div>
-                                    </div>
-                                </i>
-                        </div>
-                    )
+                    text = '基线监测中';
                 }else{
-                    return (
+                    text = '正常监测中';
+                };
+                return (
                         <div class="headicon dns">
                             <span>DNS</span>
                             <i class="iconfont icon-icon">
                                     <div class="box">
-                                        正常监测中
+                                        {text}
                                         <div class="border"></div>
                                     </div>
                                 </i>
                         </div>
                     )
-                }
             },
             average(row){
                     this.$axios.get('api/site/'+ (this.rowId ? this.rowId : row.id) + '/usability').then((res) =>{
@@ -2128,7 +2125,7 @@
             },
             changedelay(ip){
                 this.Ip = ip;
-                this.$axios.get('api/site/' + this.rowId +'/usability?node='+ip+'&time='+encodeURIComponent((this.usabval[0] ? this.usabval[0] : '') + '#'+ (this.usabval[1] ? this.usabval[1] : ''))).then((res)=>{
+                this.$axios.get('api/site/' + this.rowId +'/usability?node='+ip+'&time='+encodeURIComponent((this.usabval[0] ? this.usabval[0]+'#' : '') + (this.usabval[1] ? this.usabval[1] : ''))).then((res)=>{
                     let data = res.data.data;
                    this.nodeData = data.node;
                    this.assetsDetails(data);
@@ -2141,7 +2138,7 @@
             changedelay1(t){
                 if(!t){
                     if(this.usabval){
-                        this.$axios.get('api/site/'+ this.rowId +'/usability?time='+encodeURIComponent((this.usabval[0] ? this.usabval[0] : '') + '#'+ (this.usabval[1] ? this.usabval[1] : ''))+'&node='+(this.Ip ? this.Ip : '') ).then((res)=>{
+                        this.$axios.get('api/site/'+ this.rowId +'/usability?node='+(this.Ip ? this.Ip : '')+'&time='+encodeURIComponent((this.usabval[0] ? this.usabval[0]+'#' : '') + (this.usabval[1] ? this.usabval[1] : '')) ).then((res)=>{
                                 let data = res.data.data;
                                 this.nodeData = data.node;
                                 this.assetsDetails(data);
@@ -2155,7 +2152,7 @@
                         this.customval = false;
                     }
                 }else{
-                    this.$axios.get('api/site/'+ this.rowId +'/usability?time='+t+'').then((res)=>{
+                    this.$axios.get('api/site/'+ this.rowId +'/usability?time='+t+'&node='+(this.Ip ? this.Ip : '')).then((res)=>{
                         let data = res.data.data;
                             this.nodeData = data.node;
                             this.assetsDetails(data);
@@ -2163,7 +2160,7 @@
                             this.usabLoading = false;
                      }).catch(v => {
                          console.log(v);
-                     });
+                     })
                 }
             }, /* 是否存在新的威胁事件，存在跳转到最新威胁 不存在跳转到历史威胁 */
             threatEvent(ev,scope,num){
@@ -3605,8 +3602,8 @@
                         console.log(v);
                     });
                 } else {
-                    var startTime = this.editAssets.startTime[0].toLocaleDateString().split('/').join('-');
-                    var endTime = this.editAssets.startTime[1].toLocaleDateString().split('/').join('-');
+                    var startTime = typeof  this.editAssets.startTime[0] == 'object' ? this.editAssets.startTime[0].toLocaleDateString().split('/').join('-') : this.editAssets.startTime[0].split(' ')[0];
+                    var endTime = typeof  this.editAssets.startTime[1] == 'object' ? this.editAssets.startTime[1].toLocaleDateString().split('/').join('-') : this.editAssets.startTime[1].split(' ')[0];
                     this.$axios.post("api/site/" + this.unitRowId + '/update', {
                         owner_id: this.selectedUnit.id,
                         name: this.editAssets.name,
@@ -3624,7 +3621,7 @@
                             notice: Number(this.editAssets.delivery),
                             remark: this.editAssets.strategynote,
                             usability: Number(this.editAssets.usability1),
-                            delay: Number(this.editAssets.resTime),
+                            elapse: Number(this.editAssets.resTime),
                             threat_count: Number(this.editAssets.threat_count),
                             continue_count: Number(this.editAssets.continue_count),
                             notice_count: Number(this.editAssets.notice_count),
@@ -3685,7 +3682,7 @@
                         superior: this.unitId,
                         tags: this.sitetag,
                         usability: Number(this.assetsalertData.usability1),
-                        delay: Number(this.assetsalertData.resTime),
+                        elapse: Number(this.assetsalertData.resTime),
                         threat_count: Number(this.assetsalertData.threat_count),
                         continue_count: Number(this.assetsalertData.continue_count),
                         notice_count: Number(this.assetsalertData.notice_count),
@@ -3731,7 +3728,7 @@
                             notice: Number(this.assetsalertData.delivery),
                             remark: this.assetsalertData.strategynote,
                             usability: Number(this.assetsalertData.usability1),
-                            delay: Number(this.assetsalertData.resTime),
+                            elapse: Number(this.assetsalertData.resTime),
                             threat_count: Number(this.assetsalertData.threat_count),
                             continue_count: Number(this.assetsalertData.continue_count),
                             notice_count: Number(this.assetsalertData.notice_count),
@@ -3990,7 +3987,6 @@
 
 </script>
 <style>
-
     .application .el-table .headicon .iconfont{
         margin-left:9px;
         cursor: pointer;
@@ -4198,6 +4194,18 @@
 
     .application .has-gutter tr th{
         background-color: #f2f2f2;
+    }
+
+    .application .web-assets .has-gutter tr th{
+        padding: 0;
+    }
+
+    .application .web-assets .domain .has-gutter tr th{
+        padding: 8px 0
+    }
+
+    .application .web-assets .domain .el-table__header,.application .web-assets .domain .el-table__body{
+        width: auto!important;
     }
 
     .application .el-dialog__header {
@@ -4574,6 +4582,8 @@
 
     .web-assets .assets-content .domain .item-content:last-child{
         margin-bottom: 290px;
+        position: relative;
+        width: 100%;
     } 
 
     .assetsEvent .is-horizontal:nth-of-type(1) .el-step__main {
@@ -4656,18 +4666,15 @@
         margin-right:20px;
     }
     .application .availability .left_btn .el-radio-button__inner{
-        height: 32px;
-        position: relative;
-        width: 54px;
+       padding: 0
     }
 
     .application .availability .left_btn .el-radio-button__inner span{
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        line-height: 30px;
+            height: 30px;
+            display: inline-block;
+            line-height: 30px;
+            padding-left: 10px;
+            padding-right: 10px;
     }
     .application .availability .left_btn .el-button+.el-button{
         margin-left:6px;
@@ -4675,6 +4682,16 @@
     .application .availability .right_btn{
         margin-right:50px;
         margin-top: 10px;
+    }
+    .application .availability .right_btn .el-radio-button__inner{
+        padding: 0;
+    }
+    .application .availability .right_btn .el-radio-button__inner span{
+        height: 30px;
+        display: inline-block;
+        line-height: 30px;
+        padding-left: 10px;
+        padding-right: 10px;
     }
     .application .availability .right_btn .el-button--primary{
         margin-left:15px;

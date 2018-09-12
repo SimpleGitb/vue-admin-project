@@ -40,7 +40,7 @@
                         </el-pagination>
                     </div>                    
                 </el-tab-pane>
-                <el-tab-pane :label="`资产事件(${assetCount})`" name="second">
+                <el-tab-pane :label="`服务器资产事件(${serverCount})`" name="second">
                     <el-button type="primary" class="beenRead" @click="assetRead">
                         标记已读
                     </el-button>                   
@@ -57,7 +57,7 @@
                             label="描述">
                         <template slot-scope="scope">
                                 <span class="mark" v-if="!scope.row.read">·</span>
-                                {{scope.row.server}}端口{{scope.row.port}}
+                                {{scope.row.ip.ip}} 端口 {{scope.row.port}}
                                 <span v-if="scope.row.status == 0">关闭</span>
                                 <span v-else-if="scope.row.status == 1">开启</span>
                                 <span v-else-if="scope.row.status !== 1 && scope.row.status!== 0">更改为{{scope.row.status}}</span>
@@ -81,6 +81,44 @@
                         <el-pagination layout="prev, pager, next" :total="assetCountPage" @current-change="changeasset">
                         </el-pagination>
                     </div>                         
+                </el-tab-pane>
+                <el-tab-pane :label="`应用资产事件(${assetCount})`" name="application">
+                    <el-button type="primary" class="beenRead" @click="applicationRead">
+                        标记已读
+                    </el-button>                   
+                    <el-table
+                        border
+                         @selection-change="applicationSelectionChange"
+                        :data="tableData5">
+                         <el-table-column type="selection" width="50">
+                         </el-table-column>                       
+                        <el-table-column
+                            prop="content"
+                            class="title"
+                            label="描述">
+                            <template slot-scope="scope">
+                                <span class="mark" v-if="!scope.row.read">·</span>
+                               {{scope.row.content}}
+                        </template>
+                        </el-table-column>
+                        <el-table-column
+                            prop="created_at"
+                            width="200"
+                            label="时间">
+                        </el-table-column>
+                       <el-table-column  width="200" label="操作">
+                            <template slot-scope="scope">
+                                <!-- <a href="javascript:;" v-if="scope.row.type == 0" class="toview">普通监测</a> -->
+                                <a href="javascript:;" v-if="scope.row.deal == 0 && scope.row.type == 0"  class="toview" @click="check(scope.row)">处置</a>
+                                <a href="javascript:;" v-if="scope.row.deal == 1 && scope.row.type == 0"  class="toview">已处置</a>
+                                <a href="javascript:;" v-if="scope.row.type == 1" class="toview">基线监测</a>
+                        </template>
+                        </el-table-column>
+                        </el-table>
+                        <div class="pagination">
+                        <el-pagination layout="prev, pager, next" :total="assetCountPage" @current-change="changeasset">
+                        </el-pagination>
+                    </div>                
                 </el-tab-pane>
                 <el-tab-pane :label="`可用性事件(${availaCount})`" name="third">
                     <el-button type="primary" class="beenRead" @click="availaRead">
@@ -194,7 +232,9 @@
                 tableData2:  [],
                 tableData3:  [],
                 tableData4:  [],
+                tableData5:[],
                 assetCount:0,
+                serverCount:0,
                 availaCount:0,
                 threatCount:0,
                 threatCountPage:0,
@@ -203,6 +243,7 @@
                 threatData:[],
                 assetData:[],
                 availaData:[],
+                applicationData:[],                
                 rowId:''
             }
         },
@@ -218,7 +259,9 @@
                        return;
                     }
                        this.getusability();
-               }    
+               }else if(tab.name ==  'application'){
+                   this.getApplicationEvent();
+               }
            },
            changethreat(t){
                this.loading = true;
@@ -241,6 +284,15 @@
             }).catch(v => {
                     console.log(v);
                 });
+           },
+           check(row){ 
+               this.$axios.post('api/notice/assetEvent/'+row.id+'/deal').then((res)=>{
+                    if(res.data.status){
+                        this.$message.success(res.data.msg);
+                    }else{
+                        this.$message.error(res.data.msg);
+                    }
+               })
            },
            changeavaila(t){
                this.loading2 = true;
@@ -314,6 +366,25 @@
                     console.log(v);
                 });
            },
+           applicationRead(){
+               var arrId = [];
+            for(var i=0;i<this.applicationData.length;i++){
+                arrId.push(this.applicationData[i].id);
+            }
+               this.$axios.post('api/notice/assetEvent/read',{
+                   id:arrId
+               }).then((res)=>{
+                   if(res.data.status){
+                       this.$message.success(res.data.msg);
+                       this.getApplicationEvent();
+                   }else{
+                       this.$message.error(res.data.msg);
+                   }
+               })
+           },
+           applicationSelectionChange(val){
+               this.applicationData = val;
+           },
            threatRead(){
                if(!this.threatData.length){
                    this.$message.error('请先选择消息');
@@ -358,6 +429,12 @@
            },
            availaCountSelectionChange(val){
                 this.availaData = val;
+           },
+           getApplicationEvent(){
+               this.$axios.get('api/notice/assetEvent?page=1&limit=10').then((res)=>{
+                   let data = res.data.data;
+                        this.tableData5 = data.event;
+               })
            },
            getthreat(){
                 this.$axios.get('api/notice/threat?page=1&limit=10').then((res)=>{
@@ -425,7 +502,8 @@
                     return;
                 }
                 let data = res.data.data;
-                this.assetCount = data.asset;
+                this.assetCount = data.site_asset;
+                this.serverCount = data.ip_asset;
                 this.availaCount = data.count;
                 this.threatCount = data.threat;
             }).catch(v => {

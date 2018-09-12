@@ -6,7 +6,7 @@
         </div>
         <div class="logo">云悉互联网安全监测平台 v3.0</div>
         <div class="collapse-btn border"  @click.self="collapseChage($event)">
-            <img src="../../../static/img/folds.png" class="fold" @click.stop="collapseChage($event)">
+            <img src="/static/img/folds.png" class="fold" @click.stop="collapseChage($event)">
         </div>
         <div class="aseetRecord">
                 <ul>
@@ -313,17 +313,16 @@
                 bus.$emit('collapse', this.collapse);
                     this.collapse = !this.collapse;
                         if(this.collapse){
-                            console.log(event)
                             if(event.target && event.target.children[0]){
-                                event.target.children[0].src = '../../../static/img/folds.png';
+                                event.target.children[0].src = '/static/img/folds.png';
                             }else{
-                                event.target.src = '../../../static/img/folds.png';
+                                event.target.src = '/static/img/folds.png';
                             }
                         }else{
                              if(event.target && event.target.children[0]){
-                                event.target.children[0].src = '../../../static/img/fold.png';
+                                event.target.children[0].src = '/static/img/fold.png';
                             }else{
-                                event.target.src = '../../../static/img/fold.png';
+                                event.target.src = '/static/img/fold.png';
                             }
                         };
 

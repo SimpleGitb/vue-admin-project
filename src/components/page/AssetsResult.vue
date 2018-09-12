@@ -361,7 +361,7 @@
 							<span style="vertical-align: middle;"><img src="../../../static/img/箭头-ip_u7775.png"/></span>	
 							<span>abc@qq.com</span>
 						</div>
-						<div :key="index">
+						<div :key="'qs'+result">
 							<div class="el-tree" @click="openclose1($event)" style="margin-left: 46px;">
 								<span style="vertical-align: middle;"><img src="../../../static/img/箭头-ip_u7775.png"/></span>	
 								<span>网站</span>

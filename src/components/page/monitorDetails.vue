@@ -2,7 +2,7 @@
 	<div class="record">
 		<div class="crumbs">
 			<el-breadcrumb separator="/">
-                <el-breadcrumb-item style=""><i><img style="width: 16px;height: 16px;vertical-align: middle;" src="../../../static/img/u7577.png"/></i> 检测详情</el-breadcrumb-item>
+                <el-breadcrumb-item style=""><i><img style="width: 16px;height: 16px;vertical-align: middle;" src="/static/img/u7577.png"/></i> 检测详情</el-breadcrumb-item>
           </el-breadcrumb>
 		<div class="container">
 			 <el-table

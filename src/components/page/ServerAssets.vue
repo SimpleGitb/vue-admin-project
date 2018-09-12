@@ -19,12 +19,12 @@
                     <template slot-scope="scope">
                         <div class="icon" v-if="scope.row.status == 1">
                             <span>
-                                <img src="../../../static/img/assets/total1.png">
+                                <img src="/static/img/assets/total1.png">
                             </span>
                         </div>
                          <div class="icon icon1" v-else>
                             <span>
-                                <img src="../../../static/img/assets/total3.png">
+                                <img src="/static/img/assets/total3.png">
                             </span>
                         </div>
                         <span @click="hrefmonitor(scope.row)">{{ scope.row.ip }}</span>
@@ -69,7 +69,7 @@
                         </div>
                     </template>
                 </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" width="150">
                 <template slot-scope="scope">
                 <div class="update" @click="edit(scope.row)"></div>
             </template> 
@@ -937,7 +937,7 @@
         mounted(){
                var text = document.getElementsByClassName('el-table__empty-text');
                 for(var i=0;i<text.length;i++){
-                    text[i].innerHTML = '<img src="../../../static/img/assets/noText.png" class="noText"><span>目前没有内容</span>';
+                    text[i].innerHTML = '<img src="/static/img/assets/noText.png" class="noText"><span>目前没有内容</span>';
                 }
         }        
     }
@@ -1085,7 +1085,7 @@
     .update{
         width: 19px;
         height: 20px;
-        background: url('../../../static/img/update.png') no-repeat -41px -25px;
+        background: url('/static/img/update.png') no-repeat -41px -25px;
         cursor: pointer;
         margin: 0 auto;
     }
@@ -1101,11 +1101,11 @@
         float: left;
     }
     .serveTab .el-table .icon1 span{
-        background: url("../../../static/img/assets/total2.png")!important; 
+        background: url("/static/img/assets/total2.png")!important; 
 
     }
     .serveTab .el-table .icon span{
-        background: url("../../../static/img/assets/total.png"); 
+        background: url("/static/img/assets/total.png"); 
         width: 13px; 
         height: 13px; 
         display: inline-block; 
@@ -1121,6 +1121,7 @@
         float: left;
         font-size: 28px;
     }
+
     .serveTab .el-dialog .hidebox .usblity .tips .border{
         left:43%;
     }

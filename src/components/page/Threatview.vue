@@ -12,7 +12,7 @@
                         <el-tab-pane label="最新威胁" name="threat">
                             <div class="left_l">
                                 <!-- 省市区三级联动 -->
-                                <img src="../../../static/img/monitoring/screening.png">
+                                <img src="/static/img/monitoring/screening.png">
                                   <el-select v-model="valueSelect1" multiple placeholder="请选择" style="width:490px" @change="selectType1">
                                         <el-option
                                         v-for="item in options1"
@@ -96,23 +96,23 @@
                                         <el-table-column prop="" label="类型" width="120">
                                             <template slot-scope="scope">
                                                 <div v-if="scope.row.type == 'pic_hack'">
-                                                    <img src="../../../static/img/monitoring/chain.png">
+                                                    <img src="/static/img/monitoring/chain.png">
                                                     图片篡改
                                                 </div>  
                                                 <div  v-if="scope.row.type == 'js_link'">
-                                                    <img src="../../../static/img/monitoring/script.png">
+                                                    <img src="/static/img/monitoring/script.png">
                                                     恶意脚本
                                                 </div>
                                                 <div  v-if="scope.row.type == 'hijack'">
-                                                    <img src="../../../static/img/monitoring/event.png">
+                                                    <img src="/static/img/monitoring/event.png">
                                                     劫持事件
                                                 </div>    
                                                 <div  v-if="scope.row.type == 'site_link'">
-                                                    <img src="../../../static/img/monitoring/sensitive.png">
+                                                    <img src="/static/img/monitoring/sensitive.png">
                                                     可疑链接
                                                 </div>      
                                                  <div  v-if="scope.row.type == 'site'">
-                                                    <img src="../../../static/img/monitoring/sensitive.png">
+                                                    <img src="/static/img/monitoring/sensitive.png">
                                                     敏感词
                                                 </div>      
                                             </template>
@@ -159,7 +159,7 @@
                         <el-tab-pane label="待处置" class="waiteSetting" name="waiteSetting">
                             <div class="left_l">
                                 <!-- 省市区三级联动 -->
-                                <img src="../../../static/img/monitoring/screening.png">
+                                <img src="/static/img/monitoring/screening.png">
                                   <el-select v-model="valueSelect2" multiple placeholder="请选择" style="width:490px;height:40px;" @change="selectType2">
                                         <el-option
                                         v-for="item in options1"
@@ -200,23 +200,23 @@
                                         <el-table-column prop="" label="类型" width="120">
                                             <template slot-scope="scope">
                                                 <div v-if="scope.row.type == 'pic_hack'">
-                                                    <img src="../../../static/img/monitoring/chain.png">
+                                                    <img src="/static/img/monitoring/chain.png">
                                                     图片篡改
                                                 </div>  
                                                 <div  v-if="scope.row.type == 'js_link'">
-                                                    <img src="../../../static/img/monitoring/script.png">
+                                                    <img src="/static/img/monitoring/script.png">
                                                     恶意脚本
                                                 </div>
                                                 <div  v-if="scope.row.type == 'hijack'">
-                                                    <img src="../../../static/img/monitoring/event.png">
+                                                    <img src="/static/img/monitoring/event.png">
                                                     劫持事件
                                                 </div>    
                                                 <div  v-if="scope.row.type == 'site_link'">
-                                                    <img src="../../../static/img/monitoring/sensitive.png">
+                                                    <img src="/static/img/monitoring/sensitive.png">
                                                     可疑链接
                                                 </div>      
                                                  <div  v-if="scope.row.type == 'site'">
-                                                    <img src="../../../static/img/monitoring/sensitive.png">
+                                                    <img src="/static/img/monitoring/sensitive.png">
                                                     敏感词
                                                 </div>      
                                             </template>
@@ -250,7 +250,7 @@
                         <el-tab-pane label="已处置" name="disposal">
                                <div class="left_l">
                                 <!-- 省市区三级联动 -->
-                                <img src="../../../static/img/monitoring/screening.png">
+                                <img src="/static/img/monitoring/screening.png">
                                   <el-select v-model="valueSelect3" @change="selectType3" multiple placeholder="请选择" style="width:490px">
                                         <el-option
                                          v-for="item in options1"
@@ -289,23 +289,23 @@
                                         <el-table-column prop="" label="类型" width="120">
                                             <template slot-scope="scope">
                                                 <div v-if="scope.row.type == 'pic_hack'">
-                                                    <img src="../../../static/img/monitoring/chain.png">
+                                                    <img src="/static/img/monitoring/chain.png">
                                                     图片篡改
                                                 </div>  
                                                 <div  v-if="scope.row.type == 'js_link'">
-                                                    <img src="../../../static/img/monitoring/script.png">
+                                                    <img src="/static/img/monitoring/script.png">
                                                     恶意脚本
                                                 </div>
                                                 <div  v-if="scope.row.type == 'hijack'">
-                                                    <img src="../../../static/img/monitoring/event.png">
+                                                    <img src="/static/img/monitoring/event.png">
                                                     劫持事件
                                                 </div>    
                                                 <div  v-if="scope.row.type == 'site_link'">
-                                                    <img src="../../../static/img/monitoring/sensitive.png">
+                                                    <img src="/static/img/monitoring/sensitive.png">
                                                     可疑链接
                                                 </div>      
                                                  <div  v-if="scope.row.type == 'site'">
-                                                    <img src="../../../static/img/monitoring/sensitive.png">
+                                                    <img src="/static/img/monitoring/sensitive.png">
                                                     敏感词
                                                 </div>      
                                             </template>
@@ -331,7 +331,7 @@
                         <el-tab-pane label="误报回收站" class="positivesRecycling" name="positives">
                              <div class="left_l">
                                 <!-- 省市区三级联动 -->
-                                <img src="../../../static/img/monitoring/screening.png">
+                                <img src="/static/img/monitoring/screening.png">
                                   <el-select  v-model="valueSelect4" @change="selectType4" multiple placeholder="请选择" style="width:490px">
                                         <el-option
                                         v-for="item in options1"
@@ -370,23 +370,23 @@
                                         <el-table-column prop="" label="类型" width="120">
                                             <template slot-scope="scope">
                                                 <div v-if="scope.row.type == 'pic_hack'">
-                                                    <img src="../../../static/img/monitoring/chain.png">
+                                                    <img src="/static/img/monitoring/chain.png">
                                                     图片篡改
                                                 </div>  
                                                 <div  v-if="scope.row.type == 'js_link'">
-                                                    <img src="../../../static/img/monitoring/script.png">
+                                                    <img src="/static/img/monitoring/script.png">
                                                     恶意脚本
                                                 </div>
                                                 <div  v-if="scope.row.type == 'hijack'">
-                                                    <img src="../../../static/img/monitoring/event.png">
+                                                    <img src="/static/img/monitoring/event.png">
                                                     劫持事件
                                                 </div>    
                                                 <div  v-if="scope.row.type == 'site_link'">
-                                                    <img src="../../../static/img/monitoring/sensitive.png">
+                                                    <img src="/static/img/monitoring/sensitive.png">
                                                     可疑链接
                                                 </div>      
                                                  <div  v-if="scope.row.type == 'site'">
-                                                    <img src="../../../static/img/monitoring/sensitive.png">
+                                                    <img src="/static/img/monitoring/sensitive.png">
                                                     敏感词
                                                 </div>      
                                             </template>
@@ -944,7 +944,7 @@
         mounted(){
                var text = document.getElementsByClassName('el-table__empty-text');
                 for(var i=0;i<text.length;i++){
-                    text[i].innerHTML = '<img src="../../../static/img/assets/noText.png" class="noText"><span>目前没有内容</span>';
+                    text[i].innerHTML = '<img src="/static/img/assets/noText.png" class="noText"><span>目前没有内容</span>';
                 }
             }
         }
@@ -1081,6 +1081,8 @@
 <style>
     .threatview .el-table td .tipsbox button{
         border: none;
+        padding: 0;
+        background: transparent;
     }
     .threatview .el-table td .tipsbox button span{
         font-size: 14px;

@@ -21,7 +21,7 @@
                             <p class="bottom" v-text="port.version"></p>
                         </div>
                     </li>
-                    <div v-if="portlen == 0"><img class="tupian" src="../../../static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无端口信息</span></div>
+                    <div v-if="portlen == 0"><img class="tupian" src="/static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无端口信息</span></div>
                 </ul>
                 <!--<el-row :gutter="20" style="color: #606266;">
 				  <el-col :span="4" v-for="(port,key) in fetchdata.port" :key="port.id+1">
@@ -49,9 +49,8 @@
 				<div class="fishBone" v-if="eventlen > 0">
 					<div class="wrapper" >
 						<div class="bd">
-							<div class="tempWrap" style="overflow:hidden; position:relative; width: 96%;left:2%">
+							<div class="tempWrap" @mousedown="move($event)" style="overflow:hidden; position:relative; width: 96%;left:2%">
 								<ul  style="width: 4500px; left: 0; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
-									
 									<template v-for="(item,index) in fetchdata.event" >
 										<template v-if="index<fetchdata.event.length&&index%2==0">
 									      <li class="item top" style="width: 170px;" :key="'a'+index">
@@ -99,8 +98,8 @@
 							</div>
 						</div>
 					</div>
-					<a class="prev" @click="prevPage"></a>
-					<a class="next" @click="nextPage"></a>
+					<!-- <a class="prev" @click="prevPage"></a> -->
+					<!-- <a class="next" @click="nextPage"></a> -->
 					<div class="line"></div>
 				</div>            
            		<div v-if="eventlen == 0" style="text-align: center;line-height: 339px;"><img class="tupian" src="../../../static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无历史变动信息</span></div>
@@ -123,6 +122,37 @@
             }
         },
         methods:{
+            move:function(ev){
+                if(ev.target.tagName.toLocaleLowerCase() =='ul'){
+                    var x = ev.clientX - ev.target.offsetLeft;
+                    var y = ev.clientY - ev.target.offsetTop;
+                    document.onmousemove = function(ev){
+                        var newx = ev.clientX - x;
+                        var newy = ev.clientY - y;
+                        if(newx<0){
+                            newx = 0;
+                        };
+                       $(".tempWrap>ul").css({left:-newx},"300");
+                    };
+                    document.onmouseup = function(){
+                        document.onmousemove = null;
+                    }
+                }else if(ev.target.tagName.toLocaleLowerCase() =='li'){
+                    var x = ev.clientX - ev.target.parentElement.offsetLeft;
+                    var y = ev.clientY - ev.target.parentElement.offsetTop;
+                    document.onmousemove = function(ev){
+                        var newx = ev.clientX - x;
+                        var newy = ev.clientY - y;
+                        if(newx<0){
+                            newx = 0;
+                        };
+                       $(".tempWrap>ul").css({left:-newx},"300");
+                    };
+                    document.onmouseup = function(){
+                        document.onmousemove = null;
+                    }
+                }
+            },
         	prevPage: function(){
         		var wid = this.leng;
         		if(this.p < -wid){
@@ -152,7 +182,7 @@
 					        case 1:
 					        	this.fetchdata = res.data.data;
 					        	this.portlen = this.fetchdata.port.length;
-					        	this.eventlen = this.fetchdata.event.length;
+                                this.eventlen = this.fetchdata.event.length;
 								break;
 							case 403:
 								window.location.href = '/login';
@@ -166,17 +196,31 @@
         	var self = this;
         	setTimeout(function(){
         		self.tempWidth();
-        	},1500);
+            },1500);
+            
+          
 		   
 		},
 		activated(){
-		   this.fetchCustomers();
+           this.fetchCustomers();
 		}
     }
     
 </script>
 
 <style scoped lang="scss">
+.wrapper{
+    cursor: pointer;
+}
+*{
+    moz-user-select: -moz-none; 
+    -moz-user-select: none; 
+    -o-user-select:none; 
+    -khtml-user-select:none; 
+    -webkit-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+}
 @import url('../../../static/css/fishBone');
 .container,ul,li,dl,dd,dt{
     padding:0;

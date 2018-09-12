@@ -597,7 +597,7 @@ import { regionDataPlus} from 'element-china-area-data';
         mounted(){
                var text = document.getElementsByClassName('el-table__empty-text');
                 for(var i=0;i<text.length;i++){
-                    text[i].innerHTML = '<img src="../../../static/img/assets/noText.png" class="noText"><span>目前没有内容</span>';
+                    text[i].innerHTML = '<img src="/static/img/assets/noText.png" class="noText"><span>目前没有内容</span>';
                 }
         }
     }
@@ -664,7 +664,7 @@ import { regionDataPlus} from 'element-china-area-data';
     .userTable .edit{
         width: 19px;
         height: 20px;
-        background: url("../../../static/img/update.png") no-repeat -41px -25px;
+        background: url("/static/img/update.png") no-repeat -41px -25px;
         display: inline-block;
         margin-left: 10px;
         cursor: pointer;
@@ -672,7 +672,7 @@ import { regionDataPlus} from 'element-china-area-data';
     .userTable .stop{
         width: 24px;
         height: 24px;
-        background: url("../../../static/img/update.png") no-repeat -23px 1px;
+        background: url("/static/img/update.png") no-repeat -23px 1px;
         display: inline-block;
         margin-left: 10px;
         cursor: pointer;
@@ -681,7 +681,7 @@ import { regionDataPlus} from 'element-china-area-data';
     .userTable .play{
         width: 24px;
         height: 24px;
-        background: url("../../../static/img/update.png") no-repeat -60px -21px;
+        background: url("/static/img/update.png") no-repeat -60px -21px;
         display: inline-block;
         margin-left: 10px;
         cursor: pointer;

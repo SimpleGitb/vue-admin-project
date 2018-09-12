@@ -7,13 +7,13 @@
 			<div class="login_fields">
 				<div class="login_fields__user">
 					<div class="icon">
-						<img src="../../../static/img/login/user_icon_copy.png">
+						<img src="/static/img/login/user_icon_copy.png">
 					</div>
 					<input name="login" id="username" v-model="ruleForm.username" style="font-family: 微软雅黑;font-size: 14px;" placeholder="邮箱" type="username">
 				</div>
 				<div class="login_fields__password">
 					<div class="icon">
-						<img src="../../../static/img/login/lock_icon_copy.png">
+						<img src="/static/img/login/lock_icon_copy.png">
 					</div>
 					<input name="pwd" id="password" v-model="ruleForm.password" style="font-family: 微软雅黑;font-size: 14px;" placeholder="密码" type="password">
 				</div>
@@ -437,7 +437,7 @@
             position: relative;
             width:100%;
             height:100%;
-            background: url('../../../static/img/login/bg1.png')
+            background: url('/static/img/login/bg1.png')
         }
         .ms-title{
             position: absolute;

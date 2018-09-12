@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="baseline">
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-warning"></i>&nbsp;&nbsp;基线监测 - {{basedata.ip}} - {{basedata.location}}</el-breadcrumb-item>
@@ -13,7 +13,7 @@
                     <div class="right_line"></div>
                 </div>
                 <ul class="main" style="color: #606266;">
-                    <li v-for="(port,key,index) in baseport.port">
+                    <li :key="index" v-for="(port,key,index) in baseport.port">
                         <div class="left_text" v-text="key"></div>
                         <div class="right">
                             <p class="top" v-text="port.server"></p>  
@@ -37,7 +37,7 @@
                 <div class="dash_line">
                     <div style="overflow:hidden; position:relative; height: 60px;">
                     	<ul class="processCorn" id="yearList" style="width: 100%; position: relative;margin-left: 45%;">
-	                        <li v-for="(time,value,index) in historytime"><i class="iconfont icon-danxuan"></i> <span style="width:150px" v-text="time"></span></li>
+	                        <li :key="index" v-for="(time,value,index) in historytime"><i class="iconfont icon-danxuan"></i> <span style="width:150px" v-text="time"></span></li>
 	                    </ul>
                     </div>
                 </div>
@@ -45,10 +45,10 @@
                     <img @click="btnPrev()" class="left_arrow" src="/static/img/left.png" alt="">
                     <div class="middle" style="width: 530px;position: relative; overflow: hidden;margin-top: 50px;">
                         <ul class="middle_content" id="cUl">
-                            <li v-for="(history,val,index) in basehistory">
+                            <li :key="index" v-for="(history,val,index) in basehistory">
                             	<div style="width: 530px;">
                             		<ul>
-			                            <li v-for="(hist,key,index) in history.port">  {{key}}      {{hist.server}}     {{hist.version}}</li>
+			                            <li  :key="index" v-for="(hist,key,index) in history.port">  {{key}}      {{hist.server}}     {{hist.version}}</li>
 			                        </ul>
                             	</div>
                             </li>
@@ -58,7 +58,7 @@
                 </div>
             </div>
         </div>
-              <div class="container">
+        <div class="container">
             <div class="history_change">
                 <div class="head">
                     <div class="title_top">历史变动</div>
@@ -76,7 +76,7 @@
 								<ul style="width: 4500px; left: 0; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
 									<template v-for="(item,index) in basedata.event">
 										<template v-if="index<basedata.event.length&&index%2==0">
-									      <li class="item top" style="width: 170px;">
+									      <li :key="'a'+index" class="item top" style="width: 170px;">
 												<div class="content">
 													<ul>
 														<li class="line-first" style="background-position-y: 9px;" v-text="basedata.event[index].created_at"></li>
@@ -95,7 +95,7 @@
 													</ul>
 												</div>
 											</li>
-											<li v-if="index<basedata.event.length-1" class="item bottom" style="width: 170px;">
+											<li :key="'b'+index" v-if="index<basedata.event.length-1" class="item bottom" style="width: 170px;">
 												<div class="content">
 													<ul>
 														<li class="overauto" style="border-left: 1px solid rgb(26, 132, 206);width: 187px;height: 80px;overflow: hidden;">
@@ -246,13 +246,13 @@
 ul,li{
     list-style:none;
 }
-.overauto li {
+.baseline .overauto li {
 		padding-left: 0 !important;
 	}
-.container{
+.baseline .container{
     margin-bottom:15px;
 }
-    .head{
+  .baseline .head{
         width:100%;
         
         .title_top{
@@ -330,7 +330,7 @@ ul,li{
 }
         
     }
-    .dash_line{
+    .baseline .dash_line{
         width:90%;
         height:22px;
         border-bottom:3px dashed #E4E4E4;
@@ -358,7 +358,7 @@ ul,li{
             }
         }
     }
-    .hl_main{
+  .baseline .hl_main{
             display:flex;
             width:70%;
             margin:auto;
@@ -415,7 +415,7 @@ ul,li{
   	}
     .right_arrow:hover{
     	cursor: pointer;
-    } 
+    }
     .active{
 		    color: red;
 		}

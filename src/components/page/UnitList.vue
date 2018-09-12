@@ -663,7 +663,7 @@
     .update{
         width: 19px;
         height: 20px;
-        background: url('../../../static/img/update.png') no-repeat -41px -25px;
+        background: url('/static/img/update.png') no-repeat -41px -25px;
         cursor: pointer;
         margin: 0 auto;
     }

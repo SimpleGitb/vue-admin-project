@@ -51,7 +51,7 @@
                 </div>
                 <div class="addrecipient" v-show="selectdRecipient">
                    <div class="Qrcode">
-                        <img src="../../../static/img/setting/Qrcode.jpg" alt="">
+                        <img src="/static/img/setting/Qrcode.jpg" alt="">
                     </div>
                     <div class="recipientbox">
                         <el-alert

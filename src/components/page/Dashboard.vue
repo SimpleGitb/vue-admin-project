@@ -9,8 +9,8 @@
                         <div class="item-box">
                             <div class="item-bg">
                                 <div class="item-bg-box">
-                                    <img src="../../../static/img/home/total_t.png" class="itembg-t">
-                                    <img src="../../../static/img/home/total_b.png" class="itembg-b">
+                                    <img src="/static/img/home/total_t.png" class="itembg-t">
+                                    <img src="/static/img/home/total_b.png" class="itembg-b">
                                 </div>
                             </div>
                         </div>
@@ -27,8 +27,8 @@
                         <div class="item-box">
                             <div class="item-bg">
                                 <div class="item-bg-box">
-                                    <img src="../../../static/img/home/total1_t.png" class="itembg-t">
-                                    <img src="../../../static/img/home/total1_b.png" class="itembg-b">
+                                    <img src="/static/img/home/total1_t.png" class="itembg-t">
+                                    <img src="/static/img/home/total1_b.png" class="itembg-b">
                                 </div>
                             </div>
                         </div>
@@ -45,8 +45,8 @@
                         <div class="item-box">
                             <div class="item-bg">
                                 <div class="item-bg-box">
-                                    <img src="../../../static/img/home/total2_t.png" class="itembg-t">
-                                    <img src="../../../static/img/home/total2_b.png" class="itembg-b">
+                                    <img src="/static/img/home/total2_t.png" class="itembg-t">
+                                    <img src="/static/img/home/total2_b.png" class="itembg-b">
                                 </div>
                             </div>
                         </div>
@@ -63,8 +63,8 @@
                         <div class="item-box">
                             <div class="item-bg">
                                 <div class="item-bg-box">
-                                    <img src="../../../static/img/home/total3_t.png" class="itembg-t">
-                                    <img src="../../../static/img/home/total3_b.png" class="itembg-b">
+                                    <img src="/static/img/home/total3_t.png" class="itembg-t">
+                                    <img src="/static/img/home/total3_b.png" class="itembg-b">
                                 </div>
                             </div>
                         </div>

@@ -2501,7 +2501,7 @@
     .strate .edit{
         width: 19px;
         height: 20px;
-        background: url("../../../static/img/update.png") no-repeat -41px -25px;
+        background: url("/static/img/update.png") no-repeat -41px -25px;
         display: inline-block;
         cursor: pointer;
     }
@@ -2514,7 +2514,7 @@
     .strate .stop{
             width: 24px;
             height: 24px;
-            background: url("../../../static/img/update.png") no-repeat -23px 0px;
+            background: url("/static/img/update.png") no-repeat -23px 0px;
             display: inline-block;
             margin-left: 10px;
             cursor: pointer;
@@ -2523,7 +2523,7 @@
     .strate .play{
         width: 24px;
         height: 24px;
-        background: url("../../../static/img/update.png") no-repeat -60px -22px;
+        background: url("/static/img/update.png") no-repeat -60px -22px;
         display: inline-block;
         margin-left: 10px;
         cursor: pointer;
