@@ -183,15 +183,28 @@
 			        ids.push(element.id)
 			      })
 //			      this.tableData.splice(0,1);
-			      this.$confirm('确定要删除选中的文件吗?','提示').then(() =>{
+			      this.$confirm('确定要删除选中的文件吗?','提示',{
+			          confirmButtonText: '确定',
+			          cancelButtonText: '取消',
+			          type: 'warning'
+			        }).then(() =>{
 			      	this.$axios.delete("api/asset/delete", {
                         data: {
                            id: ids
                       	}
                     }).then((res) => {
+                    	this.$message({
+				            type: 'success',
+				            message: '删除成功!'
+				          });
                        this.handleCurrentChange();
                     });
-			      }).catch(()=>{});
+			      }).catch(()=>{
+			      	this.$message({
+			            type: 'info',
+			            message: '已取消删除'
+			          });  
+			      });
 			    },
 			    handleCurrentChange(val) {
 			        this.$axios.get("api/asset/index?page="+this.currentPage+"&limit="+10).then((res) => {

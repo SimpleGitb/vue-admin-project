@@ -22,7 +22,7 @@
                         </div>
                     </li>
                     <div v-if="portlen == 0"><img class="tupian" src="../../../static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无端口信息</span></div>
-                </ul>
+                </ul>    
                 <!--<el-row :gutter="20" style="color: #606266;">
 				  <el-col :span="4" v-for="(port,key) in fetchdata.port" :key="port.id+1">
 				  	<div class="top_text" v-text="key"></div>
@@ -185,6 +185,7 @@
 }
 .overauto li {
 		padding-left: 0 !important;
+		font-size: 13px;
 	}
 ul,li{
     list-style:none;

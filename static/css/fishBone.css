@@ -106,7 +106,7 @@ color: #767676;
 	background: url(../../../static/img/line-first.png) no-repeat 0px 0px;
 	font-size: 14px;
 	font-family:'微软雅黑';
-	font-weight: 550;
+	font-weight: bold;
 }
 .fishBone .item .content ul li.line-last{
 	border-left:none;

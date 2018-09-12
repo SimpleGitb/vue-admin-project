@@ -37,7 +37,7 @@
                 <div class="dash_line">
                     <div style="overflow:hidden; position:relative; height: 60px;">
                     	<ul class="processCorn" id="yearList" style="width: 100%; position: relative;margin-left: 45%;">
-	                        <li v-for="(time,value,index) in historytime"><i class="iconfont icon-danxuan"></i> <span style="width:150px" v-text="time"></span></li>
+	                        <li v-for="(time,value,index) in historytime"><i class="iconfont icon-danxuan"></i> <span style="width:160px" v-text="time"></span></li>
 	                    </ul>
                     </div>
                 </div>
@@ -193,7 +193,7 @@
             },
             updata(){
                 $("#cUl").animate({left:-(this.w*this.n)+'px'},300);
-                $("#yearList").animate({left:-((150)*this.n)+'px'},300);
+                $("#yearList").animate({left:-((160)*this.n)+'px'},300);
                 $(".processCorn").find("li").eq(this.n).addClass("active").siblings().removeClass("active");
             },
             prevPage: function(){
@@ -248,6 +248,7 @@ ul,li{
 }
 .overauto li {
 		padding-left: 0 !important;
+		font-size: 13px;
 	}
 .container{
     margin-bottom:15px;
@@ -354,7 +355,6 @@ ul,li{
                 display:flex;
                 flex-direction: column;
                 align-items:center;
-
             }
         }
     }
@@ -383,16 +383,16 @@ ul,li{
 	                    margin-bottom:0;
 	                }
 	                li:nth-child(1){
-	                     background: #42A7DB;
-	                    border:1px solid  #42A7DB;
+	                     background: #f7a358;
+	                    border:1px solid  #f7a358;
 	                }
 	                li:nth-child(2){
-	                    background: #FABF3A;
-	                    border:1px solid  #FABF3A;
+	                    background: #409eff;
+	                    border:1px solid  #409eff;
 	                }
 	                li:nth-child(3){
-	                    background: #F13852; 
-	                    border:1px solid #F13852;
+	                    background: #5fb878; 
+	                    border:1px solid #5fb878;
 	                }
 	                 li:nth-child(4){
 	                    background: #42A7DB;
@@ -403,7 +403,6 @@ ul,li{
 	                    color:#000;
 	                }
                 }
-                
             }
             img{
                 width:30px;
