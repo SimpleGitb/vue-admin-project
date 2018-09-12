@@ -167,7 +167,8 @@
 						        case 1:
 						        	this.$router.push({
 					                    name:'assetsResult',
-					                    params:{id:id}
+					                    'query':{id:id}
+//					                    params:{id:id}
 					                })
 						            break;
 						        default: this.$message.error(res.data.msg); break;
@@ -183,15 +184,28 @@
 			        ids.push(element.id)
 			      })
 //			      this.tableData.splice(0,1);
-			      this.$confirm('确定要删除选中的文件吗?','提示').then(() =>{
+			      this.$confirm('确定要删除选中的文件吗?','提示',{
+			          confirmButtonText: '确定',
+			          cancelButtonText: '取消',
+			          type: 'warning'
+			        }).then(() =>{
 			      	this.$axios.delete("api/asset/delete", {
                         data: {
                            id: ids
                       	}
                     }).then((res) => {
+                    	this.$message({
+				            type: 'success',
+				            message: '删除成功!'
+				          });
                        this.handleCurrentChange();
                     });
-			      }).catch(()=>{});
+			      }).catch(()=>{
+			      	this.$message({
+			            type: 'info',
+			            message: '已取消删除'
+			          });  
+			      });
 			    },
 			    handleCurrentChange(val) {
 			        this.$axios.get("api/asset/index?page="+this.currentPage+"&limit="+10).then((res) => {
@@ -254,10 +268,13 @@
 
 <style scoped lang="less">
 @import '../../../static/css/fishBone.css';
-.record .el-table_1_column_3 a:link{
+a{
+		color: #409eff;
+	}
+a:link{
 		color: #409EFF;
 	}
-	.record .el-table_1_column_3 a:visited{
+a:visited{
 		color: #006AD5;
 	}
 .container{
@@ -280,9 +297,6 @@
 </style>
 <style type="text/css">
 
-	.record .cell .a{
-		color: #409eff;
-	}
 .record .el-table thead>tr{
 	background-color: RGB(242,242,242);
 }
