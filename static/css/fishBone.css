@@ -1,4 +1,4 @@
-
+.hc_mai{
 .fishBone *{
 	margin: 0;
 	padding: 0;
@@ -104,7 +104,7 @@ color: #767676;
 	background: url(../../../static/img/line-first.png) no-repeat 0px 0px;
 	font-size: 14px;
 	font-family:'微软雅黑';
-	font-weight: 550;
+	font-weight: bold;
 }
 .fishBone .item .content ul li.line-last{
 	border-left:none;
@@ -114,39 +114,46 @@ color: #767676;
 /**prev next*/
 .fishBone .prev {
 	position: absolute;
-	top: 152px;
-	left: 0;
+	top: 150px;
+	left: 2px;
 	display: inline-block;
-	width: 40px;
-	height: 40px;
-	background: url(../../../static/img/u2553.png) no-repeat 2px ;
-	transform: rotate(180deg);
+	width: 46px;
+	height: 46px;
+	background: url(../../../static/img/轮播箭头左.png) no-repeat 0px ;
+	background-size: 100%;
+	opacity: 0.3;
+	/*transform: rotate(180deg);*/
 }
 .fishBone .prev:hover{
 cursor: pointer;
+opacity: 1;
 /*background-position-y: -28px;*/
 }
 .fishBone .next:hover{
 cursor: pointer;
+opacity: 1;
 /*background-position-y: -28px;*/
 }
 .fishBone .next {
 	position: absolute;
-	top: 151px;
-	right: 0;
+	top: 149px;
+	right: 2px;
 	display: inline-block;
-	width: 40px;
-	height: 40px;
+	width: 46px;
+	height: 46px;
 	/*background: url(../../../static/img/arrow.png) no-repeat -19px 13px;*/
-	background: url(../../../static/img/u2553.png) no-repeat 3px;
+	background: url(../../../static/img/轮播箭头左.png) no-repeat 0px;
+	transform: rotate(180deg);
+	background-size: 100%;
+	opacity: 0.3;
 }
 /**line**/
 .fishBone .line {
 	position: absolute;
 	top: 170px;
 	height: 1px;
-	width: 96%;
-	left: 2%;
+	width: 94%;
+	left: 3%;
 	border-bottom: 2px dashed #7E899D;
 	z-index: 0;
 }
