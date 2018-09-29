@@ -3,7 +3,7 @@
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item>
-                    <i class="iconfont icon-wangzhan"></i> 应用资产</el-breadcrumb-item>
+                    <i class="iconfont icon-diqiu"></i> 应用资产</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
@@ -18,7 +18,7 @@
                             </el-dropdown-menu>
                         </el-dropdown>
                     <!-- 搜索类型 -->
-                    <el-input v-model="select_word" placeholder="请输入网站名称或域名" class="input-with-select" style="width:0">
+                    <el-input v-model="select_word" placeholder="请输入网站名称或域名" class="input-with-select" style="width:25%">
                         <el-button slot="append" icon="el-icon-search" @click="sendSearchAsset"></el-button>
                     </el-input>
                 </div>
@@ -55,14 +55,14 @@
                 </el-table-column>
                 <el-table-column label="威胁事件" >
                     <template slot-scope="scope">
-                        <div class="threatEvent"  @click="threatEvent($event,scope.row.threat_new_count)" :style="{color:red}" v-if="scope.row.threat_new_count ==  0 ? red='#333' : red='red'">
+                        <div class="threatEvent"  @click="threatEvent($event,scope,scope.row.threat_new_count)" :style="{color:red}" v-if="scope.row.threat_new_count ==  0 ? red='#333' : red='red'">
                             <span>{{ scope.row.threat_count }}</span>
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="资产事件">
                     <template slot-scope="scope">
-                        <div class="assetEvent" @click="hrefAssetEvent($event)" :style="{color:red}" v-if="scope.row.event_color ==  0 ? red='#333' : red='red'">
+                        <div class="assetEvent" @click="hrefAssetEvent(scope,$event)" :style="{color:red}" v-if="scope.row.event_color ==  0 ? red='#333' : red='red'">
                             <span>{{ scope.row.event_count }}</span>
                         </div>
                     </template>
@@ -125,7 +125,7 @@
                                                             <!-- 搜索类型 -->
                                                         </div>
                                                         <div class="right">
-                                                            <el-input placeholder="请输入关键词" v-model="keywords1" class="input-with-select" style="width:0">
+                                                            <el-input placeholder="请输入关键词" v-model="keywords1" class="input-with-select" style="width:25%">
                                                                 <el-button slot="append" icon="el-icon-search" @click="sendSearch"></el-button>
                                                             </el-input>
                                                         </div>
@@ -208,7 +208,7 @@
                                                             </el-select>
                                                         </div>
                                                         <div class="right">
-                                                            <el-input placeholder="请输入关键词" v-model="keywords2" class="input-with-select" style="width:0">
+                                                            <el-input placeholder="请输入关键词" v-model="keywords2" class="input-with-select" style="width:25%">
                                                                 <el-button slot="append" icon="el-icon-search" @click="sendSearch1"></el-button>
                                                             </el-input>
                                                         </div>
@@ -289,7 +289,7 @@
                                                             </el-select>
                                                         </div>
                                                         <div class="right">
-                                                            <el-input placeholder="请输入关键词" v-model="keywords3" class="input-with-select" style="width:0">
+                                                            <el-input placeholder="请输入关键词" v-model="keywords3" class="input-with-select" style="width:25%">
                                                                 <el-button slot="append" icon="el-icon-search" @click="sendSearch2"></el-button>
                                                             </el-input>
                                                         </div>
@@ -396,7 +396,7 @@
                                                 </el-tabs>
                                             </div>
                                         </el-tab-pane>
-                                        <el-tab-pane label="资产事件" name="assetEvent">
+                                        <el-tab-pane label="可用性事件" name="assetEvent">
                                             <div class="assetsEvent" v-loading="eventLoading">
                                                 <div class="item-noText" v-if="assetEventTime.length== 0">
                                                     <img src="../../../static/img/assets/noText.png">
@@ -423,7 +423,7 @@
                                                             </div>                                                    
                                             </div>
                                         </el-tab-pane>
-                                        <el-tab-pane label="威胁情报">
+                                        <!-- <el-tab-pane label="威胁情报">
                                             <div class="intelligence">
                                                 <ul>
                                                     <li>
@@ -436,6 +436,170 @@
                                                     </li>
                                                 </ul>
                                             </div>
+                                        </el-tab-pane> -->
+                                        <el-tab-pane label="资产事件">
+                                        	<div class="container_line">
+									            <div class="head" style="margin-bottom: 20px;">
+									                <div class="title_top">域名属性监测</div>
+									                <div class="line_content">
+									                    <div class="left_line"></div>
+									                    <div class="right_line"></div>
+									                    <i class="iconfont "></i>
+									                </div>
+									            </div>
+									            <el-table
+												    ref="multipleTable"
+												    :data="tableData1"
+												    tooltip-effect="dark"
+												    border
+												    style="width: 100%">
+												    <el-table-column
+												      label="注册人"
+												      >
+												      <template slot-scope="scope">
+												      	{{ scope.row.icp_name }}
+												      	<span v-if="scope.row.icp_name">无</span>
+												      </template>
+												    </el-table-column>
+												    <el-table-column
+												      label="DNS"
+												      >
+												      <template slot-scope="scope">
+												      	{{ scope.row.whois_dns }}
+												      	<span v-if="scope.row.whois_dns">无</span>
+												      </template>
+												    </el-table-column>
+												    <el-table-column
+												      label="Server"
+												      >
+												      <template slot-scope="scope">
+												      	{{scope.row.server}}
+												      	<span v-if="scope.row.server">无</span>
+												      </template>
+												    </el-table-column>
+												    <el-table-column
+												      label="IP"
+												      >
+												      <template slot-scope="scope">
+												      	{{scope.row.ip}}
+												      	<span v-if="scope.row.ip">无</span>
+												      </template>
+												    </el-table-column>
+												    <el-table-column
+												      label="开启泛解析"
+												      >
+												      <template slot-scope="scope">
+												      	{{scope.row.parse}}
+												      	<span v-if="scope.row.parse">无</span>
+												      </template>
+												    </el-table-column>
+												  </el-table>
+									        </div>
+                                             <div class="container_line">
+									            <div class="head">
+									                <div class="title_top">历史域名属性</div>
+									                <div class="line_content">
+									                    <div class="left_line"></div>
+									                    <div class="right_line"></div>
+									                    <i class="iconfont "></i>
+									                </div>
+									            </div>
+									            <div v-if="portlen > 0">
+										            <div class="historyLine">
+										                <div class="dash_line">
+										                    <div style="overflow:hidden; position:relative; height: 60px;">
+										                    	<ul class="processCorn" id="yearList" style="width: 100%; position: relative;margin-left: 45%;">
+											                        <li v-for="(time,value,index) in historytime"><i class="iconfont icon-danxuan"></i> <span style="width:160px" v-text="time"></span></li>
+											                    </ul>
+										                    </div>
+										                </div>
+									                	<div class="hl_main">
+									                    	<img @click="btnPrev()" class="left_arrow" src="/static/img/left.png" alt="">
+										                    <div class="middle" style="width: 530px;position: relative; overflow: hidden;margin-top: 50px;">
+										                        <ul class="middle_content" id="cUl">
+										                            <li v-for="(history,index) in basehistory">
+										                            	<div style="width: 530px;">
+										                            		<ul>
+													                            <li v-text="history.status.icp_name" v-if="history.status"></li>
+													                            <li v-text="history.status.whois_dns" v-if="history.status"></li>
+													                            <li v-text="history.status.server" v-if="history.status"></li>
+													                            <li v-text="history.status.ip" v-if="history.status"></li>
+													                            <li v-text="history.status.parse" v-if="history.status"></li>
+													                        </ul>
+										                            	</div>
+										                            </li>
+										                        </ul>
+										                    </div>
+										                    <img @click="btnNext()" class="right_arrow" src="/static/img/right.png" alt="">
+									               		</div>
+									            	</div>
+									            </div>
+									            <div v-if="portlen == 0" style="text-align: center;line-height: 180px;"><img class="tupian" src="../../../static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无历史域名信息</span></div>
+									        </div>
+									              <div class="container_line">
+									            <div class="history_change">
+									                <div class="head">
+									                    <div class="title_top">历史变动</div>
+									                    <div class="line_content">
+									                        <div class="left_line"></div>
+									                        <div class="right_line"></div>
+									                    </div>
+									                </div>
+									            </div>
+									            <div class="hc_mai">
+													<div class="fishBone" v-if="portlen > 0">
+														<div class="wrapper">
+															<div class="bd">
+																<div class="tempWrap" style="overflow:hidden; position:relative; width: 96%;left:2%">
+																	<ul style="width: 4500px; left: 0; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
+																		<template v-for="(item,index) in basehistory">
+																			<template v-if="index<basehistory.length&&index%2==0">
+																		      <li class="item top" style="width: 470px;">
+																					<div class="content">
+																						<ul>
+																							<li class="line-first" style="background-position-y: 9px;" v-text="basehistory[index].created_at"></li>
+																							<li class="title"><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -598px;line-height: 2.2em;">{{basehistory[index].content}}</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
+																							<li class="overauto" style="border-left: 1px solid rgb(248, 151, 130);width: 187px;height: 80px;overflow: hidden;">
+																								<div style="width: 204px;overflow-x: hidden;overflow-y: scroll;height: 80px;">
+																									<!--<ul>
+																										<li v-for="(port,key) in basehistory[index]">{{key}}：{{port.server}} | {{port.version}}</li>
+																									</ul>-->
+																								</div>
+																							</li>
+																							<li class="line-last line-point" style="background-position: 0px 0px;"></li>
+																						</ul>
+																					</div>
+																				</li>
+																				<li v-if="index<basehistory.length-1" class="item bottom" style="width: 470px;">
+																					<div class="content">
+																						<ul>
+																							<li class="overauto" style="border-left: 1px solid rgb(26, 132, 206);width: 187px;height: 80px;overflow: hidden;">
+																								<div style="width: 204px;overflow-x: hidden;overflow-y: scroll;height: 80px;">
+																									<!--<ul>
+																										<li v-for="(port,key) in basedata.event[index].history.port">{{key}}：{{port.server}} | {{port.version}}</li>
+																									</ul>-->
+																								</div>
+																							</li>
+																							<li class="title"><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -658px;line-height: 2.2em;">{{basehistory[index+1].content}}</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
+																							<li class="line-first" style="background-position-y: -93px;" v-text="basehistory[index+1].created_at"></li>
+																							<li class="line-last line-point" style="background-position: 0px -20px;"></li>
+																						</ul>
+																					</div>
+																				</li>
+																		    </template>
+																		</template>
+																		
+																	</ul>
+																</div>
+															</div>
+														</div>
+														<a class="prev" @click="prevPage"></a>
+														<a class="next" @click="nextPage"></a>
+														<div class="line"></div>
+													</div>            
+									            	<div v-if="portlen == 0" style="text-align: center;line-height: 339px;"><img class="tupian" src="../../../static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无历史变动信息</span></div>
+									            </div>
+									        </div>
                                         </el-tab-pane>
                                     </el-tabs>
                                 </div>
@@ -461,18 +625,34 @@
                                                 </p>
                                             </div>
                                             <div class="item-content">
-                                                <el-table border :data="layerData" style="width: 100%">
-                                                    <el-table-column prop="language" label="开发语言" width="180">
-                                                    </el-table-column>
-                                                    <el-table-column prop="database" label="数据库" width="180">
-                                                    </el-table-column>
-                                                    <el-table-column prop="server" label="Web容器">
-                                                    </el-table-column>
+                                                <el-table border :data="layerData">
                                                     <el-table-column prop="os" label="操作系统">
                                                     </el-table-column>
-                                                    <el-table-column prop="ip" label="IP/CDN">
+                                                    <el-table-column label="服务器" :render-header="renderHeader">
+                                                           <template slot-scope="scope">
+                                                                <div class="serverTip">
+                                                                        {{ scope.row.server }}
+                                                                </div>
+                                                               </template>
                                                     </el-table-column>
-                                                    <el-table-column prop="cms" label="Web指纹">
+                                                    <el-table-column label="IP" :render-header="renderHeader1">
+                                                        <template slot-scope="scope">
+                                                            <div class="ipTip">
+                                                               {{ scope.row.ip }}
+                                                            </div>
+                                                        </template>
+                                                    </el-table-column>
+                                                    <el-table-column prop="language" label="开发语言">
+                                                    </el-table-column>
+                                                    <el-table-column prop="database" label="数据库">
+                                                    </el-table-column>
+                                                    <el-table-column prop="cms" label="CMS">
+                                                    </el-table-column>
+                                                    <el-table-column prop="idc" label="IDC">
+                                                    </el-table-column>
+                                                    <el-table-column prop="cdn" label="CDN">
+                                                    </el-table-column>
+                                                    <el-table-column prop="waf" label="waf">
                                                     </el-table-column>
                                                 </el-table>
                                             </div>
@@ -484,18 +664,30 @@
                                                 </p>
                                             </div>
                                             <div class="item-content">
-                                                <el-table border :data="layerData" style="width: 100%">
-                                                    <el-table-column prop="whois_isp" label="域名注册商" width="180">
+                                                <el-table border :data="layerData">
+                                                    <el-table-column prop="whois_name" label="域名所有者">
                                                     </el-table-column>
-                                                    <el-table-column prop="whois_name" label="域名所有者" width="180">
+                                                    <el-table-column prop="whois_mail" label="注册邮箱">
                                                     </el-table-column>
-                                                    <el-table-column prop="whois_mail" label="邮箱">
+                                                    <el-table-column label="域名注册商" :render-header="renderHeader2">
+                                                        <template slot-scope="scope">
+                                                            <div class="whois_ispTip">
+                                                               {{ scope.row.whois_isp }}
+                                                            </div>
+                                                        </template>
                                                     </el-table-column>
                                                     <el-table-column prop="icp_name" label="备案单位">
                                                     </el-table-column>
                                                     <el-table-column prop="icp_id" label="备案号">
                                                     </el-table-column>
-                                                    <el-table-column prop="whois_dns" label="DNS">
+                                                    <el-table-column prop="whois_date" label="域名过期时间">
+                                                    </el-table-column>
+                                                    <el-table-column label="DNS" :render-header="renderHeader3">
+                                                        <template slot-scope="scope">
+                                                            <div class="whois_dnsTip">
+                                                               {{ scope.row.whois_dns }}
+                                                            </div>
+                                                        </template>
                                                     </el-table-column>
                                                 </el-table>
                                             </div>
@@ -519,22 +711,51 @@
                                                 </p>
                                             </div>
                                             <div class="item-content">
-                                                <el-table border :data="subdomain" style="width: 100%">
-                                                    <el-table-column prop="domain" label="域名" width="180">
+                                                 <el-table ref="domain" border :data="subdomain">
+                                                      <el-table-column prop="language" label="域名" width="200">
+                                                        <template slot-scope="scope">
+                                                               {{ scope.row.domain}}
+                                                        </template>
                                                     </el-table-column>
-                                                    <el-table-column prop="name" label="标题" width="180">
+                                                    <el-table-column prop="language" label="开发语言" width="200">
+                                                        <template slot-scope="scope">
+                                                               {{ scope.row.asset.language}}
+                                                        </template>
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.language" label="开发语言">
+                                                    <el-table-column prop="database" label="数据库" width="200">
+                                                        <template slot-scope="scope">
+                                                               {{ scope.row.asset.database}}
+                                                        </template>
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.database" label="数据库">
+                                                    <el-table-column prop="cdn" label="CDN" width="200">
+                                                        <template slot-scope="scope">
+                                                               {{ scope.row.asset.cdn}}
+                                                        </template>
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.server" label="WEB容器">
+                                                    <el-table-column prop="ip" label="IP" width="200">
+                                                         <template slot-scope="scope">
+                                                               {{ scope.row.asset.ip}}
+                                                        </template>
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.os" label="操作系统">
+                                                    <el-table-column prop="os" label="操作系统" width="200">
+                                                        <template slot-scope="scope">
+                                                               {{ scope.row.asset.os}}
+                                                        </template>
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.ip" label="IP/CDN">
+                                                    <el-table-column prop="server" label="服务器" width="200">
+                                                         <template slot-scope="scope">
+                                                               {{ scope.row.asset.server}}
+                                                        </template>
                                                     </el-table-column>
-                                                    <el-table-column prop="asset.cms" label="Web指纹">
+                                                    <el-table-column prop="cms" label="CMS" width="200">
+                                                        <template slot-scope="scope">
+                                                               {{ scope.row.asset.cms}}
+                                                        </template>
+                                                    </el-table-column>
+                                                    <el-table-column prop="waf" label="waf" width="200">
+                                                        <template slot-scope="scope">
+                                                               {{ scope.row.asset.waf}}
+                                                        </template>
                                                     </el-table-column>
                                                 </el-table>
                                             </div>
@@ -838,7 +1059,7 @@
                                             start-placeholder="开始日期"
                                             end-placeholder="结束日期">
                                             </el-date-picker>
-                                        <el-radio-button label="custom"><span @click="custom">自定义</span></el-radio-button>
+                                        <el-radio-button label="custom"><span @click="customval = !customval">自定义</span></el-radio-button>
                                         </el-radio-group>
                                 </div>
                                 <div class="right_btn">
@@ -862,6 +1083,12 @@
         </div>
         <el-dialog title="资产添加" :visible.sync="showdialog" width="35%">
             <el-form label-width="100px">
+                <el-form-item>
+                    <el-radio-group v-model="assetsalertData.monitor">
+                        <el-radio label="0">正常监测</el-radio>
+                        <el-radio label="1">基线监测</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                 <el-form-item label="所属单位">
                     <el-autocomplete style="width:80%;" popper-class="my-autocomplete" v-model="assetsalertData.owner" @focus="querySearch" :fetch-suggestions="querySearch"
                         placeholder="请选择该网站直属单位，鼠标点击后支持搜索" @select="selectunit">
@@ -1084,6 +1311,12 @@
         </el-dialog>
         <el-dialog title="资产编辑" :visible.sync="addAssetsDialog" width="35%">
             <el-form label-width="100px">
+                 <el-form-item>
+                    <el-radio-group v-model="editAssets.monitor">
+                        <el-radio label="0">正常监测</el-radio>
+                        <el-radio label="1">基线监测</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                 <el-form-item label="所属单位">
                     <el-autocomplete style="width:80%;" popper-class="my-autocomplete" v-model="editAssets.owner" @focus="querySearch" :fetch-suggestions="querySearch"
                         placeholder="请输入内容" @select="selectunit">
@@ -1306,6 +1539,12 @@
         </el-dialog>
         <el-dialog title="批量添加" :visible.sync="batchAddAssets" width="35%" class="batchAdd">
             <el-form label-width="100px">
+                <el-form-item>
+                    <el-radio-group v-model="batchAdd.monitor">
+                        <el-radio label="0">正常监测</el-radio>
+                        <el-radio label="1">基线监测</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                 <el-form-item label="选择策略">
                     <el-autocomplete popper-class="my-autocomplete" style="width:80%" v-model="batchAdd.strategy" @focus="querySearch1" :fetch-suggestions="querySearch1"
                         placeholder="请选择策略" @select="selectstrategydata">
@@ -1437,11 +1676,11 @@
                 </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="exportVisble = false">取消</el-button>
-                    <a class="exportBtn" :href="'/api/site/threat/export?start='+theReport.startTime[0]
-                        +'&end='+theReport.startTime[1] +'&id=['+selecedId+']'">导出报表</a>
+                    <a class="exportBtn" :href="'/api/site/threat/export?start='+theReport.startTime[0].toLocaleDateString().split('/').join('-')
+                        +'&end='+theReport.startTime[1].toLocaleDateString().split('/').join('-') +'&id=['+selecedId+']'">导出报表</a>
             </div>
         </el-dialog>  
-             <el-dialog title="导出可用性报表" :visible.sync="usblityVisble" width="30%" class="exportPort">
+        <el-dialog title="导出可用性报表" :visible.sync="usblityVisble" width="40%" class="exportPort">
                 <div class="tip-header">
                     <img src="../../../static/img/assets/qat.png">
                     <p class="tip-msg">点击下方导出按钮后即可导出可用性报表</p>
@@ -1449,15 +1688,15 @@
                    <el-form>
                     <el-form-item label="时间筛选">
                         <el-date-picker v-model="usblityReport.startTime" type="daterange" range-separator="至" start-placeholder="开始日期"
-                        end-placeholder="结束日期"  format="yyyy 年 MM 月 dd 日" @change="test"
+                        end-placeholder="结束日期"  format="yyyy 年 MM 月 dd 日"
                             value-format="yyyy-MM-dd">
                         </el-date-picker>
                     </el-form-item>
                 </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="usblityVisble = false">取消</el-button>
-                    <a class="exportBtn" :href="'/api/site/'+rowId+'/usability/export?start='+usblityReport.startTime[0]
-                        +'&end='+usblityReport.startTime[1]">导出报表</a>
+                    <a class="exportBtn" :href="'/api/site/'+rowId+'/usability/export?start='+usblityReport.startTime[0].toLocaleDateString().split('/').join('-')
+                        +'&end='+usblityReport.startTime[1].toLocaleDateString().split('/').join('-')">导出报表</a>
             </div>
         </el-dialog>      
     </div>
@@ -1469,9 +1708,11 @@
         data() {
             return {
                 currentPage2:1,
+                typeval:'',
                 includedComponents:'application',
                 labelPosition: 'center',
                 batchchoice: '',
+                a:'123',
                 usabval:'',
                 usblityVisble:false,
                 tabPosition:'day',
@@ -1523,13 +1764,15 @@
                 inputVisible2: false,
                 inputValue: '',
                 inputValue2: '',
+                owner_id:'',
                 theReport:{
-                    startTime: [new Date().toLocaleDateString(),new Date(2018, 11, 30).toLocaleDateString()]
+                    startTime: [new Date(),new Date(2018, 11, 30)]
                 },
                 usblityReport:{
-                    startTime: [new Date().toLocaleDateString(),new Date(2018, 11, 30).toLocaleDateString()]
+                    startTime: [new Date(),new Date(2018, 11, 30)]
                 },
                 batchAdd: {
+                    monitor:'1',
                     strategy: '',
                     content: ''
                 },
@@ -1537,6 +1780,7 @@
                     superior: ''
                 },
                 assetsalertData: {
+                    monitor:'1',
                     ownerId: '',
                     owner: '',
                     name: '',
@@ -1575,6 +1819,7 @@
                     domainmonitorNum1: 0
                 },
                 editAssets: {
+                    monitor:'0',
                     ownerId: '',
                     owner: '',
                     name: '',
@@ -1630,9 +1875,16 @@
                     icp_id: '',
                     whois_dns: '',
                     ipaddress: [],
-                    title: ''
+                    title: '',
+                    idc:'',
+                    cdn:'',
+                    waf:'',
+                    whois_date:'',
+                    type:''
                 }],
-                subdomain: [],
+                subdomain: [
+                   
+                ],
                 information: {
                     count: {
                         index: '',
@@ -1737,12 +1989,23 @@
                 row: {},
                 nodeData:[],
                 pages:1,
-                vals:10
+                vals:10,
+                active:false,
+            	n:0,
+            	liNum:'',
+            	w:530,
+            	p:0,
+            	leng:"",
+            	basedata:[],
+            	baseport:[],
+            	basehistory:[],
+            	historytime:[],
+            	portlen:"",
+            	eventlen:"",
+            	tableData1:[]
             }
         },
         methods: {
-            test(){
-            },
             handleSizeChange(val){
                 this.loading2 = true;
                 this.vals = val;
@@ -1768,32 +2031,118 @@
                 this.rowId = row.id;
                     this.$axios.get('api/site/' + this.rowId + '/asset').then((res) => {
                         let data = res.data.data;
+                        this.subdomain = data.subdomain;
+                        console.log(this.$refs.domain.$el.offsetWidth)
                         this.layerData[0].site = data.site.name ? data.site.name : '无';
                         this.layerData[0].domain = data.site.domain ? data.site.domain : '无';
-                        this.layerData[0].language = data.site.asset.language ? data.site.asset.language : '无';
-                        this.layerData[0].database = data.site.asset.database ? data.site.asset.database : '无';
-                        this.layerData[0].server = data.site.asset.server ? data.site.asset.server : '无';
-                        this.layerData[0].os = data.site.asset.os ? data.site.asset.os : '无';
-                        this.layerData[0].ip = data.site.asset.ip ? data.site.asset.ip : '无';
-                        this.layerData[0].cms = data.site.asset.cms ? data.site.asset.cms : '无';
-                        this.layerData[0].whois_isp = data.site.asset.whois_isp ? data.site.asset.whois_isp : '无';
-                        this.layerData[0].whois_name = data.site.asset.whois_name ? data.site.asset.whois_name :
-                            '无';
-                        this.layerData[0].whois_mail = data.site.asset.whois_mail ? data.site.asset.whois_mail :
-                            '无';
-                        this.layerData[0].icp_name = data.site.asset.icp_name ? data.site.asset.icp_name : '无';
-                        this.layerData[0].icp_id = data.site.asset.icp_id ? data.site.asset.icp_id : '无';
-                        this.layerData[0].whois_dns = data.site.asset.whois_dns ? data.site.asset.whois_dns : '无';
-                        this.layerData[0].ipaddress = data.site.asset.ip ? data.site.asset.ip : '无';
-                        this.subdomain = data.subdomain;
                         this.loading3 = false;
+                        this.layerData[0].language = data.site.asset ? data.site.asset.language : '无';
+                        this.layerData[0].database = data.site.asset ? data.site.asset.database : '无';
+                        this.layerData[0].server = data.site.asset ? data.site.asset.server : '无';
+                        this.layerData[0].os = data.site.asset ? data.site.asset.os : '无';
+                        this.layerData[0].ip = data.site.asset ? data.site.asset.ip : '无';
+                        this.layerData[0].cms = data.site.asset ? data.site.asset.cms : '无';
+                        this.layerData[0].whois_isp = data.site.asset ? data.site.asset.whois_isp : '无';
+                        this.layerData[0].whois_name = data.site.asset ? data.site.asset.whois_name :
+                            '无';
+                        this.layerData[0].whois_mail = data.site.asset ? data.site.asset.whois_mail :
+                            '无';
+                        this.layerData[0].icp_name = data.site.asset ? data.site.asset.icp_name : '无';
+                        this.layerData[0].icp_id = data.site.asset ? data.site.asset.icp_id : '无';
+                        this.layerData[0].whois_dns = data.site.asset ? data.site.asset.whois_dns : '无';
+                        this.layerData[0].ipaddress = data.site.asset ? data.site.asset.ip : '无';
+                        this.layerData[0].idc = data.site.asset ? data.site.asset.idc : '无';
+                        this.layerData[0].cdn = data.site.asset ? data.site.asset.cdn : '无';
+                        this.layerData[0].waf = data.site.asset ? data.site.asset.waf : '无';
+                        this.layerData[0].whois_date = data.site.asset ? data.site.asset.whois_date : '无';
+                        this.typeval = data.site.type;
                         this.webasset = false;
                     }).catch(v => {
                         console.log(v);
                     });           
                 // 最新威胁
                 this.getThreat(row.id);
+                //基线检测
+//              this.$axios.get('api/site/' + this.rowId + '/assetEvent').then((res) => {
+//                      let data = res.data.data;
+//                      console.log(data);
+//                  }).catch(v => {
+//                      console.log(v);
+//                  });   
+				this.$axios.get('api/site/' + this.rowId + '/assetEvent').then((res)=>{ 
+	                switch (res.data.status) {
+					        case 1:
+					        	this.basedata = res.data.data;
+					        	this.tableData1 = [];
+								this.tableData1.push(this.basedata.asset);
+					        	this.portlen = this.basedata.asset_event.length;
+					        	this.basehistory = this.basedata.asset_event;
+					        	console.log(this.basedata);
+					        	var self = this;
+					        	this.historytime = [];
+					        	this.basehistory.forEach(function(base){
+//					        		self.historytime.push(base.created_at.split(" ")[0]);
+                                    self.historytime.push(base.created_at);
+					        	})
+                                break;
+                            case 403:
+									window.location.href = '/login';
+								break;
+					        default: this.$message.error(res.data.msg); break;
+					    } 
+	            });
+	            var self = this;
+	            setTimeout(function(){
+	                self.tempWidth();
+	        		$(".processCorn").find("li").eq(0).addClass("active");
+	        	},1500);
             },
+            //绑定右边点击事件
+            btnNext: function(){
+            	this.liNum = $("#cUl>li").length;
+                if(this.n<this.liNum){
+                    this.n++;
+                    (this.n>=this.liNum)&&(this.n=0);
+                    this.updata();
+                }
+            },
+            //绑定左边点击事件
+            btnPrev: function(){
+            	this.liNum = $("#cUl>li").length;
+                this.n--;
+                (this.n<0)&&(this.n=this.liNum-1);
+                this.updata();
+            },
+            updata(){
+                $("#cUl").animate({left:-(this.w*this.n)+'px'},300);
+                $("#yearList").animate({left:-((160)*this.n)+'px'},300);
+                $(".processCorn").find("li").eq(this.n).addClass("active").siblings().removeClass("active");
+            },
+            prevPage: function(){
+        		var wid = this.leng;
+        		if(this.p < -wid){
+//      			this.p = 400;
+					return;
+        		}
+        		this.p -= 800;
+        		$(".tempWrap>ul").animate({left:this.p},"300");
+//      		console.log(this.p);
+        	},
+        	nextPage: function(){
+        		if(this.p>=0){
+        			return;
+        		}
+        		this.p += 800;
+//      		console.log(this.p);
+        		$(".tempWrap>ul").animate({left:this.p},"300");
+        	},
+        	tempWidth: function(){
+        		var len= $(".tempWrap>ul>li").length;
+        		var len1 = (len/2*500)+500;
+        		this.leng = len1;
+        		$(".tempWrap>ul").css("width",len1+"px");
+//      		console.log(len1);
+        	},
             tabclick(tab){
                  if(tab.name == 'third'){ // 基本信息
                         this.$axios.get('api/site/' + this.rowId + '/info').then((res) => {
@@ -1846,14 +2195,8 @@
                   // 已误报
                     this.getCheck(this.rowId);
                 }else if(tab.name == 'fourth'){
-                    this.$axios.get('api/site/'+this.rowId+'/history').then((res)=>{
-                        this.threat = res.data.data.threat;
-                        this.threatLoading = false;
-                    })
+                    this.getHistory(this.rowId)
                 }
-            },
-            custom(){
-                this.customval = !this.customval;
             },
             usabilitychange(val){
                 switch (val) {
@@ -1945,6 +2288,84 @@
                         break;
                 }
             },
+            renderHeader() {
+                var text = '';
+                if(this.typeval){
+                    text = '基线监测中';
+                }else{
+                    text = '正常监测中';
+                }
+
+                return (
+                        <div class="headicon server">
+                                <span>服务器</span>
+                                    <i class="iconfont icon-icon">
+                                        <div class="box">
+                                            {text}
+                                            <div class="border"></div>
+                                        </div>
+                                    </i>
+                        </div>
+                        )
+            },
+            renderHeader1(){
+                var text = '';
+                if(this.typeval){
+                    text =   '基线监测中';
+                }else{
+                    text =   '正常监测中';
+                };
+                return (
+                        <div class="headicon ip">
+                            <span>IP</span>
+                            <i class="iconfont icon-icon">
+                                    <div class="box">
+                                        {text}
+                                        <div class="border"></div>
+                                    </div>
+                                </i>
+                        </div>
+                    )
+            },
+            renderHeader2(){
+                 var text = '';
+                if(this.typeval){
+                    text = '基线监测中';
+                    
+                }else{
+                    text = '正常监测中';
+                };
+                return (
+                        <div class="headicon whois_name">
+                            <span>域名注册商</span>
+                            <i class="iconfont icon-icon">
+                                    <div class="box">
+                                        {text}
+                                        <div class="border"></div>
+                                    </div>
+                                </i>
+                        </div>
+                    )
+            },
+            renderHeader3(){
+                var text = '';
+                if(this.typeval){
+                    text = '基线监测中';
+                }else{
+                    text = '正常监测中';
+                };
+                return (
+                        <div class="headicon dns">
+                            <span>DNS</span>
+                            <i class="iconfont icon-icon">
+                                    <div class="box">
+                                        {text}
+                                        <div class="border"></div>
+                                    </div>
+                                </i>
+                        </div>
+                    )
+            },
             average(row){
                     this.$axios.get('api/site/'+ (this.rowId ? this.rowId : row.id) + '/usability').then((res) =>{
                         let data = res.data.data;
@@ -1958,7 +2379,7 @@
             },
             changedelay(ip){
                 this.Ip = ip;
-                this.$axios.get('api/site/' + this.rowId +'/usability?node='+ip+'&time='+encodeURIComponent((this.usabval[0] ? this.usabval[0] : '') + '#'+ (this.usabval[1] ? this.usabval[1] : ''))).then((res)=>{
+                this.$axios.get('api/site/' + this.rowId +'/usability?node='+ip+'&time='+encodeURIComponent((this.usabval[0] ? this.usabval[0]+'#' : '') + (this.usabval[1] ? this.usabval[1] : ''))).then((res)=>{
                     let data = res.data.data;
                    this.nodeData = data.node;
                    this.assetsDetails(data);
@@ -1971,7 +2392,7 @@
             changedelay1(t){
                 if(!t){
                     if(this.usabval){
-                        this.$axios.get('api/site/'+ this.rowId +'/usability?time='+encodeURIComponent((this.usabval[0] ? this.usabval[0] : '') + '#'+ (this.usabval[1] ? this.usabval[1] : ''))+'&node='+(this.Ip ? this.Ip : '') ).then((res)=>{
+                        this.$axios.get('api/site/'+ this.rowId +'/usability?node='+(this.Ip ? this.Ip : '')+'&time='+encodeURIComponent((this.usabval[0] ? this.usabval[0]+'#' : '') + (this.usabval[1] ? this.usabval[1] : '')) ).then((res)=>{
                                 let data = res.data.data;
                                 this.nodeData = data.node;
                                 this.assetsDetails(data);
@@ -1985,7 +2406,7 @@
                         this.customval = false;
                     }
                 }else{
-                    this.$axios.get('api/site/'+ this.rowId +'/usability?time='+t+'').then((res)=>{
+                    this.$axios.get('api/site/'+ this.rowId +'/usability?time='+t+'&node='+(this.Ip ? this.Ip : '')).then((res)=>{
                         let data = res.data.data;
                             this.nodeData = data.node;
                             this.assetsDetails(data);
@@ -1993,25 +2414,26 @@
                             this.usabLoading = false;
                      }).catch(v => {
                          console.log(v);
-                     });
+                     })
                 }
             }, /* 是否存在新的威胁事件，存在跳转到最新威胁 不存在跳转到历史威胁 */
-            threatEvent(ev,num){
+            threatEvent(ev,scope,num){
                 if(num !== 0){
                     this.activeName3 = 'first';
                     this.activeName2 = 'first';
                 }else{
                     this.activeName3 = 'fourth';
                     this.activeName2 = 'first';
-                }
+                    this.getHistory(scope.row.id);
+                };
                 // ev.stopPropagation();
             },
-            hrefAssetEvent(ev){
+            hrefAssetEvent(scope,ev){
                 this.activeName2 = 'assetEvent';
                 this.activeName = 'first';
                 this.eventLoading = true;
                 this.assetEventTime = [];
-                this.$axios.get('api/site/' + this.rowId + '/eventDetail?page=1&limit=10').then((res) => {
+                this.$axios.get('api/site/' + (scope ? scope.row.id : this.rowId) + '/eventDetail?page=1&limit=10').then((res) => {
                     if(res.data.data.events){
                         for(var key in res.data.data.events){
                             this.assetEventTime.push(res.data.data.events[key]);
@@ -2329,7 +2751,8 @@
                 };
                 this.$axios.post('api/batch', {
                     configure_id: this.configure_id,
-                    data: this.batchAdd.content
+                    data: this.batchAdd.content,
+                    type:this.batchAdd.monitor
                 }).then((res) => {
                     let data = res.data;
                     if (data.status == 1) {
@@ -2384,7 +2807,7 @@
             changepage(t) {
                 this.loading2 = true;
                 this.pages = t;
-                this.$axios.get("api/site?page=" + t + "&limit="+this.vals+"&search=" + this.select_word).then(
+                this.$axios.get("api/site?page=" + t + "&limit="+this.vals+"&search=" + this.select_word+'&owner_id='+this.owner_id).then(
                     (res) => {
                         let data = res.data;
                         this.tableData3 = data.data.data;
@@ -2520,6 +2943,7 @@
                     this.editAssets.name = data.name;
                     this.editAssets.url = data.domain;
                     this.editAssets.remark = data.remark;
+                    this.editAssets.monitor = String(data.type);
                     var arr = new Set(data.superior);
                     this.unitData2 = Array.from(arr);
                     this.sitetag2 = data.tags ? data.tags : [];
@@ -3396,7 +3820,7 @@
                 if (!this.editAssets.strategydata) {
                     this.$message.error('请选择策略');
                     return;
-                }
+                };
 
                 if (this.isdisable) {
                     this.$axios.post("api/site/" + this.unitRowId + '/update', {
@@ -3413,7 +3837,8 @@
                         continue_count: Number(this.editAssets.continue_count),
                         notice_count: Number(this.editAssets.notice_count),
                         cookie: Number(this.editAssets.custom),
-                        jump: Number(this.editAssets.jump)
+                        jump: Number(this.editAssets.jump),
+                        type:Number(this.editAssets.monitor)
                     }).then((res) => {
                         let data = res.data;
                         if (data.status == 1) {
@@ -3431,13 +3856,15 @@
                         console.log(v);
                     });
                 } else {
+                    var startTime = typeof  this.editAssets.startTime[0] == 'object' ? this.editAssets.startTime[0].toLocaleDateString().split('/').join('-') : this.editAssets.startTime[0].split(' ')[0];
+                    var endTime = typeof  this.editAssets.startTime[1] == 'object' ? this.editAssets.startTime[1].toLocaleDateString().split('/').join('-') : this.editAssets.startTime[1].split(' ')[0];
                     this.$axios.post("api/site/" + this.unitRowId + '/update', {
                         owner_id: this.selectedUnit.id,
                         name: this.editAssets.name,
                         domain: this.editAssets.url,
                         configure: {
-                            start: this.editAssets.startTime[0],
-                            end: this.editAssets.startTime[1],
+                            start: startTime,
+                            end: endTime,
                             daily_start: this.editAssets.startdaily,
                             daily_end: this.editAssets.enddaily,
                             index: Number(this.editAssets.homemonitoringNum1),
@@ -3448,13 +3875,14 @@
                             notice: Number(this.editAssets.delivery),
                             remark: this.editAssets.strategynote,
                             usability: Number(this.editAssets.usability1),
-                            delay: Number(this.editAssets.resTime),
+                            elapse: Number(this.editAssets.resTime),
                             threat_count: Number(this.editAssets.threat_count),
                             continue_count: Number(this.editAssets.continue_count),
                             notice_count: Number(this.editAssets.notice_count),
                             cookie: Number(this.editAssets.custom),
                             jump: Number(this.editAssets.jump)
                         },
+                        type:Number(this.editAssets.monitor),
                         remark: this.editAssets.remark,
                         superior: this.unitId1,
                         tags: this.sitetag2,
@@ -3508,12 +3936,13 @@
                         superior: this.unitId,
                         tags: this.sitetag,
                         usability: Number(this.assetsalertData.usability1),
-                        delay: Number(this.assetsalertData.resTime),
+                        elapse: Number(this.assetsalertData.resTime),
                         threat_count: Number(this.assetsalertData.threat_count),
                         continue_count: Number(this.assetsalertData.continue_count),
                         notice_count: Number(this.assetsalertData.notice_count),
                         cookie: Number(this.assetsalertData.custom),
-                        jump: Number(this.assetsalertData.jump)
+                        jump: Number(this.assetsalertData.jump),
+                        type:Number(this.assetsalertData.monitor)
                     }).then((res) => {
                         let data = res.data;
                         if (data.status == 1) {
@@ -3534,13 +3963,15 @@
                         this.$message.error('请选择单位');
                         return;
                     };
+                    let startTime =  this.assetsalertData.startTime[0].split(' ')[0];
+                    let endTime =  this.assetsalertData.startTime[1].split(' ')[0];
                     this.$axios.post("api/site", {
                         owner_id: this.selectedUnit.id,
                         name: this.assetsalertData.name,
                         domain: this.assetsalertData.url,
                         configure: {
-                            start: this.assetsalertData.startTime[0],
-                            end: this.assetsalertData.startTime[1],
+                            start: startTime,
+                            end: endTime,
                             daily_start: this.assetsalertData.startdaily,
                             daily_end: this.assetsalertData.enddaily,
                             index: Number(this.assetsalertData.homemonitoringNum1),
@@ -3551,13 +3982,14 @@
                             notice: Number(this.assetsalertData.delivery),
                             remark: this.assetsalertData.strategynote,
                             usability: Number(this.assetsalertData.usability1),
-                            delay: Number(this.assetsalertData.resTime),
+                            elapse: Number(this.assetsalertData.resTime),
                             threat_count: Number(this.assetsalertData.threat_count),
                             continue_count: Number(this.assetsalertData.continue_count),
                             notice_count: Number(this.assetsalertData.notice_count),
                             cookie: Number(this.assetsalertData.custom),
                             jump: Number(this.assetsalertData.jump)
                         },
+                        type:Number(this.assetsalertData.monitor),
                         remark: this.assetsalertData.remark,
                         superior: this.unitId,
                         tags: this.sitetag
@@ -3704,6 +4136,10 @@
             getsite() {
                 this.loading2 = true;
                 this.$axios.get("api/site?limit="+this.vals+"&page=1").then((res) => {
+                    if(res.data.status == 403){
+                        window.location.href = '/login';
+                        return;
+                    };
                     this.totalpage = Math.ceil(res.data.data.count);
                     let data = res.data.data.data;
                     this.tableData3 = data;
@@ -3716,17 +4152,27 @@
                 for (var i = 0; i < 25; i++) {
                     this.dayTime.push(i);
                 };
+            },
+            getHistory(id){
+                this.$axios.get('api/site/'+id+'/history').then((res)=>{
+                        this.threat = res.data.data.threat;
+                        this.threatLoading = false;
+                    })
+            }
+        },
+        watch:{
+            typeval:function(){
+                this.renderHeader();
+                this.renderHeader1();
+                this.renderHeader2();
+                this.renderHeader3();
             }
         },
         created() {
-            this.getsite();
+            if(!this.$route.params.unItId){this.getsite();}
             this.createTime();
             this.loadAll();
             this.$axios.get("api/siteConfigure/select/all").then((res) => {
-                if(res.data.status == 403){
-                    window.location.href = '/login';
-                    return;
-                };
                 let data = res.data;
                 this.strategydata = data.data;
             }).catch(v => {
@@ -3745,17 +4191,32 @@
                      this.average(this.$route.params);
                 }else if(this.$route.params.name == 'assets'){
                     this.activeName = 'first';
-                    this.$axios.get('api/site/'+this.$route.params.id+'/history').then((res)=>{
-                        this.threat = res.data.data.threat;
-                        this.threatLoading = false;
-                    })
-                   
+                    this.getHistory(this.$route.params.id);
                 }
                 this.handleMovelayer(this.$route.params);
-            } 
+            }else if(this.$route.params.unItId){
+                this.loading2 = true;
+                this.owner_id = this.$route.params.unItId;
+                this.$axios.get('api/site?page=1&limit=10&owner_id='+this.$route.params.unItId+'').then((res)=>{
+                        let data = res.data;
+                        this.tableData3 = data.data.data;
+                        this.totalpage = Math.ceil(data.data.count);
+                        this.loading2 = false;
+                });
+            }else if(this.$route.params.threat){
+                this.loading2 = true;
+                this.owner_id = this.$route.params.threat;
+                this.$axios.get('api/site?page=1&limit=10&owner_id='+this.$route.params.threat+'&abnormal=1').then((res)=>{
+                        let data = res.data;
+                        this.tableData3 = data.data.data;
+                        this.totalpage = Math.ceil(data.data.count);
+                        this.loading2 = false;
+                });
+            }
             else {
                 this.activeName = 'first';
             }
+            
         },
         mounted() {
             var text = document.getElementsByClassName('el-table__empty-text');
@@ -3780,6 +4241,54 @@
 
 </script>
 <style>
+    .application .el-table .headicon .iconfont{
+        margin-left:9px;
+        cursor: pointer;
+    }
+    .application .el-table .server .iconfont .box{
+        left: 38%;
+    }
+    .application .el-table .ip .iconfont .box{
+        left: 29%;
+    }
+    .application .el-table .whois_name .iconfont .box{
+        left:48%;
+    }
+    .application .el-table .dns .iconfont .box{
+        left:38%;
+    }
+    
+    .application .el-table .headicon .iconfont .box{
+        line-height: 20px;
+        position: absolute;
+        padding: 7px;
+        background: #303133;
+        color: #fff;
+        top: -38px;
+        z-index: 10;
+        border-radius: 4px;
+        font-size: 12px;
+        display: none;
+    }
+    .application .el-table .headicon .iconfont:hover .box{
+        display: block;
+    }
+    .application .el-table .headicon .iconfont .box .border{
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 5px solid #393D49;
+                border-bottom: 5px solid transparent;
+                position: absolute;
+                bottom: -10px;
+                padding: 0;
+                left: 50%;
+    }
+        
+    .el-table,.el-table th,.el-table .cell, .el-table th div, .el-table__header-wrapper{
+        overflow: inherit;
+    }
+
+
     .application .availability .left_btn .el-radio-group{
             line-height: 1;
             vertical-align: middle;
@@ -3843,7 +4352,7 @@
         display: flex;
     }
     .application .left .el-dropdown .el-button{
-        height:34px;
+        height:31px;
     }
 
 .el-input-group__append .el-button, .el-input-group__append .el-select, .el-input-group__prepend .el-button, .el-input-group__prepend .el-select{
@@ -3937,8 +4446,20 @@
         }
     }
 
-    .application .has-gutter tr {
+    .application .has-gutter tr th{
         background-color: #f2f2f2;
+    }
+
+    .application .web-assets .has-gutter tr th{
+        padding: 0;
+    }
+
+    .application .web-assets .domain .has-gutter tr th{
+        padding: 8px 0
+    }
+
+    .application .web-assets .domain .el-table__header,.application .web-assets .domain .el-table__body{
+        width: auto!important;
     }
 
     .application .el-dialog__header {
@@ -4176,17 +4697,14 @@
     }
 
     .application .el-dialog .hideStrate .el-form-item:nth-of-type(4) .border {
-        left: 37%;
+        left: 39%;
     }
-
     .application .el-dialog .hideStrate .el-form-item:nth-of-type(5) .border {
         left: 22%;
     }
-
     .application .el-dialog .hideStrate .el-form-item:nth-of-type(6) .border {
         left: 18%;
     }
-
     .application .el-dialog .hideStrate .el-form-item:nth-of-type(7) .border {
         left: 16%;
     }
@@ -4204,11 +4722,14 @@
         padding-bottom: 5px;
     }
 
-
     .application .table-threat .pagination {
         margin-right: 75px;
     }
 
+    .application .assetsEvent .pagination{
+        margin-top: 0px;
+        margin-right:20px;
+    }
     .application .table-threat .tips .view {
         color: #6aa5ff
     }
@@ -4315,6 +4836,8 @@
 
     .web-assets .assets-content .domain .item-content:last-child{
         margin-bottom: 290px;
+        position: relative;
+        width: 100%;
     } 
 
     .assetsEvent .is-horizontal:nth-of-type(1) .el-step__main {
@@ -4397,18 +4920,15 @@
         margin-right:20px;
     }
     .application .availability .left_btn .el-radio-button__inner{
-        height: 32px;
-        position: relative;
-        width: 54px;
+       padding: 0
     }
 
     .application .availability .left_btn .el-radio-button__inner span{
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        line-height: 30px;
+            height: 30px;
+            display: inline-block;
+            line-height: 30px;
+            padding-left: 10px;
+            padding-right: 10px;
     }
     .application .availability .left_btn .el-button+.el-button{
         margin-left:6px;
@@ -4416,6 +4936,16 @@
     .application .availability .right_btn{
         margin-right:50px;
         margin-top: 10px;
+    }
+    .application .availability .right_btn .el-radio-button__inner{
+        padding: 0;
+    }
+    .application .availability .right_btn .el-radio-button__inner span{
+        height: 30px;
+        display: inline-block;
+        line-height: 30px;
+        padding-left: 10px;
+        padding-right: 10px;
     }
     .application .availability .right_btn .el-button--primary{
         margin-left:15px;
@@ -4571,9 +5101,6 @@ ul,
         font-size: 14px;
     }
 
-    .el-table__header thead {
-        background: #f2f2f2
-    }
 
     .handle-input {
         width: 100px;
@@ -5091,6 +5618,7 @@ ul,
     .layer {
         width: 74%;
         height: 100%;
+        overflow: auto;
         background: #fff;
         position: fixed;
         box-shadow: 1px 1px 10px 1px #a5a5a5;
@@ -5444,4 +5972,190 @@ ul,
         display: none;
     }
 
+
+@import "../../../static/css/fishBone.css";
+.container_line,ul,li,dl,dd,dt{
+    padding:0;
+    margin:0;
+    font-size:14px;
+}
+ul,li{
+    list-style:none;
+}
+.overauto li {
+		padding-left: 0 !important;
+		font-size: 13px;
+	}
+.container_line{
+    margin-bottom:15px;
+    border: 0;
+}
+    .head{
+        width:100%;
+        
+        .title_top{
+            padding-left:15px;
+            line-height:40px;
+            color: #333333;
+        }
+        .line_content{
+            display:flex;
+            width:100%;
+            .left_line{
+                width:10%;
+                height:3px;
+                background:#409EFF;
+            }
+            .right_line{
+                width:90%;
+                height:1px;
+               background:#E4E4E4;
+            }
+        }
+.main{
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+    height:130px;
+    width:100%;
+    list-style:none;    
+    .right{
+    	padding: 0 5px 0 20px;
+    }        
+    li{
+        width:20%;
+        height:70px;
+        border:1px solid RGB(247,163,88);
+        border-radius: 5px;
+        overflow: hidden;
+        display:flex;
+        align-items: center;                
+        
+        .left_text{
+            font-size:30px;
+            width: 80px;
+            height: 70px;
+            color: white;
+            text-align: center;
+            line-height: 70px;
+            background: RGB(247,163,88);
+        }
+        p{
+        	line-height: 20px;
+        }
+    }
+ 	li:hover{
+ 		box-shadow: 0 0 10px #CCCCCC;
+ 	}
+ 	li:nth-child(2){
+ 		border:1px solid RGB(64,158,255);
+ 		.left_text{
+ 			background: RGB(64,158,255);
+ 		}
+ 	}
+ 	li:nth-child(3){
+ 		border:1px solid RGB(95,184,120);
+ 		.left_text{
+ 			background: RGB(95,184,120);
+ 		}
+ 	}
+ 	li:nth-child(4){
+ 		border:1px solid RGB(64,158,255);
+ 		.left_text{
+ 			background: RGB(64,158,255);
+ 		}
+ 	}
+}
+        
+    }
+    .dash_line{
+        width:90%;
+        height:20px;
+        border-bottom:3px dashed #E4E4E4;
+        position:relative;
+        margin:0 auto;
+        .processCorn{            
+                position:absolute;
+                top:10px;
+                left:0;
+                width:100%;
+                display:flex;
+            li{
+                width:15%;
+                i{
+                    display:block;
+                    font-size:20px;
+                }
+                span{
+                    display:block;
+                }
+                display:flex;
+                flex-direction: column;
+                align-items:center;
+            }
+        }
+    }
+    .hl_main{
+            display:flex;
+            width:70%;
+            margin:auto;
+            align-items: center;
+            padding:60px 0 30px 0;
+            justify-content: space-between;
+            .middle_content{
+            	position: relative;
+                width:530px;
+                display:flex;
+                ul{
+                	
+                	li{
+	                    background:#5FB878;
+	                    border-radius:20px;
+	                    margin-bottom:10px;
+	                    text-align:center;
+	                    line-height:40px;
+	                    color:#fff;
+	                }
+	                li:last-child{
+	                    margin-bottom:0;
+	                }
+	                li:nth-child(1){
+	                     background: #f7a358;
+	                    border:1px solid  #f7a358;
+	                }
+	                li:nth-child(2){
+	                    background: #409eff;
+	                    border:1px solid  #409eff;
+	                }
+	                li:nth-child(3){
+	                    background: #5fb878; 
+	                    border:1px solid #5fb878;
+	                }
+	                 li:nth-child(4){
+	                    background: #42A7DB;
+	                    border:1px solid  #42A7DB;
+	                }
+	                li:hover{
+	                    background:#fff;
+	                    color:#000;
+	                }
+                }
+            }
+            img{
+                width:30px;
+                display:block;
+            }
+        }
+  	.left_arrow:hover{
+  		cursor: pointer;
+  	}
+    .right_arrow:hover{
+    	cursor: pointer;
+    } 
+    .active{
+		    color: red;
+		}
+.tupian{
+	width: 24px;height: 24px;vertical-align: middle;margin-right: 20px;
+}
 </style>

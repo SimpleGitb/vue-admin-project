@@ -2,7 +2,7 @@
     <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-warning"></i>正常监测 - {{fetchdata.ip}} - {{fetchdata.location}}</el-breadcrumb-item>
+                <el-breadcrumb-item><img src="../../../static/img/监测.png" style="width: 24px;height: 24px;vertical-align: middle;"/>&nbsp;&nbsp;正常监测 - {{fetchdata.ip}} - {{fetchdata.location}}</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
@@ -13,14 +13,15 @@
                     <div class="right_line"></div>
                 </div>
                 <ul class="main" style="color: #606266;">
+                	
                     <li v-for="(port,key,index) in fetchdata.port" :key="index+1">
-                        <div class="left_text" v-text="key"></div>
+                    	<div class="left_text" v-text="key"></div>
                         <div class="right">
                             <p class="top" v-text="port.server"></p>  
                             <p class="bottom" v-text="port.version"></p>
                         </div>
                     </li>
-                   
+                    <div v-if="portlen == 0"><img class="tupian" src="/static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无端口信息</span></div>
                 </ul>
                 <!--<el-row :gutter="20" style="color: #606266;">
 				  <el-col :span="4" v-for="(port,key) in fetchdata.port" :key="port.id+1">
@@ -45,25 +46,25 @@
                 </div>
             </div>
             <div class="hc_mai">
-				<div class="fishBone">
+				<div class="fishBone" v-if="eventlen > 0">
 					<div class="wrapper" >
 						<div class="bd">
-							<div class="tempWrap" style="overflow:hidden; position:relative; width: 96%;left:2%">
+							<div class="tempWrap" @mousedown="move($event)" style="overflow:hidden; position:relative; width: 96%;left:2%">
 								<ul  style="width: 4500px; left: 0; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
-									
-									<template v-for="(item,index) in fetchdata.event">
+									<template v-for="(item,index) in fetchdata.event" >
 										<template v-if="index<fetchdata.event.length&&index%2==0">
-									      <li class="item top" style="width: 170px;" :key="index+2">
+									      <li class="item top" style="width: 170px;" :key="'a'+index">
 												<div class="content">
 													<ul>
 														<li class="line-first" style="background-position-y: 9px;" v-text="fetchdata.event[index].created_at"></li>
 														<li class="title" v-if="fetchdata.event[index].status ==0"><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -599px;">{{fetchdata.event[index].port}} 端口关闭</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
 														<li class="title" v-else-if="fetchdata.event[index].status ==1"><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -599px;">{{fetchdata.event[index].port}} 端口开启</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
+														<li class="title" v-else-if="fetchdata.event[index].status ==3"><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -599px;">ip不可用</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
 														<li class="title" v-else><span class="title-left" style="background-position-y: 0px;">&nbsp;</span><span class="title-center" style="background-position-y: -599px;">{{fetchdata.event[index].port}} 端口服务由 {{fetchdata.event[index].server}} 变为 {{fetchdata.event[index].version}}</span><span class="title-right" style="background-position-y: -1200px;">&nbsp;</span></li>
 														<li class="overauto" style="border-left: 1px solid rgb(248, 151, 130);width: 187px;height: 80px;overflow: hidden;">
 															<div style="width: 204px;overflow-x: hidden;overflow-y: scroll;height: 80px;">
 																<ul>
-																	<li v-for="(port,key) in fetchdata.event[index].history.port">{{key}}：{{port.server}} | {{port.version}}</li>
+																	<li :key="'s'+key" v-for="(port,key) in fetchdata.event[index].history.port">{{key}}：{{port.server}} | {{port.version}}</li>
 																</ul>
 															</div>
 														</li>
@@ -77,12 +78,13 @@
 														<li class="overauto" style="border-left: 1px solid rgb(26, 132, 206);width: 187px;height: 80px;overflow: hidden;">
 															<div style="width: 204px;overflow-x: hidden;overflow-y: scroll;height: 80px;">
 																<ul>
-																	<li v-for="(port,key) in fetchdata.event[index].history.port">{{key}}：{{port.server}} | {{port.version}}</li>
+																	<li :key="'a'+key" v-for="(port,key) in fetchdata.event[index].history.port">{{key}}：{{port.server}} | {{port.version}}</li>
 																</ul>
 															</div>
 														</li>
 														<li class="title" v-if="fetchdata.event[index+1].status == 0"><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -659px;">{{fetchdata.event[index+1].port}} 端口关闭</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
 														<li class="title" v-else-if="fetchdata.event[index+1].status == 1"><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -659px;">{{fetchdata.event[index+1].port}} 端口开启</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
+														<li class="title" v-else-if="fetchdata.event[index+1].status == 3"><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -659px;">ip不可用</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
 														<li class="title" v-else><span class="title-left" style="background-position-y: -60px;">&nbsp;</span><span class="title-center" style="background-position-y: -659px;">{{fetchdata.event[index+1].port}} 端口服务由 {{fetchdata.event[index+1].server}} 变为 {{fetchdata.event[index+1].version}}</span><span class="title-right" style="background-position-y: -1260px;">&nbsp;</span></li>
 														<li class="line-first" style="background-position-y: -93px;" v-text="fetchdata.event[index+1].created_at"></li>
 														<li class="line-last line-point" style="background-position: 0px -20px;"></li>
@@ -96,10 +98,11 @@
 							</div>
 						</div>
 					</div>
-					<a class="prev" @click="prevPage"></a>
-					<a class="next" @click="nextPage"></a>
+					 <!--<a class="prev" @click="prevPage"></a> 
+					 <a class="next" @click="nextPage"></a> -->
 					<div class="line"></div>
 				</div>            
+           		<div v-if="eventlen == 0" style="text-align: center;line-height: 339px;"><img class="tupian" src="../../../static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无历史变动信息</span></div>
             </div>
         </div>
     </div>
@@ -113,10 +116,43 @@
 				includedComponents:'normalobserver',
             	p:0,
             	leng:"",
-            	fetchdata:[]
+            	fetchdata:[],
+            	portlen:"",
+            	eventlen:""
             }
         },
         methods:{
+            move:function(ev){
+                if(ev.target.tagName.toLocaleLowerCase() =='ul'){
+                    var x = ev.clientX - ev.target.offsetLeft;
+                    var y = ev.clientY - ev.target.offsetTop;
+                    document.onmousemove = function(ev){
+                        var newx = ev.clientX - x;
+                        var newy = ev.clientY - y;
+                        if(newx>0){
+                            newx = 0;
+                        };
+                       $(".tempWrap>ul").css({left:newx},"300");
+                    };
+                    document.onmouseup = function(){
+                        document.onmousemove = null;
+                    }
+                }else if(ev.target.tagName.toLocaleLowerCase() =='li'){
+                    var x = ev.clientX - ev.target.parentElement.offsetLeft;
+                    var y = ev.clientY - ev.target.parentElement.offsetTop;
+                    document.onmousemove = function(ev){
+                        var newx = ev.clientX - x;
+                        var newy = ev.clientY - y;
+                        if(newx>0){
+                            newx = 0;
+                        };
+                       $(".tempWrap>ul").css({left:newx},"300");
+                    };
+                    document.onmouseup = function(){
+                        document.onmousemove = null;
+                    }
+                }
+            },
         	prevPage: function(){
         		var wid = this.leng;
         		if(this.p < -wid){
@@ -132,7 +168,6 @@
         			return;
         		}
         		this.p += 800;
-//      		console.log(this.p);
         		$(".tempWrap>ul").animate({left:this.p},"300");
         	},
         	tempWidth: function(){
@@ -140,13 +175,14 @@
         		var len1 = (len/2*500)+500;
         		this.leng = len1;
         		$(".tempWrap>ul").css("width",len1+"px");
-//      		console.log(len1);
         	},
         	fetchCustomers(){
            		this.$axios.get("api/ip/"+this.$route.query.id+"/normal").then((res)=>{
 	                switch (res.data.status) {
 					        case 1:
 					        	this.fetchdata = res.data.data;
+					        	this.portlen = this.fetchdata.port.length;
+                                this.eventlen = this.fetchdata.event.length;
 								break;
 							case 403:
 								window.location.href = '/login';
@@ -160,17 +196,31 @@
         	var self = this;
         	setTimeout(function(){
         		self.tempWidth();
-        	},1500);
+            },1500);
+            
+          
 		   
 		},
 		activated(){
-		   this.fetchCustomers();
+           this.fetchCustomers();
 		}
     }
     
 </script>
 
 <style scoped lang="scss">
+.wrapper{
+    cursor: pointer;
+}
+*{
+    moz-user-select: -moz-none; 
+    -moz-user-select: none; 
+    -o-user-select:none; 
+    -khtml-user-select:none; 
+    -webkit-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+}
 @import url('../../../static/css/fishBone');
 .container,ul,li,dl,dd,dt{
     padding:0;
@@ -179,6 +229,7 @@
 }
 .overauto li {
 		padding-left: 0 !important;
+		font-size: 13px;
 	}
 ul,li{
     list-style:none;
@@ -192,6 +243,7 @@ ul,li{
         .title_top{
             padding-left:15px;
             line-height:40px;
+            color: #333333;
         }
         .line_content{
             display:flex;
@@ -402,5 +454,8 @@ ul,li{
 		background-position-y: -598px;
 	}
 	.title-right{background-position-y: -1200px;}
+}
+.tupian{
+	width: 24px;height: 24px;vertical-align: middle;margin-right: 20px;
 }
 </style>
