@@ -136,7 +136,11 @@
 					offline: !data.success, // 表示用户后台检测极验服务器是否宕机
 					new_captcha: data.new_captcha, // 用于宕机时表示是新验证码的宕机
 					timeout: '5000',
+<<<<<<< HEAD
 					product: "bind",    // 产品形式，包括：float，popup
+=======
+					product: "bind", // 产品形式，包括：float，popup
+>>>>>>> 9f6a47e993e77d0bcb0431a0a618458854a786db
 					width: "300px"
 					// 更多前端配置参数说明请参见：http://docs.geetest.com/install/client/web-front/
 				}, handler);
@@ -147,12 +151,15 @@
 	}
 </script>
 <style scoped>
+<<<<<<< HEAD
 	#username{
 		background-color: rgba(57, 61, 82, 0) !important;
 	}
 	#password{
 		background-color: rgba(57, 61, 82, 0) !important;
 	}
+=======
+>>>>>>> 9f6a47e993e77d0bcb0431a0a618458854a786db
 	.ball-clip-rotate-multiple {
 		position: relative;
 	}

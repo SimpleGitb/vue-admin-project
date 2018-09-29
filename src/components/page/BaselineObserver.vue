@@ -33,6 +33,7 @@
                     <i class="iconfont "></i>
                 </div>
             </div>
+<<<<<<< HEAD
             <div v-if="historylen > 0">
 	            <div class="historyLine">
 	                <div class="dash_line">
@@ -60,6 +61,24 @@
 	            </div>
 	        </div>
 			<div v-else style="text-align: center;line-height: 180px;"><img class="tupian" src="../../../static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无历史域名信息</span></div>
+                </div>
+                <div class="hl_main">
+                    <img @click="btnPrev()" class="left_arrow" src="/static/img/left.png" alt="">
+                    <div class="middle" style="width: 530px;position: relative; overflow: hidden;margin-top: 50px;">
+                        <ul class="middle_content" id="cUl">
+                            <li v-for="(history,val,index) in basehistory">
+                            	<div style="width: 530px;">
+                            		<ul>
+			                            <li v-for="(hist,key,index) in history.port">  {{key}}      {{hist.server}}     {{hist.version}}</li>
+			                        </ul>
+                            	</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <img @click="btnNext()" class="right_arrow" src="/static/img/right.png" alt="">
+                </div>
+            </div>
+>>>>>>> 9f6a47e993e77d0bcb0431a0a618458854a786db
         </div>
               <div class="container">
             <div class="history_change">
@@ -151,8 +170,12 @@
             	basehistory:[],
             	historytime:[],
             	portlen:"",
+<<<<<<< HEAD
             	eventlen:"",
             	historylen:""
+=======
+            	eventlen:""
+>>>>>>> 9f6a47e993e77d0bcb0431a0a618458854a786db
             }
         },
         methods:{

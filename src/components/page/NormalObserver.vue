@@ -21,8 +21,13 @@
                             <p class="bottom" v-text="port.version"></p>
                         </div>
                     </li>
+<<<<<<< HEAD
                     <div v-if="portlen == 0"><img class="tupian" src="/static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无端口信息</span></div>
                 </ul>
+=======
+                    <div v-if="portlen == 0"><img class="tupian" src="../../../static/img/assets/noText.png"/> <span style="vertical-align: middle;color: #666666;">暂无端口信息</span></div>
+                </ul>    
+>>>>>>> 9f6a47e993e77d0bcb0431a0a618458854a786db
                 <!--<el-row :gutter="20" style="color: #606266;">
 				  <el-col :span="4" v-for="(port,key) in fetchdata.port" :key="port.id+1">
 				  	<div class="top_text" v-text="key"></div>
@@ -51,6 +56,10 @@
 						<div class="bd">
 							<div class="tempWrap" @mousedown="move($event)" style="overflow:hidden; position:relative; width: 96%;left:2%">
 								<ul  style="width: 4500px; left: 0; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
+<<<<<<< HEAD
+=======
+									
+>>>>>>> 9f6a47e993e77d0bcb0431a0a618458854a786db
 									<template v-for="(item,index) in fetchdata.event" >
 										<template v-if="index<fetchdata.event.length&&index%2==0">
 									      <li class="item top" style="width: 170px;" :key="'a'+index">
@@ -182,7 +191,11 @@
 					        case 1:
 					        	this.fetchdata = res.data.data;
 					        	this.portlen = this.fetchdata.port.length;
+<<<<<<< HEAD
                                 this.eventlen = this.fetchdata.event.length;
+=======
+					        	this.eventlen = this.fetchdata.event.length;
+>>>>>>> 9f6a47e993e77d0bcb0431a0a618458854a786db
 								break;
 							case 403:
 								window.location.href = '/login';
